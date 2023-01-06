@@ -433,8 +433,11 @@ class JurusanController extends Controller
             })
             ->addColumn('siswa', function($data){
                 return number_format($data->siswa_count).' - siswa';
+            })
+            ->addColumn('guru_kelas', function($data){
+                return '<a href="#" data-toggle="modal" data-target="#addguru" data-id="'.$data->id.'">'.$data->guru_count.' - guru</a>';
             }) 
-            ->rawColumns(['kelas_jurusan','opsi','siswa','angkatan_kelas','mapel'])
+            ->rawColumns(['kelas_jurusan','opsi','siswa','angkatan_kelas','mapel','guru'])
             ->make(true);
         }
     }

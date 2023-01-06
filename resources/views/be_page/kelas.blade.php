@@ -719,12 +719,16 @@
                             name: 'kelas_jurusan'
                         },
                         {
+                            data: 'siswa',
+                            name: 'siswa'
+                        },
+                        {
                             data: 'mapel',
                             name: 'mapel'
                         },
                         {
-                            data: 'siswa',
-                            name: 'siswa'
+                            data: 'guru',
+                            name: 'guru'
                         },
                         {
                             data: 'opsi',
