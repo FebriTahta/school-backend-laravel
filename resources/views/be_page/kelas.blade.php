@@ -61,22 +61,23 @@
                         font-size: 16px !important;
                     }
                 </style>
-                
+
                 <div class="col-md-12" style="margin-top: 20px">
                     <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modaladd"><i
                             class="icon icon-plus"></i>Kelas / Jurusan</button>
-                    <button class="btn btn-xs btn-outline-primary" data-toggle="modal" id="btnjurusan" data-target="#modaljurusan"><i
-                            class="icon icon-eye"></i>Tampilkan Daftar Jurusan</button>
+                    <button class="btn btn-xs btn-outline-primary" data-toggle="modal" id="btnjurusan"
+                        data-target="#modaljurusan"><i class="icon icon-eye"></i>Tampilkan Daftar Jurusan</button>
 
                     <div class="row" style="margin-top: 20px">
                         <div class="col-md-12" style="font-size: 12px">
-                            <input type="radio" class="sort" id="sort_jurusan" name="sort" value="sort_jurusan" checked>
+                            <input type="radio" class="sort" id="sort_jurusan" name="sort" value="sort_jurusan"
+                                checked>
                             <label for="sort_jurusan">Sorting Jurusan</label><br>
                             <input type="radio" class="sort" id="sort_tingkat" name="sort" value="sort_tingkat">
                             <label for="sort_tingkat">Sorting Tingkatan Kelas</label><br>
                         </div>
                         <div class="col-12" id="drop_jurusan">
-                            <div class="col-md-8 mb-2" >
+                            <div class="col-md-8 mb-2">
                                 <select name="" id="dropdown-jurusan" class="form-control"
                                     style="font-size: 12px"></select>
                             </div>
@@ -85,7 +86,7 @@
                                         class="icon icon-cancel"></i> reset</button>
                             </div>
                         </div>
-                        <div class="col-12" id="drop_tingkat"  style="display: none">
+                        <div class="col-12" id="drop_tingkat" style="display: none">
                             <div class="col-md-8 mb-2">
                                 <select name="" id="dropdown-tingkat" class="form-control"
                                     style="font-size: 12px"></select>
@@ -99,10 +100,10 @@
 
                     <div class="card my-3 no-b" style="background: transparent">
                         @if ($message = Session::get('success'))
-                        <div class="alert alert-success alert-block">
-                            <button type="button" class="close" data-dismiss="alert">×</button>	
+                            <div class="alert alert-success alert-block">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
                                 <strong>{{ $message }}</strong>
-                        </div>
+                            </div>
                         @endif
                     </div>
 
@@ -110,12 +111,13 @@
                         <div class="card-body">
                             <span>Daftar kelas yang tersedia</span><br>
                             <small>Kelola daftar kelas yang tersedia pada tabel berikut ini</small><br><br>
-                            <table id="example" class="display responsive nowrap table table-collapse table-bordered table-hover table-striped data-tables">
+                            <table id="example"
+                                class="display responsive nowrap table table-collapse table-bordered table-hover table-striped data-tables">
                                 <thead>
                                     <tr>
                                         <th style="width: 5%;font-weight: bold">No</th>
                                         <th style="width: 10%;font-weight: bold">Angkatan</th>
-                                        <th style="font-weight: bold">Kelas</th>                                        
+                                        <th style="font-weight: bold">Kelas</th>
                                         <th style="font-weight: bold">Siswa</th>
                                         <th style="font-weight: bold">Mapel</th>
                                         <th style="font-weight: bold">Guru</th>
@@ -155,7 +157,8 @@
                                 <input type="text" style="font-size: 14px" name="jurusan_name" class="form-control"
                                     placeholder="nama jurusan">
                             </div>
-                            <div class="col-md-12 col-12" id="block-recent-jurusan" style="display: none;margin-bottom: 10px">
+                            <div class="col-md-12 col-12" id="block-recent-jurusan"
+                                style="display: none;margin-bottom: 10px">
                                 <select name="jurusan_id" class="form-control" id="" style="font-size: 14px">
                                     @foreach ($jurusan as $item)
                                         <option value="{{ $item->id }}">{{ $item->jurusan_name }}</option>
@@ -167,10 +170,11 @@
                                     placeholder="total kelas">
                             </div>
                             <div class="col-md-6 col-6" style="padding-left: 5px">
-                                <select name="angkatan_id"  class="form-control" required>
+                                <select name="angkatan_id" class="form-control" required>
                                     <option value="">Tingkatan Kelas </option>
                                     @foreach ($angkatan as $item)
-                                        <option value="{{ $item->id }}">{{ $item->angkatan_name.' - '.$item->tingkat->tingkat_name }}</option>
+                                        <option value="{{ $item->id }}">
+                                            {{ $item->angkatan_name . ' - ' . $item->tingkat->tingkat_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -195,10 +199,10 @@
                 </div>
                 <form id="formaddmapel"> @csrf
                     <div class="modal-body">
-                        
+
                         <div class="col-md-12 col-12" style="padding-left: 5px">
                             <input type="hidden" class="form-control" name="id" id="id">
-                            <select name="mapel_id[]"  class="form-control select2" multiple="multiple" required>                                
+                            <select name="mapel_id[]" class="form-control select2" multiple="multiple" required>
                                 @foreach ($mapel as $item)
                                     <option value="{{ $item->id }}">{{ $item->mapel_name }}</option>
                                 @endforeach
@@ -227,18 +231,19 @@
                         <div class="row">
                             <div class="col-md-12 col-12" style="padding-left: 5px; margin-bottom: 20px">
                                 <input type="text" class="form-control" name="id" id="id">
-                                <select name="guru_id"  class="form-control" required>     
-                                    <option value="">:: Pilih Guru ::</option>                           
+                                <select name="guru_id" class="form-control" required>
+                                    <option value="">:: Pilih Guru ::</option>
                                     @foreach ($guru as $item)
                                         <option value="{{ $item->id }}">{{ $item->guru_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-md-12 col-12" style="padding-left: 5px; margin-bottom: 20px">
-                                <select name="mapel_id[]" id="mapeldropdown" class="form-control select2" multiple="multiple" required>
+                                <select name="mapel_id[]" id="mapeldropdown" class="form-control select2"
+                                    multiple="multiple" required>
                                 </select>
                             </div>
-                        </div>            
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
@@ -259,14 +264,17 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-4 col-4">
-                            <a href="#" style="width: 100%" class="btn btn-sm btn-outline-primary" id="download_template">Template Siswa</a>
+                            <a href="#" style="width: 100%" class="btn btn-sm btn-outline-primary"
+                                id="download_template">Template Siswa</a>
                         </div>
                         <div class="col-md-4 col-4">
-                            <a href="#" style="width: 100%" class="btn btn-sm btn-outline-success" data-toggle="modal"
-                            data-target="#modalimportsiswa" id="import_siswa">Import Data Siswa</a>
+                            <a href="#" style="width: 100%" class="btn btn-sm btn-outline-success"
+                                data-toggle="modal" data-target="#modalimportsiswa" id="import_siswa">Import Data
+                                Siswa</a>
                         </div>
                         <div class="col-md-4 col-4">
-                            <a href="#" style="width: 100%" data-toggle="modal" data-target="#modaldatasiswa" class="btn btn-sm btn-outline-info">Lihat Data Siswa</a>
+                            <a href="#" style="width: 100%" data-toggle="modal" data-target="#modaldatasiswa"
+                                class="btn btn-sm btn-outline-info">Lihat Data Siswa</a>
                         </div>
                     </div>
                 </div>
@@ -281,7 +289,7 @@
                     <h4 class="modal-title" style="font-size: 16px; color:white">UBAH STATUS SISWA</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form  id="formstatus">@csrf
+                <form id="formstatus">@csrf
                     <div class="modal-body">
                         <div class="form-group">
                             <input type="hidden" name="id" id="id" class="form-control">
@@ -306,7 +314,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <table id="example3" class="display responsive nowrap table table-collapse table-bordered table-hover table-striped data-tables">
+                        <table id="example3"
+                            class="display responsive nowrap table table-collapse table-bordered table-hover table-striped data-tables">
                             <thead>
                                 <tr>
                                     <th style="width: 10%;font-weight: bold">NIK</th>
@@ -333,8 +342,9 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <input type="hidden" class="form-control" id="kelas_id" name="kelas_id">
-                            <label for="file" style="font-size: 14px" >Import Excel File Template Siswa</label>
-                            <input type="file" class="form-control" style="border: none" name="file" id="file">
+                            <label for="file" style="font-size: 14px">Import Excel File Template Siswa</label>
+                            <input type="file" class="form-control" style="border: none" name="file"
+                                id="file">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -342,7 +352,7 @@
                         <input type="submit" id="btnimportsiswa" class="btn btn-sm btn-primary" value="Import">
                     </div>
                 </form>
-                
+
             </div>
         </div>
     </div>
@@ -362,12 +372,12 @@
                                 <input type="hidden" class="form-control" id="jurusan_id" name="jurusan_id">
                             </div>
                             <div class="col-md-8 col-8" id="block-new-jurusan" style="padding-right: 5px">
-                                <input type="text" style="font-size: 14px" id="jurusan_name" name="jurusan_name" class="form-control"
-                                    placeholder="nama jurusan" readonly>
+                                <input type="text" style="font-size: 14px" id="jurusan_name" name="jurusan_name"
+                                    class="form-control" placeholder="nama jurusan" readonly>
                             </div>
                             <div class="col-md-4 col-4" style="padding-left: 5px">
-                                <input type="number" style="font-size: 14px" id="kelas_name" name="kelas_name" class="form-control"
-                                    placeholder="nama kelas">
+                                <input type="number" style="font-size: 14px" id="kelas_name" name="kelas_name"
+                                    class="form-control" placeholder="nama kelas">
                             </div>
                         </div>
 
@@ -395,8 +405,8 @@
                                 <input type="hidden" class="form-control" id="id" name="id">
                             </div>
                             <div class="col-md-12 col-12" id="block-new-jurusan" style="padding-right: 5px">
-                                <input type="text" style="font-size: 14px" id="jurusan_name" name="jurusan_name" class="form-control"
-                                    placeholder="nama jurusan">
+                                <input type="text" style="font-size: 14px" id="jurusan_name" name="jurusan_name"
+                                    class="form-control" placeholder="nama jurusan">
                             </div>
                         </div>
                     </div>
@@ -471,7 +481,8 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <table id="example2" class="display responsive nowrap table table-bordered table-hover table-striped data-tables">
+                    <table id="example2"
+                        class="display responsive nowrap table table-bordered table-hover table-striped data-tables">
                         <thead>
                             <tr>
                                 <th style="font-weight: bold">Jurusan</th>
@@ -513,12 +524,12 @@
             tingkat_dropdown();
         })
 
-        $('.sort').on('change', function () {
+        $('.sort').on('change', function() {
             var val_sort = this.value;
             if (val_sort == 'sort_jurusan') {
                 document.getElementById('drop_jurusan').style.display = 'block';
                 document.getElementById('drop_tingkat').style.display = 'none';
-            }else{
+            } else {
                 document.getElementById('drop_jurusan').style.display = 'none';
                 document.getElementById('drop_tingkat').style.display = 'block';
             }
@@ -540,8 +551,8 @@
                         }
                     },
                     {
-                            data: 'angkatan_kelas',
-                            name: 'angkatan.angkatan_name'
+                        data: 'angkatan_kelas',
+                        name: 'angkatan.angkatan_name'
                     },
                     {
                         data: 'kelas_jurusan',
@@ -575,8 +586,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: "/admin-daftar-jurusan",
-                columns: [
-                    {
+                columns: [{
                         data: 'jurusan_name',
                         name: 'jurusan_name'
                     },
@@ -633,7 +643,7 @@
                     $('#dropdown-tingkat').html('<option value="">-- Pilih Tingkatan --</option>')
                     $.each(response.data, function(key, value) {
                         $('#dropdown-tingkat').append('<option value="' + value.id + '">' + value
-                            .angkatan_name+' - '+value.tingkat.tingkat_name + '</option>')
+                            .angkatan_name + ' - ' + value.tingkat.tingkat_name + '</option>')
                     });
 
                     val_dropdown2 = null;
@@ -678,7 +688,7 @@
                             data: 'guru_kelas',
                             name: 'guru_kelas'
                         },
-                        
+
                         {
                             data: 'opsi',
                             name: 'opsi',
@@ -727,8 +737,8 @@
                             name: 'mapel'
                         },
                         {
-                            data: 'guru',
-                            name: 'guru'
+                            data: 'guru_kelas',
+                            name: 'guru_kelas'
                         },
                         {
                             data: 'opsi',
@@ -767,7 +777,7 @@
             }
         })
 
-        $('#btnjurusan').on('click', function (e) {
+        $('#btnjurusan').on('click', function(e) {
             e.preventDefault();
             table_jurusan();
         })
@@ -910,7 +920,7 @@
                                 text: response.message,
                                 type: "success"
                             });
-                        }else{
+                        } else {
                             toastr.success(response.message);
                             swal({
                                 title: "SUCCESS!",
@@ -918,7 +928,7 @@
                                 type: "warning"
                             });
                         }
-                        
+
                     } else {
                         $('#btnstatus').val('Submit');
                         $('#btnstatus').attr('disabled', false);
@@ -990,7 +1000,7 @@
         });
 
         // $(document).ready(function() {
-    
+
         $('#modaledit').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
             var id = button.data('id')
@@ -1029,7 +1039,7 @@
             modal.find('.modal-body #id').val(id);
         })
 
-        $('#addguru').on('hidden.bs.modal',function () {
+        $('#addguru').on('hidden.bs.modal', function() {
             $('#mapeldropdown option').remove();
         });
 
@@ -1041,19 +1051,20 @@
             if (id) {
                 $.ajax({
                     type: 'GET',
-                    url: '/admin-dropdown-mapel-kelas/'+id,
+                    url: '/admin-dropdown-mapel-kelas/' + id,
                     success: function(response) {
                         $.each(response.data, function(key, value) {
-                            $('#mapeldropdown').append('<option value="' + value.id + '">' + value
-                                .mapel_name+'</option>')
+                            $('#mapeldropdown').append('<option value="' + value.id + '">' +
+                                value
+                                .mapel_name + '</option>')
                         });
-                        
+
                     }
                 });
-                
+
             }
-            
-            
+
+
         })
 
         $('#addmapel').on('show.bs.modal', function(event) {
@@ -1068,7 +1079,7 @@
             var button = $(event.relatedTarget)
             kelas_id = button.data('id')
             var modal = $(this)
-            $("#download_template").attr("href", "/admin-download-template-siswa/"+kelas_id)
+            $("#download_template").attr("href", "/admin-download-template-siswa/" + kelas_id)
         })
 
         $('#modalstatus').on('show.bs.modal', function(event) {
@@ -1092,8 +1103,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: "/admin-siswa-kelas/" + kelas_id,
-                    columns: [
-                        {
+                    columns: [{
                             data: 'siswa_nik',
                             name: 'siswa_nik'
                         },
@@ -1101,7 +1111,7 @@
                             data: 'siswa_name',
                             name: 'siswa_name'
                         },
-                        
+
                         {
                             data: 'status',
                             name: 'status'
