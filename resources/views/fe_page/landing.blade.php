@@ -28,7 +28,7 @@
             <div class="container">
                 <div class="course__tab-inner grey-bg-2 mb-50">
                     <div class="row align-items-center">
-                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                        {{-- <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
                             <div class="course__tab-wrapper d-flex align-items-center">
                                 <div class="course__tab-btn">
                                     <ul class="nav nav-tabs" id="courseTab" role="tablist">
@@ -57,7 +57,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6" >
                             <div class="course__sort d-flex justify-content-sm-end">
                                 <div class="course__sort-inner">
