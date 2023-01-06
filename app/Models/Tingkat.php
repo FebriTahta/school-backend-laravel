@@ -13,8 +13,8 @@ class Tingkat extends Model
         'tingkat_name',
     ];
 
-    public function kelas()
+    public function angkatan()
     {
-        return $this->belongsTo(Kelas::class);
+        return $this->hasMany(Angkatan::class);
     }
 }

@@ -33,22 +33,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-md-4 mb-2">
-                            <div class="counter-box white r-5 p-3">
-                                <div class="p-4">
-                                    <div class="float-right">
-                                        <span class="icon icon-class text-light-blue s-48"></span>
-                                    </div>
-                                    <div class="counter-title"> <span class="" id="total_kelas">0</span> : KELAS</div>
-
-                                </div>
-                                <div class="progress progress-xs r-0">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
-                                        aria-valuemin="0" aria-valuemax="128"></div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -61,58 +45,19 @@
                         font-size: 16px !important;
                     }
                 </style>
-                @php
-                    $a = App\Models\Kelas::whereHas('angkatan')->count();
-                @endphp
-                {{ $a }}
                 <div class="col-md-12" style="margin-top: 20px">
                     <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modaladd"><i
-                            class="icon icon-plus"></i>Kelas / Jurusan</button>
-                    <button class="btn btn-xs btn-success" data-toggle="modal" data-target="#modaladd_angkatan"><i
-                            class="icon icon-plus"></i>Angkatan Kelas</button>
-                    <button class="btn btn-xs btn-outline-primary" data-toggle="modal" id="btnjurusan" data-target="#modaljurusan"><i
-                            class="icon icon-eye"></i>Tampilkan Daftar Jurusan</button>
-
-                    <div class="row" style="margin-top: 20px">
-                        <div class="col-md-12" style="font-size: 12px">
-                            <input type="radio" class="sort" id="sort_jurusan" name="sort" value="sort_jurusan" checked>
-                            <label for="sort_jurusan">Sorting Jurusan</label><br>
-                            <input type="radio" class="sort" id="sort_tingkat" name="sort" value="sort_tingkat">
-                            <label for="sort_tingkat">Sorting Tingkatan Kelas</label><br>
-                        </div>
-                        <div class="col-12" id="drop_jurusan">
-                            <div class="col-md-8 mb-2" >
-                                <select name="" id="dropdown-jurusan" class="form-control"
-                                    style="font-size: 12px"></select>
-                            </div>
-                            <div class="col-md-4 mb-2">
-                                <button class="btn btn-sm btn-info" style="font-size: 12px" id="reset"><i
-                                        class="icon icon-cancel"></i> reset</button>
-                            </div>
-                        </div>
-                        <div class="col-12" id="drop_tingkat"  style="display: none">
-                            <div class="col-md-8 mb-2">
-                                <select name="" id="dropdown-tingkat" class="form-control"
-                                    style="font-size: 12px"></select>
-                            </div>
-                            <div class="col-md-4 mb-2">
-                                <button class="btn btn-sm btn-info" style="font-size: 12px" id="reset-tingkat"><i
-                                        class="icon icon-cancel"></i> reset</button>
-                            </div>
-                        </div>
-                    </div>
+                            class="icon icon-plus"></i>Jurusan</button>
 
                     <div class="card my-3 no-b">
                         <div class="card-body">
-                            <span>Daftar kelas yang tersedia</span><br>
-                            <small>Kelola daftar kelas yang tersedia pada tabel berikut ini</small><br><br>
+                            <span>Daftar jurusan yang tersedia</span><br>
+                            <small>Kelola daftar jurusan yang tersedia pada tabel berikut ini</small><br><br>
                             <table id="example" class="table table-bordered table-hover table-striped data-tables">
                                 <thead>
                                     <tr>
                                         <th style="width: 5%;font-weight: bold">No</th>
-                                        <th style="width: 5%;font-weight: bold">Tingkat</th>
-                                        <th style="font-weight: bold">Kelas</th>
-                                        <th style="font-weight: bold">Siswa</th>
+                                        <th style="font-weight: bold">Jurusan</th>
                                         <th style="font-weight: bold; width: 14%">Opsi</th>
                                     </tr>
                                 </thead>
@@ -135,39 +80,14 @@
                 </div>
                 <form id="formadd"> @csrf
                     <div class="modal-body">
-                        <input type="radio" id="new" name="stat" value="new" checked>
-                        <label for="new">Jurusan baru</label><br>
-                        <input type="radio" id="recent" name="stat" value="recent">
-                        <label for="recent">Jurusan yang sudah ada</label><br>
-                        <hr>
+                        
                         <div class="row">
-                            <div class="col-md-12">
-                                <input type="hidden" class="form-control" name="keterangan" id="keterangan"
-                                    value="new">
-                            </div>
+                           
                             <div class="col-md-12 col-12" style="margin-bottom: 10px" id="block-new-jurusan">
                                 <input type="text" style="font-size: 14px" name="jurusan_name" class="form-control"
                                     placeholder="nama jurusan">
                             </div>
-                            <div class="col-md-12 col-12" id="block-recent-jurusan" style="display: none;margin-bottom: 10px">
-                                <select name="jurusan_id" class="form-control" id="" style="font-size: 14px">
-                                    @foreach ($jurusan as $item)
-                                        <option value="{{ $item->id }}">{{ $item->jurusan_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-6 col-6">
-                                <input type="number" style="font-size: 14px" name="total_kelas" class="form-control"
-                                    placeholder="total kelas">
-                            </div>
-                            <div class="col-md-6 col-6" style="padding-left: 5px">
-                                <select name="tingkat_id" id="tingkat_id" class="form-control" required>
-                                    <option value="">Tingkatan Kelas</option>
-                                    @foreach ($tingkat as $item)
-                                        <option value="{{ $item->id }}">{{ $item->tingkat_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            
                         </div>
 
                     </div>
@@ -180,40 +100,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modaledit" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: rgb(181, 110, 238);">
-                    <h4 class="modal-title" style="font-size: 16px; color:white">UPDATE DATA</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <form id="formedit"> @csrf
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <input type="hidden" class="form-control" id="id" name="id">
-                                <input type="hidden" class="form-control" id="jurusan_id" name="jurusan_id">
-                            </div>
-                            <div class="col-md-8 col-8" id="block-new-jurusan" style="padding-right: 5px">
-                                <input type="text" style="font-size: 14px" id="jurusan_name" name="jurusan_name" class="form-control"
-                                    placeholder="nama jurusan" readonly>
-                            </div>
-                            <div class="col-md-4 col-4" style="padding-left: 5px">
-                                <input type="number" style="font-size: 14px" id="kelas_name" name="kelas_name" class="form-control"
-                                    placeholder="nama kelas">
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
-                        <input type="submit" id="btnedit" class="btn btn-sm btn-primary" value="Update">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
+    
     <div class="modal fade" id="modaledit2" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -242,33 +129,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modaldel" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: rgb(255, 87, 87);">
-                    <h4 class="modal-title" style="font-size: 16px; color:white">REMOVE DATA</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <form id="formdel"> @csrf
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <input type="hidden" class="form-control" name="id" id="id"
-                                    value="new">
-                                <code>Yakin menghapus kelas tersebut ?</code><br>
-                                <code>Kelas yang memiliki siswa tidak dapat dihapus oleh sistem</code>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
-                        <input type="submit" id="btndel" class="btn btn-sm btn-primary" value="Delete">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
+    
     <div class="modal fade" id="modaldel2" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -283,7 +144,7 @@
                                 <input type="hidden" class="form-control" name="id" id="id"
                                     value="new">
                                 <code>Yakin menghapus jurusan tersebut ?</code><br>
-                                <code>Kelas yang memiliki jurusan tidak dapat dihapus oleh sistem</code>
+                                <code>Jurusan yang memiliki kelas tidak dapat dihapus oleh sistem</code>
                             </div>
                         </div>
                     </div>
@@ -295,66 +156,14 @@
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="modaljurusan" role="dialog">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" style="font-size: 16px">DAFTAR JURUSAN</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <table id="example2" class="table table-bordered table-hover table-striped data-tables">
-                        <thead>
-                            <tr>
-                                <th style="font-weight: bold">Jurusan</th>
-                                <th style="font-weight: bold">Kelas</th>
-                                <th style="font-weight: bold; width: 15%">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody style="font-size: 12px"></tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section('script')
     <script>
         $(document).ready(function() {
-            var stat = $('[name="stat"]').val();
-            $('[name="stat"]').on('change', function(e) {
-                e.preventDefault();
-                if (this.value == 'recent') {
-                    document.getElementById('block-new-jurusan').style.display = 'none';
-                    document.getElementById('block-recent-jurusan').style.display = 'block';
-                    $('#keterangan').val('recent');
-                } else if (this.value == 'new') {
-                    document.getElementById('block-new-jurusan').style.display = 'block';
-                    document.getElementById('block-recent-jurusan').style.display = 'none';
-                    $('#keterangan').val('new');
-                }
-            })
 
             total();
-            jurusan_dropdown();
             table_default();
-            tingkat_dropdown();
-        })
-
-        $('.sort').on('change', function () {
-            var val_sort = this.value;
-            if (val_sort == 'sort_jurusan') {
-                document.getElementById('drop_jurusan').style.display = 'block';
-                document.getElementById('drop_tingkat').style.display = 'none';
-            }else{
-                document.getElementById('drop_jurusan').style.display = 'none';
-                document.getElementById('drop_tingkat').style.display = 'block';
-            }
         })
 
         // end ready function
@@ -364,7 +173,7 @@
                 destroy: true,
                 processing: true,
                 serverSide: true,
-                ajax: "/admin-jurusan-&-kelas",
+                ajax: "/admin-jurusan",
                 columns: [{
                         "data": null,
                         "sortable": false,
@@ -372,43 +181,12 @@
                             return meta.row + meta.settings._iDisplayStart + 1;
                         }
                     },
-                    {
-                            data: 'tingkatan_kelas',
-                            name: 'tingkat.tingkatan_kelas'
-                    },
-                    {
-                        data: 'kelas_jurusan',
-                        name: 'kelas_jurusan'
-                    },
-                    {
-                        data: 'siswa',
-                        name: 'siswa'
-                    },
-                    {
-                        data: 'opsi',
-                        name: 'opsi',
-                        orderable: true,
-                        searchable: true
-                    },
-                ]
-            });
-        }
-
-        function table_jurusan() {
-            var table = $('#example2').DataTable({
-                destroy: true,
-                processing: true,
-                serverSide: true,
-                ajax: "/admin-daftar-jurusan",
-                columns: [
+                   
                     {
                         data: 'jurusan_name',
                         name: 'jurusan_name'
                     },
-                    {
-                        data: 'total_kelas',
-                        name: 'total_kelas'
-                    },
+                    
                     {
                         data: 'opsi',
                         name: 'opsi',
@@ -425,167 +203,16 @@
                 url: '/admin-total-jurusan-&-kelas',
                 success: function(response) {
                     $('#total_jurusan').html(response.data.jurusan);
-                    $('#total_kelas').html(response.data.kelas);
                 }
             });
         }
-
-        // get value dropdown jurusan
-        var val_dropdown;
-        var val_dropdown2;
-
-        function jurusan_dropdown() {
-            $.ajax({
-                type: 'GET',
-                url: '/admin-jurusan-dropdown',
-                success: function(response) {
-                    $('#dropdown-jurusan').html('<option value="">-- Pilih Jurusan --</option>')
-                    $.each(response.data, function(key, value) {
-                        $('#dropdown-jurusan').append('<option value="' + value.id + '">' + value
-                            .jurusan_name + '</option>')
-                    });
-
-                    val_dropdown = null;
-                }
-            });
-        }
-
-        function tingkat_dropdown() {
-            $.ajax({
-                type: 'GET',
-                url: '/admin-tingkat-dropdown',
-                success: function(response) {
-                    $('#dropdown-tingkat').html('<option value="">-- Pilih Tingkatan --</option>')
-                    $.each(response.data, function(key, value) {
-                        $('#dropdown-tingkat').append('<option value="' + value.id + '">' + value
-                            .tingkat_name + '</option>')
-                    });
-
-                    val_dropdown2 = null;
-                }
-            });
-        }
-
-        // change dropdown jurusan
-        $('#dropdown-jurusan').on('change', function(e) {
-            e.preventDefault();
-            val_dropdown = this.value;
-            if (this.value) {
-                var table = $('#example').DataTable({
-                    destroy: true,
-                    processing: true,
-                    serverSide: true,
-                    ajax: "/admin-chagne-dropdown-jurusan/" + this.value,
-                    columns: [{
-                            "data": null,
-                            "sortable": false,
-                            render: function(data, type, row, meta) {
-                                return meta.row + meta.settings._iDisplayStart + 1;
-                            }
-                        },
-                        {
-                            data: 'tingkatan_kelas',
-                            name: 'tingkat.tingkatan_kelas'
-                        },
-                        {
-                            data: 'kelas_jurusan',
-                            name: 'kelas_jurusan'
-                        },
-                        {
-                            data: 'siswa',
-                            name: 'siswa'
-                        },
-                        {
-                            data: 'opsi',
-                            name: 'opsi',
-                            orderable: true,
-                            searchable: true
-                        },
-                    ]
-                });
-
-            } else {
-                table_default();
-            }
-        })
-
-        // change dropdown tingkat
-        $('#dropdown-tingkat').on('change', function(e) {
-            e.preventDefault();
-            val_dropdown2 = this.value;
-            if (this.value) {
-                var table = $('#example').DataTable({
-                    destroy: true,
-                    processing: true,
-                    serverSide: true,
-                    ajax: "/admin-chagne-dropdown-jurusan/" + this.value,
-                    columns: [{
-                            "data": null,
-                            "sortable": false,
-                            render: function(data, type, row, meta) {
-                                return meta.row + meta.settings._iDisplayStart + 1;
-                            }
-                        },
-                        {
-                            data: 'tingkatan_kelas',
-                            name: 'tingkat.tingkatan_kelas'
-                        },
-                        {
-                            data: 'kelas_jurusan',
-                            name: 'kelas_jurusan'
-                        },
-                        {
-                            data: 'siswa',
-                            name: 'siswa'
-                        },
-                        {
-                            data: 'opsi',
-                            name: 'opsi',
-                            orderable: true,
-                            searchable: true
-                        },
-                    ]
-                });
-
-            } else {
-                table_default();
-            }
-        })
-
-        // reset table from dropdown
-        $('#reset').on('click', function(e) {
-            e.preventDefault();
-            if (val_dropdown) {
-                jurusan_dropdown();
-                table_default();
-                toastr.info('Reset & Menampilkan data awal');
-            } else {
-                toastr.warning('Menampilkan data awal');
-            }
-        })
-
-        $('#reset-tingkat').on('click', function(e) {
-            e.preventDefault();
-            if (val_dropdown2) {
-                tingkat_dropdown();
-                table_default();
-                toastr.info('Reset & Menampilkan data awal');
-            } else {
-                toastr.warning('Menampilkan data awal');
-            }
-        })
-
-        $('#btnjurusan').on('click', function (e) {
-            e.preventDefault();
-            table_jurusan();
-        })
 
         $('#formadd').submit(function(e) {
             e.preventDefault();
             var formData = new FormData(this);
             $.ajax({
                 type: 'POST',
-                url: "/admin-post-jurusan-&-kelas",
+                url: "/admin-post-jurusan",
                 data: formData,
                 cache: false,
                 contentType: false,
@@ -602,10 +229,6 @@
                         $("#formadd")[0].reset();
                         $('#btnadd').val('Submit');
                         $('#btnadd').attr('disabled', false);
-
-                        document.getElementById('block-new-jurusan').style.display = 'block';
-                        document.getElementById('block-recent-jurusan').style.display = 'none';
-                        $('#keterangan').val('new');
                         total();
 
                         toastr.success(response.message);
@@ -637,18 +260,7 @@
 
         // $(document).ready(function() {
     
-        $('#modaledit').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget)
-            var id = button.data('id')
-            var jurusan_name = button.data('jurusan_name')
-            var kelas_name = button.data('kelas_name')
-            var jurusan_id = button.data('jurusan_id')
-            var modal = $(this)
-            modal.find('.modal-body #id').val(id);
-            modal.find('.modal-body #jurusan_name').val(jurusan_name);
-            modal.find('.modal-body #kelas_name').val(kelas_name);
-            modal.find('.modal-body #jurusan_id').val(jurusan_id);
-        })
+        
 
         $('#modaledit2').on('show.bs.modal', function(event) {
             $('#modaljurusan').modal('hide');
@@ -660,12 +272,7 @@
             modal.find('.modal-body #jurusan_name').val(jurusan_name);
         })
 
-        $('#modaldel').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget)
-            var id = button.data('id')
-            var modal = $(this)
-            modal.find('.modal-body #id').val(id);
-        })
+      
 
         $('#modaldel2').on('show.bs.modal', function(event) {
             $('#modaljurusan').modal('hide');
@@ -737,7 +344,6 @@
                         var oTable = $('#example').dataTable();
                         oTable2.fnDraw(false);
                         oTable.fnDraw(false);
-                        jurusan_dropdown();
                         $('#modaledit2').modal('hide');
                         $("#formedit2")[0].reset();
                         $('#btnedit2').val('UPDATE');
@@ -829,7 +435,6 @@
                         var oTable = $('#example').dataTable();
                         oTable2.fnDraw(false);
                         oTable.fnDraw(false);
-                        jurusan_dropdown();
                         $('#modaldel2').modal('hide');
                         $("#formdel2")[0].reset();
                         $('#btndel2').val('Delete');
@@ -858,7 +463,6 @@
                 }
             });
         });
-
 
         //     });
     </script>

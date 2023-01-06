@@ -10,7 +10,7 @@ class Kelas extends Model
     use HasFactory;
     protected $fillable = [
         'jurusan_id',
-        'tingkat_id',
+        'angkatan_id',
         'kelas_name',
     ];
 
@@ -24,13 +24,32 @@ class Kelas extends Model
         return $this->hasMany(Siswa::class);
     }
 
-    public function tingkat()
-    {
-        return $this->belongsTo(Tingkat::class);
-    }
+    // public function tingkat()
+    // {
+    //     return $this->belongsTo(Tingkat::class);
+    // }
 
     public function angkatan()
     {
-        return $this->hasMany(Angkatan::class);
+        return $this->belongsTo(Angkatan::class);
+    }
+
+    public function mapel()
+    {
+        return $this->belongsToMany(Mapel::class);
+    }
+
+    public function guru()
+    {
+        return $this->belongsToMany(Guru::class);
+    }
+
+    public function mapelmaster(){
+        return $this->hasMany(Mapelmaster::class);
+    }
+
+    public function materi()
+    {
+        return $this->hasMany(Materi::class);
     }
 }

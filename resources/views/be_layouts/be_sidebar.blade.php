@@ -107,9 +107,15 @@
                         </a>
                         <ul class="treeview-menu">
                             <li>
-                                <a href="/admin-jurusan-&-kelas">
-                                    <i class="icon icon-class light-blue-text s-14"></i>
-                                    <span>Kelas & Jurusan</span>
+                                <a href="/admin-angkatan">
+                                    <i class="icon icon-university light-blue-text s-14"></i>
+                                    <span>Angkatan</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin-jurusan">
+                                    <i class="icon icon-gear light-blue-text s-14"></i>
+                                    <span>Jurusan</span>
                                 </a>
                             </li>
                             <li>
@@ -119,6 +125,18 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="/admin-jurusan-&-kelas">
+                                    <i class="icon icon-class light-blue-text s-14"></i>
+                                    <span>Kelas</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin-guru">
+                                    <i class="icon icon-group light-blue-text s-14"></i>
+                                    <span>Guru</span>
+                                </a>
+                            </li>
+                            {{-- <li>
                                 <a href="/admin-siswa">
                                     <i class="icon icon-group light-blue-text s-14"></i>
                                     <span>Siswa</span>
@@ -129,18 +147,25 @@
                                     &nbsp;<i class="icon icon-user light-blue-text s-14"></i>
                                     <span>Guru</span>
                                 </a>
-                            </li>
+                            </li> --}}
                             
                         </ul>
                     </li>
 
-                    <li class="header light mt-3"><strong>Manajemen Kelas</strong></li>
+                    <li class="header light mt-3"><strong>MANAJEMEN KELAS</strong></li>
 
                     <li class="treeview"><a href="#"><i
-                                class="icon icon-class light-green-text s-18"></i>Kelas<i
+                                class="icon icon-class light-green-text s-18"></i>Struktur Kelas<i
                                 class="icon icon-angle-left s-18 pull-right"></i></a>
                         <ul class="treeview-menu">
-                            <li><a href="/backend-user"><i class="icon icon-circle-o"></i>Kelola Angkatan Kelas</a>
+                            <li>
+                                <a href="/#"><i class="icon icon-circle-o"></i>Kelas - Mapel</a>
+                            </li>
+                            <li>
+                                <a href="/#"><i class="icon icon-circle-o"></i>Kelas - Siswa</a>
+                            </li>
+                            <li>
+                                <a href="/#"><i class="icon icon-circle-o"></i>Kelas - Guru</a>
                             </li>
                         </ul>
                     </li>

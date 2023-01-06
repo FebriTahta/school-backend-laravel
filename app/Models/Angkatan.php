@@ -12,10 +12,16 @@ class Angkatan extends Model
     protected $fillable=[
         'angkatan_name',
         'angkatan_status',
+        'tingkat_id'
     ];
+
+    public function tingkat()
+    {
+        return $this->belongsTo(Tingkat::class);
+    }
 
     public function kelas()
     {
-        return $this->belongsToMany(Kelas::class);
+        return $this->hasMany(Kelas::class);
     }
 }

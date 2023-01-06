@@ -70,61 +70,61 @@ class SiswaSeeder extends Seeder
             Tingkat::insert($tingkat);
         }
 
-        $kelas = [
-            [
-                'tingkat_id' => 1,
-                'jurusan_id' => 1,
-                'kelas_name' => '1',
-            ],
-            [
-                'tingkat_id' => 1,
-                'jurusan_id' => 1,
-                'kelas_name' => '2',
-            ],
-            [
-                'tingkat_id' => 1,
-                'jurusan_id' => 2,
-                'kelas_name' => '1'
-            ],
-            [
-                'tingkat_id' => 1,
-                'jurusan_id' => 2,
-                'kelas_name' => '2'
-            ],
-            [
-                'tingkat_id' => 2,
-                'jurusan_id' => 2,
-                'kelas_name' => '1'
-            ],
-            [
-                'tingkat_id' => 2,
-                'jurusan_id' => 2,
-                'kelas_name' => '2'
-            ],
-            [
-                'tingkat_id' => 1,
-                'jurusan_id' => 3,
-                'kelas_name' => '1'
-            ],
-        ];
+        // $kelas = [
+        //     [
+        //         'tingkat_id' => 1,
+        //         'jurusan_id' => 1,
+        //         'kelas_name' => '1',
+        //     ],
+        //     [
+        //         'tingkat_id' => 1,
+        //         'jurusan_id' => 1,
+        //         'kelas_name' => '2',
+        //     ],
+        //     [
+        //         'tingkat_id' => 1,
+        //         'jurusan_id' => 2,
+        //         'kelas_name' => '1'
+        //     ],
+        //     [
+        //         'tingkat_id' => 1,
+        //         'jurusan_id' => 2,
+        //         'kelas_name' => '2'
+        //     ],
+        //     [
+        //         'tingkat_id' => 2,
+        //         'jurusan_id' => 2,
+        //         'kelas_name' => '1'
+        //     ],
+        //     [
+        //         'tingkat_id' => 2,
+        //         'jurusan_id' => 2,
+        //         'kelas_name' => '2'
+        //     ],
+        //     [
+        //         'tingkat_id' => 1,
+        //         'jurusan_id' => 3,
+        //         'kelas_name' => '1'
+        //     ],
+        // ];
 
-        Kelas::insert($kelas);
+        // Kelas::insert($kelas);
         
 
-        $angkatan = [
-            [
-                'kelas_id' => 1,
-                'jurusan_id' => 1,
-                'angkatan_name' => 2022,
-                'angkatan_status' => 'aktif'
-            ],
-        ];
+        // $angkatan = [
+        //     [
+        //         'kelas_id' => 1,
+        //         'jurusan_id' => 1,
+        //         'angkatan_name' => 2022,
+        //         'angkatan_status' => 'aktif'
+        //     ],
+        // ];
 
-        $cek_angkatan = Angkatan::where('kelas_id',1)->where('jurusan_id',1)->where('angkatan_name',2022)->first();
-        if ($cek_angkatan == null) {
-            # code...
-            Angkatan::insert($angkatan);
-        }
+        // $cek_angkatan = Angkatan::where('kelas_id',1)->where('jurusan_id',1)->where('angkatan_name',2022)->first();
+        // if ($cek_angkatan == null) {
+        //     # code...
+        //     Angkatan::insert($angkatan);
+        // }
 
         // $user = [
         //     'username' => 'tahta',

@@ -21,4 +21,13 @@ class Mapel extends Model
     //     return asset('mapel_image/'.$value);
     // }
 
+    public function kelas()
+    {
+        return $this->belongsToMany(Kelas::class);
+    }
+
+    public function mapelmaster(){
+        return $this->hasMany(Mapelmaster::class);
+    }
+
 }

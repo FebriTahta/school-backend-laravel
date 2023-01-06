@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Mapel;
+use App\Models\Kelas;
 use Illuminate\Support\Str;
 use Image;
 use File;
@@ -251,5 +252,16 @@ class MapelController extends Controller
                 
             }
         }
+    }
+
+    public function post_kelas_mapel(Request $request)
+    {
+        $kelas = Kelas::find($request->id);
+        $kelas->mapel()->attach($request->mapel_id);
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'mapel berhasil ditambahkan dalam kelas'
+        ]);
     }
 }

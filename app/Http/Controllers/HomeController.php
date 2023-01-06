@@ -23,6 +23,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        // return view('home');
+        // return redirect('/admin-angkatan');
+        if (auth()->user()->role == 'admin') {
+            # code...
+            return redirect('/admin-dashboard');
+        }elseif(auth()->user()->role == 'guru') {
+            # code...
+            return redirect('/home-lms-guru');
+        }else {
+            # code...
+            return redirect('/home-lms');
+        }
     }
 }

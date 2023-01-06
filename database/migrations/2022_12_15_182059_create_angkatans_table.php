@@ -19,6 +19,7 @@ return new class extends Migration
             // $table->unsignedBigInteger('jurusan_id')->nullable();
             $table->string('angkatan_name');
             $table->string('angkatan_status');
+            $table->unsignedBigInteger('tingkat_id');
             $table->timestamps();
         });
     }
