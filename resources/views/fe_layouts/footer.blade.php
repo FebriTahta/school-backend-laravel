@@ -115,6 +115,7 @@
 <script src="{{ asset('fe_assets/assets/js/main.js') }}"></script>
 <script src="{{ asset('assets/vendor/toastr/toastr.js') }}"></script> <!-- Toastr Plugin Js --> 
 <script src="{{ asset('assets/vendor/sweetalert/sweetalert.min.js') }}"></script> <!-- SweetAlert Plugin Js --> 
+
 @yield('script')
 
 </body>

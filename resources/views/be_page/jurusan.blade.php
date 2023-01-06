@@ -53,7 +53,7 @@
                         <div class="card-body">
                             <span>Daftar jurusan yang tersedia</span><br>
                             <small>Kelola daftar jurusan yang tersedia pada tabel berikut ini</small><br><br>
-                            <table id="example" class="table table-bordered table-hover table-striped data-tables">
+                            <table id="example" class="display responsive nowrap table table-bordered table-hover table-striped data-tables">
                                 <thead>
                                     <tr>
                                         <th style="width: 5%;font-weight: bold">No</th>

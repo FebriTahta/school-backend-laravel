@@ -70,7 +70,7 @@
 
                             <div class="table-responsive">
                                 <table id="example"
-                                    class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                    class="display responsive nowrap table table-bordered table-striped table-hover js-basic-example dataTable">
                                     <thead>
                                         <tr>
                                             <th style="width: 10%">No</th>

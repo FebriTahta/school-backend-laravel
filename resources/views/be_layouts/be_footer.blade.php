@@ -44,6 +44,8 @@
 {{-- <script src="assets/vendor/toastr/toastr.min.js"></script> <!-- Toastr Plugin Js -->  --}}
 <script src="assets/vendor/toastr/toastr.js"></script> <!-- Toastr Plugin Js --> 
 
+<script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
 
 @yield('script')
 <script>(function($,d){$.each(readyQ,function(i,f){$(f)});$.each(bindReadyQ,function(i,f){$(d).bind("ready",f)})})(jQuery,document)</script>

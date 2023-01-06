@@ -54,7 +54,7 @@
                         <div class="card-body">
                             <span>Angkatan yang terdaftar</span><br>
                             <small>Kelola daftar angkatan tersedia pada tabel berikut ini</small><br><br>
-                            <table id="example" class="table table-bordered table-hover table-striped data-tables">
+                            <table id="example" class="table table-bordered table-hover table-striped data-tables display responsive nowrap">
                                 <thead>
                                     <tr>
                                         <th style="width: 7%;font-weight: bold">No</th>

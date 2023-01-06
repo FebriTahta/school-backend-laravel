@@ -110,7 +110,7 @@
                         <div class="card-body">
                             <span>Daftar kelas yang tersedia</span><br>
                             <small>Kelola daftar kelas yang tersedia pada tabel berikut ini</small><br><br>
-                            <table id="example" class="table table-collapse table-bordered table-hover table-striped data-tables">
+                            <table id="example" class="display responsive nowrap table table-collapse table-bordered table-hover table-striped data-tables">
                                 <thead>
                                     <tr>
                                         <th style="width: 5%;font-weight: bold">No</th>
@@ -306,7 +306,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <table id="example3" class="table table-collapse table-bordered table-hover table-striped data-tables">
+                        <table id="example3" class="display responsive nowrap table table-collapse table-bordered table-hover table-striped data-tables">
                             <thead>
                                 <tr>
                                     <th style="width: 10%;font-weight: bold">NIK</th>
@@ -471,7 +471,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <table id="example2" class="table table-bordered table-hover table-striped data-tables">
+                    <table id="example2" class="display responsive nowrap table table-bordered table-hover table-striped data-tables">
                         <thead>
                             <tr>
                                 <th style="font-weight: bold">Jurusan</th>
