@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('ujian_name')->nullable();
             $table->string('ujian_slug')->nullable();
             $table->string('ujian_jenis')->nullable();
-            $table->string('ujian_time')->nullable(); // sekian menit
-            $table->string('ujian_start')->nullable(); // start dari pukul sekian
+            $table->string('ujian_lamapengerjaan')->nullable(); // sekian menit
+            $table->string('ujian_datetimestart')->nullable(); // start dari pukul sekian
+            $table->string('ujian_datetimeend')->nullable(); // start dari pukul sekian
             $table->timestamps();
         });
     }
