@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('soalmultis', function (Blueprint $table) {
+        Schema::create('docs', function (Blueprint $table) { 
             $table->id();
-            $table->unsignedBigInteger('ujian_id')->nullable();
-            $table->longText('soal_kode')->nullable(); // unique untuk edit waktu import ulang soal
-            $table->longText('soal_name')->nullable();
+            $table->unsignedBigInteger('materi_id')->nullable();
+            $table->longText('docs_file')->nullable();
+            $table->longText('docs_name')->nullable();
+            $table->longText('docs_desc')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('soalmultis');
+        Schema::dropIfExists('docs');
     }
 };

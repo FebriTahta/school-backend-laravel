@@ -119,5 +119,7 @@ Route::group(['middleware' => ['auth', 'CheckRole:guru,siswa']], function(){
     });
     Route::controller(MateriController::class)->group(function(){
         Route::post('/post-materi','post_materi');
+        Route::post('/post-vids','post_vids');
+        Route::post('/post-docs','post_docs');
     });
 });

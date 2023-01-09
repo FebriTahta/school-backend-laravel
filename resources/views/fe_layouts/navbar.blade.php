@@ -23,6 +23,10 @@
     <link rel="stylesheet" href="{{ asset('fe_assets/assets/css/elegantFont.css') }}">
     <link rel="stylesheet" href="{{ asset('fe_assets/assets/css/default.css') }}">
     <link rel="stylesheet" href="{{ asset('fe_assets/assets/css/style.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('assets/vendor/sweetalert/sweetalert.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/vendor/toastr/toastr.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/vendor/toastr/toastr.min.css') }}"/>
 </head>
 
 <body>

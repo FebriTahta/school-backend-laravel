@@ -5,9 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Ujian extends Model
+class Vids extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'materi_id',
+        'vids_name',
+        'vids_desc',
+        'vids_link'
+    ];
 
     public function materi()
     {

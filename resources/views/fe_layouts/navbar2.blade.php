@@ -23,6 +23,10 @@
     <link rel="stylesheet" href="{{ asset('fe_assets/assets/css/elegantFont.css') }}">
     <link rel="stylesheet" href="{{ asset('fe_assets/assets/css/default.css') }}">
     <link rel="stylesheet" href="{{ asset('fe_assets/assets/css/style.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('assets/vendor/sweetalert/sweetalert.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/vendor/toastr/toastr.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/vendor/toastr/toastr.min.css') }}"/>
 </head>
 
 <body>
@@ -46,16 +50,16 @@
           <div class="row align-items-center">
              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-2 col-sm-4 col-6">
                 <div class="header__left d-flex">
-                   <div class="logo">
-                      {{-- <a href="index.html">
-                         <img src="assets/img/logo/logo.png" alt="logo">
-                      </a> --}}
+                   <div class="logo" style="padding: 0">
+                      <a href="/">
+                         <img src="{{ asset('lms-02.png') }}" style="max-width: 100px" alt="logo">
+                      </a>
                    </div>
                    <div class="header__category d-none d-lg-block">
                       <nav>
                          <ul>
                             <li>
-                               <a href="course-grid.html" class="cat-menu d-flex align-items-center">
+                               <a href="/" class="cat-menu d-flex align-items-center" style="margin-top: 10px">
                                   <div class="cat-dot-icon d-inline-block">
                                      <svg viewBox="0 0 276.2 276.2">
                                         <g>
@@ -73,16 +77,15 @@
                                         </g>
                                      </svg>
                                   </div>
-                                  <span>Mapel</span>
+                                  <span>Home</span>
                                </a>
-                               <ul class="cat-submenu">
-                                  
+                               {{-- <ul class="cat-submenu">
                                   <li><a href="course-details.html">English Learning</a></li>
                                   <li><a href="course-details.html">Web Development</a></li>
                                   <li><a href="course-details.html">Logo Design</a></li>
                                   <li><a href="course-details.html">Motion Graphics</a></li>
                                   <li><a href="course-details.html">Video Edition</a></li>
-                               </ul>
+                               </ul> --}}
                             </li>
                          </ul>
                       </nav>
@@ -133,14 +136,14 @@
                                   <li><a href="error.html">Error</a></li>
                                </ul>
                             </li> -->
-                            <li><a href="contact.html">Home</a></li>
+                            {{-- <li><a href="contact.html">Home</a></li> --}}
 
                             {{-- <li><a href="contact.html">Mata Pelajaran</a></li>
                             
                             <li><a href="contact.html">Peringkat</a></li> --}}
                             <li><a href="{{ route('logout') }}"
                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                              >Log Out</a>
+                              ><u>Log Out</u></a>
                           <form id="logout-form" action="{{ route('logout') }}" method="POST"
                               style="display: none;">
                               {{ csrf_field() }}

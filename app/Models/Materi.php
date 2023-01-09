@@ -32,5 +32,19 @@ class Materi extends Model
         return $this->belongsTo(Kelas::class);
     }
 
+    public function ujian()
+    {
+        return $this->hasMany(Ujian::class);
+    }
+
+    public function vids()
+    {
+        return $this->hasMany(Vids::class);
+    }
+
+    public function docs()
+    {
+        return $this->hasMany(Docs::class);
+    }
 
 }
