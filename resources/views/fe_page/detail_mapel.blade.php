@@ -189,9 +189,10 @@
                                                                             <span class="item"
                                                                                 style="margin-right: 10px"><i
                                                                                     class="icon_clock_alt"></i></span>
-                                                                            <a href="#" class="text-danger"><i
+                                                                            <a href="#{{ $v->vids_link }}"  data-bs-toggle="modal" data-bs-target="#modalplayvids" 
+                                                                                data-src="{{ $v->vids_link }}" class="text-danger"><i
                                                                                     class="fa fa-play"
-                                                                                    style="font-size: 12px"></i> tonton</a>
+                                                                                    style="font-size: 12px" ></i> tonton</a>
                                                                             <a class="text-info">| edit</a>
                                                                             <a class="text-warning">| hapus</a>
                                                                         </div>
@@ -222,7 +223,9 @@
                                                                            <span class="item"
                                                                            style="margin-right: 10px"><i
                                                                                class="icon_clock_alt"></i></span>
-                                                                       <a href="#" class="text-primary"><i
+                                                                       <a href="#" data-bs-toggle="modal" data-bs-target="#modaldownloaddocs"
+                                                                       data-id="{{ $d->id }}" data-docs_name="{{ $d->docs_name }}"
+                                                                       data-docs_desc="{{ $d->docs_desc }}" class="text-primary"><i
                                                                                class="fa fa-download"
                                                                                style="font-size: 14px"></i> unduh</a>
                                                                             <a class="text-info">| edit</a>
@@ -480,6 +483,44 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modalplayvids" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="ratio ratio-16x9">
+                            <iframe  width="420" height="315" class="embed-responsive-item" src="" id="video" frameborder="0"  allowscriptaccess="always" allow="autoplay"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closemodalplayvids" class="btn btn-sm btn-secondary"
+                        data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modaldownloaddocs" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <h5 class="text-uppercase" id="docs_name"></h5>
+                        <p id="docs_desc"></p>
+                    </div>
+                    <div class="form-group">
+                        <a href="" id="download" class="btn btn-sm btn-outline-primary"><i class="fa fa-download"></i> unduh</a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closemodaldownloaddocs" class="btn btn-sm btn-secondary"
+                        data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="modaladddocs" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -535,6 +576,31 @@
         })
         $('#closemodaldocs').on('click', function() {
             $('#modaladddocs').modal('hide');
+        })
+        $('#closemodaldownloaddocs').on('click', function() {
+            $('#modaldownloaddocs').modal('hide');
+        })
+        $('#modaldownloaddocs').on('show.bs.modal', function(event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var docs_name = button.data('docs_name')
+            var docs_desc = button.data('docs_desc')
+            var modal = $(this)
+            $("#download").attr("href", '/download-docs/'+id);
+            modal.find('.modal-body #docs_name').html(docs_name);
+            modal.find('.modal-body #docs_desc').html(docs_desc);
+        })
+       
+        var videoSrc;
+        $('#closemodalplayvids').on('click', function() {
+            $('#modalplayvids').modal('hide');
+            $('#video').attr('src',videoSrc);
+        })
+        $('#modalplayvids').on('show.bs.modal', function(event){
+            var button = $(event.relatedTarget)
+            videoSrc = button.data('src')
+            $('#video').attr('src',videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
+            console.log(videoSrc);
         })
 
         $('#modaladdmateri').on('show.bs.modal', function(event) {

@@ -5,6 +5,7 @@ use App\Models\Mapelmateri;
 use App\Models\Materi;
 use App\Models\Vids;
 use App\Models\Docs;
+use Response;
 use File;
 use Validator;
 use Illuminate\Support\Str;
@@ -64,8 +65,8 @@ class MateriController extends Controller
         }else {
             # code...
             $source = $request->vids_link;
-            $base = 'https://www.youtube.com/watch?v=';
-            if (substr($source,0,32) !== $base) {
+            $base = 'https://www.youtube.com/embed/';
+            if (substr($source,0,30) !== $base) {
                 # code...
                 return response()->json([
                     'status' => 400,
@@ -157,5 +158,12 @@ class MateriController extends Controller
                 'message' => 'Dokumen barhasil ditambahkan ke materi terkait'
             ]);
         }
+    }
+
+    public function download_docs($docs_id)
+    {
+        $docs = Docs::findOrFail($docs_id);
+        $filepath = public_path('docs_files/'.$docs->docs_file);
+        return Response::download($filepath); 
     }
 }

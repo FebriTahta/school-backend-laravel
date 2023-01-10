@@ -121,5 +121,6 @@ Route::group(['middleware' => ['auth', 'CheckRole:guru,siswa']], function(){
         Route::post('/post-materi','post_materi');
         Route::post('/post-vids','post_vids');
         Route::post('/post-docs','post_docs');
+        Route::get('/download-docs/{docs_id}','download_docs');
     });
 });
