@@ -181,7 +181,7 @@
             </div>
             <div class="sidebar__content">
                 <div class="logo mb-40">
-                    <a href="index.html">
+                    <a href="/">
                         <img src="{{ asset('fe_assets/assets/img/logo/logo.png') }}" alt="logo">
                     </a>
                 </div>

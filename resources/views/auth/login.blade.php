@@ -60,9 +60,22 @@
             <div class="container">
                 <div class="row">
                     <div class="col-xxl-8 offset-xxl-2 col-xl-8 offset-xl-2">
-                        <div class="section__title-wrapper text-center mb-55">
-                            <h2 class="section__title">Sign In To <br> Access Account</h2>
-                            <p>LMS SMK 1 Krian Sidoarjo Jawa Timur.</p>
+                        <div class="section__title-wrapper text-center mb-20">
+                            <style>
+                                @media only screen and (min-width: 601px) {
+                                    .logo-lms {
+                                        max-width: 300px;
+                                    }
+                                }
+
+                                @media only screen and (max-width: 600px) {
+                                    .logo-lms {
+                                        max-width: 220px;
+                                    }
+                                }
+                            </style>
+                            <img src="{{ asset('lms-02.png') }}" class="logo-lms"
+                                alt="logo">
                         </div>
                     </div>
                 </div>
