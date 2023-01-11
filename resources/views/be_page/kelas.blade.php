@@ -230,7 +230,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12 col-12" style="padding-left: 5px; margin-bottom: 20px">
-                                <input type="text" class="form-control" name="id" id="id">
+                                <input type="hidden" class="form-control" name="id" id="id">
                                 <select name="guru_id" class="form-control" required>
                                     <option value="">:: Pilih Guru ::</option>
                                     @foreach ($guru as $item)
@@ -780,7 +780,7 @@
         $('#btnjurusan').on('click', function(e) {
             e.preventDefault();
             table_jurusan();
-        })
+        }) 
 
         $('#formadd').submit(function(e) {
             e.preventDefault();
@@ -852,33 +852,18 @@
                     $('#btnaddguru').val('Process...');
                 },
                 success: function(response) {
-                    if (response.status == 200) {
-                        var oTable = $('#example').dataTable();
-                        oTable.fnDraw(false);
-                        $('#addguru').modal('hide');
-                        $("#addguru")[0].reset();
-                        $('#btnaddguru').val('Submit');
-                        $('#btnaddguru').attr('disabled', false);
-                        toastr.success(response.message);
-                        swal({
-                            title: "SUCCESS!",
-                            text: response.message,
-                            type: "success"
-                        });
-                    } else {
-                        $('#btnaddguru').val('Submit');
-                        $('#btnaddguru').attr('disabled', false);
-                        var values = '';
-                        jQuery.each(response.message, function(key, value) {
-                            values += value + '\n'
-                        });
-                        swal({
-                            title: "Maaf",
-                            text: values,
-                            type: "error",
-                        });
-                        toastr.error(values);
-                    }
+                    var oTable = $('#example').dataTable();
+                    oTable.fnDraw(false);
+                    $('#addguru').modal('hide');
+                    $("#formaddguru")[0].reset();
+                    $('#btnaddguru').attr('disabled', false);
+                    $('#btnaddguru').val('Submit');
+                    toastr.success(response.message);
+                    swal({
+                        title: "SUCCESS!",
+                        text: response.message,
+                        type: "success"
+                    });
                 },
                 error: function(data) {
                     console.log(data);

@@ -5,6 +5,7 @@ use Excel;
 use Illuminate\Support\Facades\Input;
 use App\Imports\SiswaImport;
 use App\Imports\GuruImport;
+use App\Imports\MapelImport;
 use App\Models\Kelas;
 use Illuminate\Http\Request;
 
@@ -21,5 +22,11 @@ class ImportController extends Controller
     {
         Excel::import(new GuruImport(),request()->file('file'));        
         return redirect()->back()->with('success','data guru berhasil diimport');
+    }
+
+    public function import_data_mapel()
+    {
+        Excel::import(new MapelImport(), request()->file('file'));
+        return redirect()->back()->with('success','data mapel berhasil diimport');
     }
 }

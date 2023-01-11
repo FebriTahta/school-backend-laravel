@@ -85,11 +85,13 @@ Route::group(['middleware' => ['auth', 'CheckRole:admin']], function () {
     Route::controller(ExportController::class)->group(function(){
         Route::get('/admin-download-template-siswa/{kelas_id}','download_template_siswa');
         Route::get('/admin-download-template-guru','download_template_guru');
+        Route::get('/admin-download-template-mapel','download_template_mapel');
     });
 
     Route::controller(ImportController::class)->group(function(){
         Route::post('/admin-import-data-siswa','import_data_siswa');
         Route::post('/admin-import-data-guru','import_data_guru');
+        Route::post('/admin-import-data-mapel','import_data_mapel');
     });
 
     Route::controller(GuruController::class)->group(function(){

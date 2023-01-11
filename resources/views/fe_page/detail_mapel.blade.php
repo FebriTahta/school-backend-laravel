@@ -194,7 +194,7 @@
                                                                                     class="fa fa-play"
                                                                                     style="font-size: 12px" ></i> tonton</a>
                                                                             <a class="text-info">| edit</a>
-                                                                            <a class="text-warning">| hapus</a>
+                                                                            <a href="#_" data-bs-toggle="modal" data-bs-target="#modalhapusvideo" class="text-warning">| hapus</a>
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
@@ -404,6 +404,33 @@
             </div>
         </section>
     </main>
+
+    <div class="modal fade" id="modalhapusvideo" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">HAPUS VIDEO</h4>
+                </div>
+                <form id="formadd"> @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="hidden" class="form-control" id="id" name="id">
+                            </div>
+                            <div class="col-md-12 col-12" id="block-new-jurusan" style="padding-right: 5px">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closemodalmateri" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
+                        <input type="submit" id="btnadd" class="btn btn-sm btn-primary" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" id="modaladdmateri" role="dialog">
         <div class="modal-dialog modal-dialog-centered">

@@ -73,11 +73,19 @@ class GuruController extends Controller
     {
         foreach ($request->mapel_id as $key => $value) {
             # code...
-            Mapelmaster::create([
-                'guru_id'=> $request->guru_id,
-                'mapel_id'=> $request->mapel_id[$key],
-                'kelas_id'=> $request->id,
-            ]);
+            $exist = Mapelmaster::where('guru_id', $request->guru_id)
+            ->where('mapel_id',$request->mapel_id[$key])
+            ->where('kelas_id', $request->id)
+            ->first();
+            if (!$exist) {
+                # code...
+                Mapelmaster::create([
+                    'guru_id'=> $request->guru_id,
+                    'mapel_id'=> $request->mapel_id[$key],
+                    'kelas_id'=> $request->id,
+                ]);
+            }
+            
         }
 
         return response()->json([

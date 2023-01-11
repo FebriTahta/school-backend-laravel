@@ -1,13 +1,13 @@
 @extends('be_layouts.be_master')
 
 @section('content')
-<style>
-    .mapel_image {
-        width: 100% !important;
-        height: 140px !important;
-        object-fit: cover;
-    }
-</style>
+    <style>
+        .mapel_image {
+            width: 100% !important;
+            height: 140px !important;
+            object-fit: cover;
+        }
+    </style>
     <div class="page has-sidebar-left bg-light height-full">
         <header class="blue accent-3 relative nav-sticky">
             <div class="container-fluid text-white">
@@ -43,52 +43,38 @@
                     </div>
                 </div>
 
-                
+
                 <div class="col-md-12" style="margin-top: 20px">
                     <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modaladd"><i
                             class="icon icon-plus"></i>Mapel Baru</button>
-                    
+                    <a href="/admin-download-template-mapel" class="btn btn-xs btn-outline-success"><i
+                            class="icon icon-download"></i>Template Mapel</a>
+                    <button class="btn btn-xs btn-outline-info" data-toggle="modal" data-target="#modalimport"><i
+                            class="icon icon-upload"></i>Import Mapel</button>
+
 
                     <style>
                         .center {
-                        display: block;
-                        margin-left: auto;
-                        margin-right: auto;
-                        width: 50%;
+                            display: block;
+                            margin-left: auto;
+                            margin-right: auto;
+                            width: 50%;
                         }
                     </style>
                     <div class="card my-3 no-b">
                         <div class="card-body">
                             <span>Daftar Pelajaran tersedia</span><br>
                             <small>Kelola daftar mapel yang tersedia pada data berikut ini berikut ini</small><br><br>
-                            <div >
+                            <div>
                                 <div class="row data_mapel">
-                                    {{-- <div class="col-md-4">
-                                        <div class="card" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; height: 225px; max-height: 225px">
-                                            <div class="card-body">
-                                                <div class="d-flex align-items-center">
-                                                    <div>
-                                                        <img src="{{ asset('assets/lms-default.png') }}" style="max-width: 100%" alt="">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item">
-                                                    <i class="icon icon-book text-light-blue"></i>Nama Mapel
-                                                    <div class="float-right">
-                                                        <button class="btn btn-xs btn-primary">...</button>
-                                                    </div>
-                                                </li>
-                                                
-                                            </ul>
-                                        </div>
-                                    </div> --}}
                                     <div class="col-md-4" id="mapel_kosong">
-                                        <div class="card" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; height: 225px; max-height: 225px">
+                                        <div class="card"
+                                            style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; height: 225px; max-height: 225px">
                                             <div class="card-body">
                                                 <div class="d-flex align-items-center">
                                                     <div class="center">
-                                                        <img src="{{ asset('assets/lms-default-none.png') }}" style="max-width: 150px" alt="">
+                                                        <img src="{{ asset('assets/lms-default-none.png') }}"
+                                                            style="max-width: 150px" alt="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -99,7 +85,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                </div>  
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -124,17 +110,18 @@
                                 <input type="hidden" class="form-control" name="id" id="id">
                             </div>
                             <div class="col-md-12 col-12 mb-3" id="block-new-jurusan" style="padding-right: 5px">
-                                <input type="text" style="font-size: 14px" name="mapel_name" id="mapel_name" class="form-control"
-                                    placeholder="nama mata pelajaran">
+                                <input type="text" style="font-size: 14px" name="mapel_name" id="mapel_name"
+                                    class="form-control" placeholder="nama mata pelajaran">
                             </div>
                             <div class="col-md-12" style="padding-right: 5px">
                                 <div class="form-group">
                                     <code>(318 px x 159 px) boleh kosong</code>
                                     <div class="input-group mb-3">
                                         <div class="custom-file">
-                                            <input type="file" name="img" class="custom-file-input" id="inputGroupFile01"
-                                                accept="image/*" onchange="showPreview2(event);">
-                                            <p class="custom-file-label" id="label_img2" for="inputGroupFile01">Pilih Image Mapel</p>
+                                            <input type="file" name="img" class="custom-file-input"
+                                                id="inputGroupFile01" accept="image/*" onchange="showPreview2(event);">
+                                            <p class="custom-file-label" id="label_img2" for="inputGroupFile01">Pilih Image
+                                                Mapel</p>
                                         </div>
                                     </div>
                                 </div>
@@ -174,9 +161,10 @@
                                     <code>(318 px x 159 px) boleh kosong</code>
                                     <div class="input-group mb-3">
                                         <div class="custom-file">
-                                            <input type="file" name="img" class="custom-file-input" id="inputGroupFile01"
-                                                accept="image/*" onchange="showPreview(event);">
-                                            <p class="custom-file-label" id="label_img" for="inputGroupFile01">Pilih Image Mapel</p>
+                                            <input type="file" name="img" class="custom-file-input"
+                                                id="inputGroupFile01" accept="image/*" onchange="showPreview(event);">
+                                            <p class="custom-file-label" id="label_img" for="inputGroupFile01">Pilih
+                                                Image Mapel</p>
                                         </div>
                                     </div>
                                 </div>
@@ -212,7 +200,8 @@
                                 <input type="hidden" class="form-control" name="id" id="id"
                                     value="new">
                                 <code>Yakin menghapus mapel tersebut ?</code><br>
-                                <code>mapel yang memiliki siswa / guru / hasil quiz / latihan / ujian tidak dapat dihapus oleh sistem</code>
+                                <code>mapel yang memiliki siswa / guru / hasil quiz / latihan / ujian tidak dapat dihapus
+                                    oleh sistem</code>
                             </div>
                         </div>
                     </div>
@@ -220,7 +209,30 @@
                         <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
                         <input type="submit" id="btndel" class="btn btn-sm btn-primary" value="Delete">
                     </div>
-                {{-- </form> --}}
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalimport" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="font-size: 16px;">IMPORT DATA</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <form id="formimport" action="/admin-import-data-mapel" method="POST" enctype="multipart/form-data"> @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="file" style="font-size: 14px">Import Excel File Template Mapel</label>
+                            <input type="file" class="form-control" style="border: none" name="file" id="file">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" id="btndel" class="btn btn-sm btn-primary" value="Import">
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -247,9 +259,9 @@
                 $('#label_img2').html(src.substr(0, 35) + '...');
             }
         }
-        
+
         $(document).ready(function() {
-            
+
             get_data();
             total();
             // jurusan_dropdown();
@@ -265,62 +277,73 @@
                 success: function(response) {
                     if (response.data.length == 0) {
                         document.getElementById('mapel_kosong').style.display = 'block';
-                    }else{
+                    } else {
                         document.getElementById('mapel_kosong').style.display = 'none';
-                        $.each(response.data,  function(key, value){
+                        $.each(response.data, function(key, value) {
                             if (value.image === null || value.image === "") {
-                                $(".data_mapel").append('<a class="col-md-4 mb-3" id="'+value.id+'">'
-                                        +'<div class="card" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; height: 225px; max-height: 225px">'
-                                            +'<div class="card-body">'
-                                                +'<div class="d-flex align-items-center">'
-                                                    +'<div>'
-                                                        +'<img class="mapel_image" src="{{ asset('assets/lms-default.png') }}" alt="">'
-                                                    +'</div>'
-                                                +'</div>'
-                                            +'</div>'
-                                        +'<ul class="list-group list-group-flush">'
-                                            +'<li class="list-group-item">'
-                                                +'<i class="icon icon-book text-light-blue"></i>'+value.mapel_name+''
-                                                +'<div class="float-right">'
-                                                    +'<button class="btn btn-xs btn-primary mr-1" data-toggle="modal" data-target="#modaledit"'
-                                                    +'data-mapel_name="'+value.mapel_name+'" data-id="'+value.id+'" data-image="'+value.image+'">...</button>'
-                                                    +'<button class="btn btn-xs btn-danger '+value.id+'" data-target="#modaldel" data-toggle="modal"'
-                                                    +'data-id="'+value.id+'" data-mapel_name="'+value.mapel_name+'">...</button>'
-                                                +'</div>'
-                                            +'</li>'
-                                        +'</ul>'
-                                    +'</div>'
-                                +'</a>');
-                            }else{
-                                $(".data_mapel").append('<a class="col-md-4 mb-3" id="'+value.id+'">'
-                                        +'<div class="card" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; height: 225px; max-height: 225px">'
-                                            +'<div class="card-body">'
-                                                +'<div class="d-flex align-items-center">'
-                                                    +'<div>'
-                                                        +'<img class="mapel_image" src="mapl_image/'+value.image+'" style="height:100px" alt="">'
-                                                    +'</div>'
-                                                +'</div>'
-                                            +'</div>'
-                                        +'<ul class="list-group list-group-flush">'
-                                            +'<li class="list-group-item">'
-                                                +'<i class="icon icon-book text-light-blue"></i>'+value.mapel_name+''
-                                                +'<div class="float-right">'
-                                                    +'<button class="btn btn-xs btn-primary mr-1" data-toggle="modal" data-target="#modaledit"'
-                                                    +'data-mapel_name="'+value.mapel_name+'" data-id="'+value.id+'" data-image="'+value.image+'">...</button>'
-                                                    +'<button class="btn btn-xs btn-danger '+value.id+'" data-target="#modaldel" data-toggle="modal"'
-                                                    +'data-id="'+value.id+'" data-mapel_name="'+value.mapel_name+'">...</button>'
-                                                +'</div>'
-                                            +'</li>'
-                                        +'</ul>'
-                                    +'</div>'
-                                +'</a>');
+                                $(".data_mapel").append('<a class="col-md-4 mb-3" id="' + value.id +
+                                    '">' +
+                                    '<div class="card" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; height: 225px; max-height: 225px">' +
+                                    '<div class="card-body">' +
+                                    '<div class="d-flex align-items-center">' +
+                                    '<div>' +
+                                    '<img class="mapel_image" src="{{ asset('assets/lms-default.png') }}" alt="">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<ul class="list-group list-group-flush">' +
+                                    '<li class="list-group-item">' +
+                                    '<i class="icon icon-book text-light-blue"></i>' + value
+                                    .mapel_name + '' +
+                                    '<div class="float-right">' +
+                                    '<button class="btn btn-xs btn-primary mr-1" data-toggle="modal" data-target="#modaledit"' +
+                                    'data-mapel_name="' + value.mapel_name + '" data-id="' + value
+                                    .id + '" data-image="' + value.image + '">...</button>' +
+                                    '<button class="btn btn-xs btn-danger ' + value.id +
+                                    '" data-target="#modaldel" data-toggle="modal"' +
+                                    'data-id="' + value.id + '" data-mapel_name="' + value
+                                    .mapel_name + '">...</button>' +
+                                    '</div>' +
+                                    '</li>' +
+                                    '</ul>' +
+                                    '</div>' +
+                                    '</a>');
+                            } else {
+                                $(".data_mapel").append('<a class="col-md-4 mb-3" id="' + value.id +
+                                    '">' +
+                                    '<div class="card" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; height: 225px; max-height: 225px">' +
+                                    '<div class="card-body">' +
+                                    '<div class="d-flex align-items-center">' +
+                                    '<div>' +
+                                    '<img class="mapel_image" src="mapl_image/' + value.image +
+                                    '" style="height:100px" alt="">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<ul class="list-group list-group-flush">' +
+                                    '<li class="list-group-item">' +
+                                    '<i class="icon icon-book text-light-blue"></i>' + value
+                                    .mapel_name + '' +
+                                    '<div class="float-right">' +
+                                    '<button class="btn btn-xs btn-primary mr-1" data-toggle="modal" data-target="#modaledit"' +
+                                    'data-mapel_name="' + value.mapel_name + '" data-id="' + value
+                                    .id + '" data-image="' + value.image + '">...</button>' +
+                                    '<button class="btn btn-xs btn-danger ' + value.id +
+                                    '" data-target="#modaldel" data-toggle="modal"' +
+                                    'data-id="' + value.id + '" data-mapel_name="' + value
+                                    .mapel_name + '">...</button>' +
+                                    '</div>' +
+                                    '</li>' +
+                                    '</ul>' +
+                                    '</div>' +
+                                    '</a>');
                             }
-                           
+
                         })
                     }
                 }
             });
-        } 
+        }
 
         function total() {
             $.ajax({
@@ -371,7 +394,7 @@
                             type: "success"
                         });
                         // remove elemen data berdasarkan id yang dihapus
-                        $('.'+response.id).parents('a').remove();
+                        $('.' + response.id).parents('a').remove();
                         if (response.jumlah === 0) {
                             document.getElementById('mapel_kosong').style.display = 'block';
                         }
@@ -415,53 +438,66 @@
                         preview.style.display = "none";
                         $('#label_img').html("Pilih Image Mapel");
                         if (response.image === null || response.image === "") {
-                            $(".data_mapel").prepend('<a class="col-md-4 mb-3" id="'+response.data.id+'">'
-                                +'<div class="card" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; height: 225px; max-height: 225px">'
-                                    +'<div class="card-body">'
-                                        +'<div class="d-flex align-items-center">'
-                                            +'<div>'
-                                                +'<img src="{{ asset('assets/lms-default.png') }}" style="max-width: 100%" alt="">'
-                                            +'</div>'
-                                        +'</div>'
-                                    +'</div>'
-                                +'<ul class="list-group list-group-flush">'
-                                    +'<li class="list-group-item">'
-                                        +'<i class="icon icon-book text-light-blue"></i>'+response.data.mapel_name+''
-                                        +'<div class="float-right">'
-                                            +'<button class="btn btn-xs btn-primary mr-1" data-toggle="modal" data-target="#modaledit"'
-                                                    +'data-mapel_name="'+response.data.mapel_name+'" data-id="'+response.data.id+'" data-image="'+response.image+'">...</button>'
-                                            +'<button class="btn btn-xs btn-danger '+response.data.id+'" data-target="#modaldel" data-toggle="modal"'
-                                            +'data-id="'+response.data.id+'" data-mapel_name="'+response.data.mapel_name+'">...</button>'
-                                        +'</div>'
-                                    +'</li>'
-                                +'</ul>'
-                            +'</div>'
-                            +'</a>');
-                        }else{
-                            $(".data_mapel").prepend('<a class="col-md-4 mb-3" id="'+response.data.id+'">'
-                                +'<div class="card" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; height: 225px; max-height: 225px">'
-                                    +'<div class="card-body">'
-                                        +'<div class="d-flex align-items-center">'
-                                            +'<div>'
-                                                +'<img class="mapel_image" src="mapl_image/'+response.image+'" style="max-width: 100%" alt="">'
-                                            +'</div>'
-                                        +'</div>'
-                                    +'</div>'
-                                +'<ul class="list-group list-group-flush">'
-                                    +'<li class="list-group-item">'
-                                        +'<i class="icon icon-book text-light-blue"></i>'+response.data.mapel_name+''
-                                        +'<div class="float-right">'
-                                            +'<button class="btn btn-xs btn-primary mr-1" data-toggle="modal" data-target="#modaledit"'
-                                            +'data-mapel_name="'+response.data.mapel_name+'" data-id="'+response.data.id+'" data-image="'+response.image+'">...</button>'
-                                            +'<button class="btn btn-xs btn-danger '+response.data.id+'" data-target="#modaldel" data-toggle="modal"'
-                                            +'data-id="'+response.data.id+'" data-mapel_name="'+response.data.mapel_name+'">...</button>'
-                                        +'</div>'
-                                    +'</li>'
-                                +'</ul>'
-                            +'</div>'
-                            +'</a>');
+                            $(".data_mapel").prepend('<a class="col-md-4 mb-3" id="' + response.data
+                                .id + '">' +
+                                '<div class="card" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; height: 225px; max-height: 225px">' +
+                                '<div class="card-body">' +
+                                '<div class="d-flex align-items-center">' +
+                                '<div>' +
+                                '<img src="{{ asset('assets/lms-default.png') }}" style="max-width: 100%" alt="">' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>' +
+                                '<ul class="list-group list-group-flush">' +
+                                '<li class="list-group-item">' +
+                                '<i class="icon icon-book text-light-blue"></i>' + response.data
+                                .mapel_name + '' +
+                                '<div class="float-right">' +
+                                '<button class="btn btn-xs btn-primary mr-1" data-toggle="modal" data-target="#modaledit"' +
+                                'data-mapel_name="' + response.data.mapel_name + '" data-id="' +
+                                response.data.id + '" data-image="' + response.image +
+                                '">...</button>' +
+                                '<button class="btn btn-xs btn-danger ' + response.data.id +
+                                '" data-target="#modaldel" data-toggle="modal"' +
+                                'data-id="' + response.data.id + '" data-mapel_name="' + response
+                                .data.mapel_name + '">...</button>' +
+                                '</div>' +
+                                '</li>' +
+                                '</ul>' +
+                                '</div>' +
+                                '</a>');
+                        } else {
+                            $(".data_mapel").prepend('<a class="col-md-4 mb-3" id="' + response.data
+                                .id + '">' +
+                                '<div class="card" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; height: 225px; max-height: 225px">' +
+                                '<div class="card-body">' +
+                                '<div class="d-flex align-items-center">' +
+                                '<div>' +
+                                '<img class="mapel_image" src="mapl_image/' + response.image +
+                                '" style="max-width: 100%" alt="">' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>' +
+                                '<ul class="list-group list-group-flush">' +
+                                '<li class="list-group-item">' +
+                                '<i class="icon icon-book text-light-blue"></i>' + response.data
+                                .mapel_name + '' +
+                                '<div class="float-right">' +
+                                '<button class="btn btn-xs btn-primary mr-1" data-toggle="modal" data-target="#modaledit"' +
+                                'data-mapel_name="' + response.data.mapel_name + '" data-id="' +
+                                response.data.id + '" data-image="' + response.image +
+                                '">...</button>' +
+                                '<button class="btn btn-xs btn-danger ' + response.data.id +
+                                '" data-target="#modaldel" data-toggle="modal"' +
+                                'data-id="' + response.data.id + '" data-mapel_name="' + response
+                                .data.mapel_name + '">...</button>' +
+                                '</div>' +
+                                '</li>' +
+                                '</ul>' +
+                                '</div>' +
+                                '</a>');
                         }
-                        
+
 
                     } else {
                         $('#btnadd').val('Submit');
@@ -497,12 +533,11 @@
             modal.find('.modal-body #mapel_name').val(mapel_name);
             var preview = document.getElementById("inputGroupFile01-preview2");
             if (image !== null && image !== "") {
-                preview.src = 'mapl_image/'+image;
+                preview.src = 'mapl_image/' + image;
                 preview.style.display = "block";
                 $('#label_img2').html(image);
-            }else{
-            }
-            
+            } else {}
+
         })
 
         $('#formedit').submit(function(e) {
@@ -521,7 +556,7 @@
                 },
                 success: function(response) {
                     if (response.status == 200) {
-                        
+
                         $('#modaledit').modal('hide');
                         $("#formedit")[0].reset();
                         $('#btnedit').val('UPDATE');
@@ -532,8 +567,8 @@
                             text: response.message,
                             type: "success"
                         });
-                        $.each(response.semua,  function(key, value){
-                            $('.'+value.id).parents('a').remove();
+                        $.each(response.semua, function(key, value) {
+                            $('.' + value.id).parents('a').remove();
                         })
                         get_data();
                         // if (response.image === null || response.image === "") {

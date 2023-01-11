@@ -6,6 +6,7 @@ use App\Models\Kelas;
 use App\Models\Tingkat;
 use App\Models\Guru;
 use App\Models\Mapel;
+use App\Models\Mapelmaster;
 use App\Models\Angkatan;
 use Validator;
 use DataTables;
@@ -129,7 +130,8 @@ class JurusanController extends Controller
                 return $btn;
             })
             ->addColumn('guru_kelas', function($data){
-                return '<a href="#" data-toggle="modal" data-target="#addguru" data-id="'.$data->id.'">'.$data->guru_count.' - guru</a>';
+                $total_guru = Mapelmaster::where('kelas_id', $data->id)->count();
+                return '<a href="#" data-toggle="modal" data-target="#addguru" data-id="'.$data->id.'">'.$total_guru.' - guru</a>';
             })
             ->addColumn('mapel', function($data){
                 if ($data->mapel_count > 0) {
@@ -201,7 +203,7 @@ class JurusanController extends Controller
                                 'jurusan_slug' => Str::slug($request->jurusan_name),
                             ]);
     
-                            $kelas = Kelas::where('jurusan_id', $jurusan->id)->count();
+                            $kelas = Kelas::where('jurusan_id', $jurusan->id)->where('angkatan_id',$request->angkatan_id)->count();
                             $total = $kelas + $request->total_kelas;
                             for ($i=$kelas; $i < $total ; $i++) { 
                                 # code...
@@ -249,7 +251,7 @@ class JurusanController extends Controller
                 }else {
 
                     $jurusan = Jurusan::where('id', $request->jurusan_id)->first();
-                    $kelas   = Kelas::where('jurusan_id', $jurusan->id)->count();
+                    $kelas   = Kelas::where('jurusan_id', $jurusan->id)->where('angkatan_id',$request->angkatan_id)->count();
                     $total = $kelas + $request->total_kelas;
                     for ($i=$kelas; $i < $total ; $i++) { 
                         # code...
