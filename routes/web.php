@@ -12,6 +12,8 @@ use App\Http\Controllers\GuruController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PelajaranController;
 use App\Http\Controllers\MateriController;
+use GuzzleHttp\Psr7\Request;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,30 +88,31 @@ Route::group(['middleware' => ['auth', 'CheckRole:admin']], function () {
         Route::get('/admin-download-template-siswa/{kelas_id}','download_template_siswa');
         Route::get('/admin-download-template-guru','download_template_guru');
     });
-
+    
     Route::controller(ImportController::class)->group(function(){
         Route::post('/admin-import-data-siswa','import_data_siswa');
         Route::post('/admin-import-data-guru','import_data_guru');
     });
-
+    
     Route::controller(GuruController::class)->group(function(){
         Route::get('/admin-guru','admin_guru');
         Route::get('/admin-total-guru','total_guru');
         Route::post('/admin-post-guru','post_guru');
-
+        
         Route::post('/admin-post-mapel-master','post_mapel_master');
     });
 });
 
 Route::group(['middleware' => ['auth', 'CheckRole:siswa']], function () {
-   Route::controller(LandingController::class)->group(function(){
+    Route::controller(LandingController::class)->group(function(){
         Route::get('/home-lms','home_lms');
-   });
+    });
 });
 
 Route::group(['middleware' => ['auth', 'CheckRole:guru']], function() {
     Route::controller(LandingController::class)->group(function(){
         Route::get('/home-lms-guru','home_lms_guru');
+        Route::get('/guru-download-template-ujian/{number_soal}','download_template_ujian');
     });
 });
 

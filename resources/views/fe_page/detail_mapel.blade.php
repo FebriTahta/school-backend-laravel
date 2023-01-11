@@ -521,6 +521,61 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modaladdmateri4" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">UJIAN BARU</h4>
+                </div>
+                <form id="formaddmateri4"> @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <a href="#" class="btn btn-sm btn-outline-info" data-bs-toggle="modal"
+                                data-bs-target="#modalcreateujian"><i class="fa fa-plus"></i>
+                                Ujian</a>
+                                <a href="#" class="btn btn-sm btn-outline-primary" id="showtemplateujian" data-bs-toggle="modal"
+                                data-bs-target="#modaltemplateujian"><i class="fa fa-book"></i> Download Template</a>
+                                <a href="#" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal"
+                                data-bs-target="#modalimportujian"><i class="fa fa-upload"></i>
+                                Import From Template</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closemodalmateri4" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modaltemplateujian" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">JUMLAH SOAL BARU</h4>
+                </div>
+                <form id="formaddujian"> @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <input type="number" class="form-control" name="number_soal" id="number_soal"
+                                        placeholder="Jumlah soal" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closemodaladdujian" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                        <a href="#" class="btn btn-sm btn-outline-primary" id="btnaddujian">Download</a>
+                        {{-- <input type="submit" id="btnaddujian" class="btn btn-sm btn-primary" value="Submit"> --}}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 
@@ -535,6 +590,25 @@
         })
         $('#closemodaldocs').on('click', function() {
             $('#modaladddocs').modal('hide');
+        })
+        $('#closemodalmateri4').on('click', function() {
+            $('#modaladdmateri4').modal('hide');
+        })
+
+        $("#showtemplateujian").on('click', function(){
+            $('#modaladdmateri4').modal('hide');
+        })
+        $('#btnaddujian').on('click', function(){
+            var number_soal;
+            number_soal = document.getElementById('number_soal').value;
+            // number_soal = 1;
+            // alert(number_soal);
+            var modal = $(this)
+            $("#btnaddujian").attr("href","/guru-download-template-ujian/"+number_soal)
+            $('#modaltemplateujian').modal('hide');
+        })
+        $('#closemodaladdujian').on('click', function(){
+            $('#modaltemplateujian').modal('hide');
         })
 
         $('#modaladdmateri').on('show.bs.modal', function(event) {
