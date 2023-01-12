@@ -189,11 +189,12 @@
                                                                             <span class="item"
                                                                                 style="margin-right: 10px"><i
                                                                                     class="icon_clock_alt"></i></span>
-                                                                            <a href="#" class="text-danger"><i
+                                                                            <a href="#{{ $v->vids_link }}"  data-bs-toggle="modal" data-bs-target="#modalplayvids" 
+                                                                                data-src="{{ $v->vids_link }}" class="text-danger"><i
                                                                                     class="fa fa-play"
-                                                                                    style="font-size: 12px"></i> tonton</a>
+                                                                                    style="font-size: 12px" ></i> tonton</a>
                                                                             <a class="text-info">| edit</a>
-                                                                            <a class="text-warning">| hapus</a>
+                                                                            <a href="#_" data-bs-toggle="modal" data-bs-target="#modalhapusvideo" class="text-warning">| hapus</a>
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
@@ -222,7 +223,9 @@
                                                                            <span class="item"
                                                                            style="margin-right: 10px"><i
                                                                                class="icon_clock_alt"></i></span>
-                                                                       <a href="#" class="text-primary"><i
+                                                                       <a href="#" data-bs-toggle="modal" data-bs-target="#modaldownloaddocs"
+                                                                       data-id="{{ $d->id }}" data-docs_name="{{ $d->docs_name }}"
+                                                                       data-docs_desc="{{ $d->docs_desc }}" class="text-primary"><i
                                                                                class="fa fa-download"
                                                                                style="font-size: 14px"></i> unduh</a>
                                                                             <a class="text-info">| edit</a>
@@ -402,6 +405,33 @@
         </section>
     </main>
 
+    <div class="modal fade" id="modalhapusvideo" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">HAPUS VIDEO</h4>
+                </div>
+                <form id="formadd"> @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="hidden" class="form-control" id="id" name="id">
+                            </div>
+                            <div class="col-md-12 col-12" id="block-new-jurusan" style="padding-right: 5px">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closemodalmateri" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
+                        <input type="submit" id="btnadd" class="btn btn-sm btn-primary" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="modaladdmateri" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -480,6 +510,44 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modalplayvids" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="ratio ratio-16x9">
+                            <iframe  width="420" height="315" class="embed-responsive-item" src="" id="video" frameborder="0"  allowscriptaccess="always" allow="autoplay"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closemodalplayvids" class="btn btn-sm btn-secondary"
+                        data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modaldownloaddocs" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <h5 class="text-uppercase" id="docs_name"></h5>
+                        <p id="docs_desc"></p>
+                    </div>
+                    <div class="form-group">
+                        <a href="" id="download" class="btn btn-sm btn-outline-primary"><i class="fa fa-download"></i> unduh</a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closemodaldownloaddocs" class="btn btn-sm btn-secondary"
+                        data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="modaladddocs" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -521,6 +589,61 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modaladdmateri4" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">UJIAN BARU</h4>
+                </div>
+                <form id="formaddmateri4"> @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <a href="#" class="btn btn-sm btn-outline-info" data-bs-toggle="modal"
+                                data-bs-target="#modalcreateujian"><i class="fa fa-plus"></i>
+                                Ujian</a>
+                                <a href="#" class="btn btn-sm btn-outline-primary" id="showtemplateujian" data-bs-toggle="modal"
+                                data-bs-target="#modaltemplateujian"><i class="fa fa-book"></i> Download Template</a>
+                                <a href="#" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal"
+                                data-bs-target="#modalimportujian"><i class="fa fa-upload"></i>
+                                Import From Template</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closemodalmateri4" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modaltemplateujian" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">JUMLAH SOAL BARU</h4>
+                </div>
+                <form id="formaddujian"> @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <input type="number" class="form-control" name="number_soal" id="number_soal"
+                                        placeholder="Jumlah soal" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closemodaladdujian" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                        <a href="#" class="btn btn-sm btn-outline-primary" id="btnaddujian">Download</a>
+                        {{-- <input type="submit" id="btnaddujian" class="btn btn-sm btn-primary" value="Submit"> --}}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 
@@ -535,6 +658,50 @@
         })
         $('#closemodaldocs').on('click', function() {
             $('#modaladddocs').modal('hide');
+        })
+        $('#closemodaldownloaddocs').on('click', function() {
+            $('#modaldownloaddocs').modal('hide');
+        })
+        $('#modaldownloaddocs').on('show.bs.modal', function(event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var docs_name = button.data('docs_name')
+            var docs_desc = button.data('docs_desc')
+            var modal = $(this)
+            $("#download").attr("href", '/download-docs/'+id);
+            modal.find('.modal-body #docs_name').html(docs_name);
+            modal.find('.modal-body #docs_desc').html(docs_desc);
+        })
+       
+        var videoSrc;
+        $('#closemodalplayvids').on('click', function() {
+            $('#modalplayvids').modal('hide');
+            $('#video').attr('src',videoSrc);
+        })
+        $('#modalplayvids').on('show.bs.modal', function(event){
+            var button = $(event.relatedTarget)
+            videoSrc = button.data('src')
+            $('#video').attr('src',videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
+            console.log(videoSrc);
+        })
+        $('#closemodalmateri4').on('click', function() {
+            $('#modaladdmateri4').modal('hide');
+        })
+
+        $("#showtemplateujian").on('click', function(){
+            $('#modaladdmateri4').modal('hide');
+        })
+        $('#btnaddujian').on('click', function(){
+            var number_soal;
+            number_soal = document.getElementById('number_soal').value;
+            // number_soal = 1;
+            // alert(number_soal);
+            var modal = $(this)
+            $("#btnaddujian").attr("href","/guru-download-template-ujian/"+number_soal)
+            $('#modaltemplateujian').modal('hide');
+        })
+        $('#closemodaladdujian').on('click', function(){
+            $('#modaltemplateujian').modal('hide');
         })
 
         $('#modaladdmateri').on('show.bs.modal', function(event) {

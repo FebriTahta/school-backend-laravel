@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Exports\TemplateSiswaExport;
 use App\Exports\TemplateGuruExport;
 use App\Exports\TemplateQuizExport;
+use App\Exports\TemplateMapelExport;
 use Excel;
 use Maatwebsite\Excel\Excel as ExcelExcel;
 use Illuminate\Http\Request;
@@ -23,5 +24,9 @@ class ExportController extends Controller
     public function download_template_quiz()
     {
         return Excel::download(new TemplateQuizExport(), 'template_quiz.xlsx',ExcelExcel::XLSX);
+    }
+    public function download_template_mapel()
+    {
+        return Excel::download(new TemplateMapelExport(), 'template_mapel.xlsx',ExcelExcel::XLSX);
     }
 }

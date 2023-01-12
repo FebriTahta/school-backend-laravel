@@ -154,7 +154,7 @@
                         </ul>
                     </li>
 
-                    <li class="header light mt-3"><strong>MANAJEMEN KELAS</strong></li>
+                    {{-- <li class="header light mt-3"><strong>MANAJEMEN KELAS</strong></li>
 
                     <li class="treeview"><a href="#"><i class="icon icon-class light-green-text s-18"></i>Struktur
                             Kelas<i class="icon icon-angle-left s-18 pull-right"></i></a>
@@ -169,7 +169,7 @@
                                 <a href="/#"><i class="icon icon-circle-o"></i>Kelas - Guru</a>
                             </li>
                         </ul>
-                    </li>
+                    </li> --}}
 
                     {{-- novendra 11/1/2023 --}}
 
@@ -191,9 +191,7 @@
                                 class="icon icon-account_box light-red-text s-18"></i>Users<i
                                 class="icon icon-angle-left s-18 pull-right"></i></a>
                         <ul class="treeview-menu">
-                            <li><a href="/backend-user"><i class="icon icon-circle-o"></i>All Users</a>
-                            </li>
-                            <li><a href="/backend-create-user"><i class="icon icon-add"></i>Add User</a>
+                            <li><a href="/admin-all-user"><i class="icon icon-circle-o"></i>All Users</a>
                             </li>
                         </ul>
                     </li>

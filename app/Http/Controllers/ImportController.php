@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Input;
 use App\Imports\SiswaImport;
 use App\Imports\GuruImport;
 use App\Imports\QuizImport;
+use App\Imports\MapelImport;
 use App\Models\Kelas;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -94,5 +95,11 @@ class ImportController extends Controller
         } catch (\Throwable $th) {
             throw $th;
         }
+    }
+
+    public function import_data_mapel()
+    {
+        Excel::import(new MapelImport(), request()->file('file'));
+        return redirect()->back()->with('success','data mapel berhasil diimport');
     }
 }
