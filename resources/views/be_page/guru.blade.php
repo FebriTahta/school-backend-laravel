@@ -57,6 +57,10 @@
                             font-size: 16px !important;
                             a
                         }
+
+                        td {
+                        text-align: left;
+                        }
                     </style>
                     <div class="card my-3 no-b" style="background: transparent">
                         @if ($message = Session::get('success'))

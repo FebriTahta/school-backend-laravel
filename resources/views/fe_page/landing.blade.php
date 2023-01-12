@@ -61,9 +61,9 @@
                         <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6" >
                             <div class="course__sort d-flex justify-content-sm-end">
                                 <div class="course__sort-inner">
-                                    <select>
+                                    {{-- <select>
                                         <option>Search Mapel</option>
-                                    </select>
+                                    </select> --}}
                                 </div>
                             </div>
                         </div>
@@ -112,7 +112,7 @@
                                                                     <h3 class="course__title course__title-3"
                                                                         style="margin: 0">
                                                                         <a style="font-size: 18px"
-                                                                            href="course-details.html">{{ $item->mapel_name }}</a>
+                                                                            href="#">{{ $item->mapel_name }}</a>
                                                                     </h3>
                                                                     <div class="course__summary">
                                                                         <p style="font-size: 14px" style="margin: 0">Simak &
@@ -126,8 +126,7 @@
                                                                                     alt="">
                                                                             </div>
                                                                             <h6 style="margin: 0"><a
-                                                                                    href="instructor-details.html">Bu
-                                                                                    Susi</a>
+                                                                                    href="#">Heri Kristanto S.Pd</a>
                                                                             </h6>
                                                                         </div>
                                                                     </div>

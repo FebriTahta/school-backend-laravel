@@ -12,6 +12,7 @@ use App\Http\Controllers\GuruController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PelajaranController;
 use App\Http\Controllers\MateriController;
+use App\Http\Controllers\UserController;
 use GuzzleHttp\Psr7\Request;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 
@@ -34,6 +35,9 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::group(['middleware' => ['auth', 'CheckRole:admin']], function () {
 
+    Route::controller(UserController::class)->group(function(){
+        Route::get('admin-daftar-user','daftar_user');
+    });
 
     Route::controller(DashboardController::class)->group(function () {
         route::get('/admin-dashboard', 'admin_dashboard_page');
