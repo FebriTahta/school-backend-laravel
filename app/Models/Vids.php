@@ -9,6 +9,7 @@ class Vids extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'mapelmaster_id',
         'materi_id',
         'vids_name',
         'vids_desc',

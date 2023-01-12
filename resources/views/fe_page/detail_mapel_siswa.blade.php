@@ -101,20 +101,7 @@
                                     <div class="tab-pane fade  show active" id="curriculum" role="tabpanel"
                                         aria-labelledby="curriculum-tab">
                                         <div class="course__curriculum">
-                                            <div class="form-group" style="margin-bottom: 20px">
-                                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                                    data-bs-target="#modaladdmateri"><i class="fa fa-plus"></i>
-                                                    Materi</button>
-                                                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
-                                                    data-bs-target="#modaladddocs"><i class="fa fa-book"></i>
-                                                    Dokumen</button>
-                                                <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#modaladdvids"><i class="fa fa-play"></i>
-                                                    Video</button>
-                                                <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal"
-                                                    data-bs-target="#modaladdmateri4"><i class="fa fa-pencil"></i>
-                                                    Ujian</button>
-                                            </div>
+                                            
                                             @if ($mapelmaster->materi_count < 1)
                                                 <div class="accordion" style="margin-top: 20px">
                                                     <h4 style="color: red">
@@ -192,8 +179,6 @@
                                                                                 data-src="{{ $v->vids_link }}" class="text-danger"><i
                                                                                     class="fa fa-play"
                                                                                     style="font-size: 12px" ></i> tonton</a>
-                                                                            <a class="text-info">| edit</a>
-                                                                            <a href="#_" data-bs-toggle="modal" data-bs-target="#modalhapusvideo" class="text-warning">| hapus</a>
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
@@ -227,8 +212,6 @@
                                                                        data-docs_desc="{{ $d->docs_desc }}" class="text-primary"><i
                                                                                class="fa fa-download"
                                                                                style="font-size: 14px"></i> unduh</a>
-                                                                            <a class="text-info">| edit</a>
-                                                                            <a class="text-warning">| hapus</a>
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
@@ -329,41 +312,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modaladdmateri" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <h4 class="modal-title" style="font-size: 16px; color:white">MATERI BARU</h4>
-                </div>
-                <form id="formadd"> @csrf
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <input type="hidden" class="form-control" id="id" name="id">
-                            </div>
-                            <div class="col-md-12 col-12" id="block-new-jurusan" style="padding-right: 5px">
-                                <input type="hidden" class="form-control" name="mapelmaster_id"
-                                    value="{{ $mapelmaster->id }}">
-                                <input type="hidden" class="form-control" name="guru_id"
-                                    value="{{ auth()->user()->guru->id }}">
-                                <input type="hidden" class="form-control" name="kelas_id"
-                                    value="{{ $mapelmaster->kelas->id }}">
-                                <input type="hidden" class="form-control" name="uploader_nip"
-                                    value="{{ auth()->user()->guru->guru_nip }}">
-                                <input type="text" style="font-size: 14px" name="materi_name" class="form-control"
-                                    placeholder="nama materi">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" id="closemodalmateri" class="btn btn-sm btn-default"
-                            data-dismiss="modal">Close</button>
-                        <input type="submit" id="btnadd" class="btn btn-sm btn-primary" value="Submit">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    
 
     <div class="modal fade" id="modaladdvids" role="dialog">
         <div class="modal-dialog modal-dialog-centered">

@@ -9,6 +9,7 @@ class Docs extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'mapelmaster_id',
         'materi_id',
         'docs_file',
         'docs_name',
@@ -18,5 +19,10 @@ class Docs extends Model
     public function materi()
     {
         return $this->belongsTo(Materi::class);
+    }
+
+    public function mapelmaster()
+    {
+        return $this->belongsTo(Mapelmaster::class);
     }
 }

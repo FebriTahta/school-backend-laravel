@@ -131,7 +131,8 @@ Route::group(['middleware' => ['auth', 'CheckRole:guru']], function () {
 
 Route::group(['middleware' => ['auth', 'CheckRole:guru,siswa']], function () {
     Route::controller(PelajaranController::class)->group(function () {
-        Route::get('/mapel/{mastermapel_id}', 'mapel_mapelmaster');
+        Route::get('/mapel/{mapelmaster_id}', 'mapel_mapelmaster');
+        Route::get('/mapel-siswa/{mapelmaster_id}','mapel_mapelmaster_siswa');
     });
     Route::controller(MateriController::class)->group(function(){
         Route::post('/post-materi','post_materi');
@@ -139,4 +140,8 @@ Route::group(['middleware' => ['auth', 'CheckRole:guru,siswa']], function () {
         Route::post('/post-docs','post_docs');
         Route::get('/download-docs/{docs_id}','download_docs');
     });
+});
+
+Route::get('/do-quiz',function(){
+    return view('fe_page.do_quiz');
 });

@@ -31,4 +31,19 @@ class Mapelmaster extends Model
     {
         return $this->hasMany(Materi::class);
     }
+
+    public function docs()
+    {
+        return $this->hasMany(Docs::class);
+    }
+
+    public function vids()
+    {
+        return $this->hasMany(Vids::class);
+    }
+
+    public function ujian()
+    {
+        return $this->hasMany(Ujian::class);
+    }
 }
