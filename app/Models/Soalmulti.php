@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Soalmulti extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'ujian_id',
+        'soal_kode',
+        'soal_name',
+        'soal_img'
+    ];
 }

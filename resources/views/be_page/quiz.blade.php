@@ -42,10 +42,6 @@
                                 class="icon icon-upload"></i>Import Guru</button>
                         <a href="/admin-download-template-guru" class="btn btn-xs btn-outline-primary"><i
                                 class="icon icon-download"></i>Template Guru</a>
-                                <button class="btn btn-xs btn-outline-success" data-toggle="modal" data-target="#modalimportquiz"><i
-                                    class="icon icon-upload"></i>Import Quiz</button>
-                        <a href="/admin-download-template-quiz" class="btn btn-xs btn-outline-primary"><i
-                                class="icon icon-download"></i>Template Quiz</a>
                     </div>
 
                     <style>
@@ -109,30 +105,6 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="file" style="font-size: 14px">Import Excel File Template Guru</label>
-                            <input type="file" class="form-control" style="border: none" name="file" id="file">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
-                        <input type="submit" id="btnimportsiswa" class="btn btn-sm btn-primary" value="Import">
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="modalimportquiz" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: rgb(93, 154, 233);">
-                    <h4 class="modal-title" style="font-size: 16px; color:white">IMPORT DATA QUIZ</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <form action="/admin-import-data-quiz" method="POST" enctype="multipart/form-data">@csrf
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="file" style="font-size: 14px">Import Excel File Template Quiz</label>
                             <input type="file" class="form-control" style="border: none" name="file" id="file">
                         </div>
                     </div>

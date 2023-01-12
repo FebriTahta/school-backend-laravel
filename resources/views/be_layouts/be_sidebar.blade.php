@@ -12,9 +12,9 @@
     <!-- CSS -->
     @yield('style')
     <link rel="stylesheet" href="{{ asset('assets/assets/css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/sweetalert/sweetalert.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('assets/vendor/toastr/toastr.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('assets/vendor/toastr/toastr.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/vendor/sweetalert/sweetalert.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/toastr/toastr.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/toastr/toastr.min.css') }}" />
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
     <!-- Js -->
@@ -26,6 +26,7 @@
         (function(w, d, u) {
             w.readyQ = [];
             w.bindReadyQ = [];
+
             function p(x, y) {
                 if (x == "ready") {
                     w.bindReadyQ.push(y);
@@ -149,15 +150,14 @@
                                     <span>Guru</span>
                                 </a>
                             </li> --}}
-                            
+
                         </ul>
                     </li>
 
                     <li class="header light mt-3"><strong>MANAJEMEN KELAS</strong></li>
 
-                    <li class="treeview"><a href="#"><i
-                                class="icon icon-class light-green-text s-18"></i>Struktur Kelas<i
-                                class="icon icon-angle-left s-18 pull-right"></i></a>
+                    <li class="treeview"><a href="#"><i class="icon icon-class light-green-text s-18"></i>Struktur
+                            Kelas<i class="icon icon-angle-left s-18 pull-right"></i></a>
                         <ul class="treeview-menu">
                             <li>
                                 <a href="/#"><i class="icon icon-circle-o"></i>Kelas - Mapel</a>
@@ -170,6 +170,20 @@
                             </li>
                         </ul>
                     </li>
+
+                    {{-- novendra 11/1/2023 --}}
+
+                    <li class="header light mt-3"><strong>QUIZ</strong></li>
+
+                    <li class="treeview"><a href="#"><i
+                                class="icon icon-account_box light-red-text s-18"></i>QUIZ<i
+                                class="icon icon-angle-left s-18 pull-right"></i></a>
+                        <ul class="treeview-menu">
+                            <li><a href="/backend-user"><i class="icon icon-circle-o"></i>All Users</a>
+                            </li>
+                        </ul>
+                    </li>
+                    {{--  --}}
 
                     <li class="header light mt-3"><strong>ACCOUNT</strong></li>
 
