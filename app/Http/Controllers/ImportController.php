@@ -32,13 +32,8 @@ class ImportController extends Controller
 
     public function import_data_quiz()
     {
-
         try {
             $objphpexcel = IOFactory::load(request()->file('file'));
-
-            // $uuid = [];
-            // $path = [];
-            // $idx = [];
             foreach ($objphpexcel->getActiveSheet()->getDrawingCollection() as $key => $drawing) {
                 $uid = Str::uuid();
                 if ($drawing instanceof MemoryDrawing) {
@@ -93,6 +88,7 @@ class ImportController extends Controller
             Excel::import(new QuizImport(), $temp);
             return redirect()->back()->with('success', 'data quiz berhasil diimport');
         } catch (\Throwable $th) {
+            return 'prob';
             throw $th;
         }
     }

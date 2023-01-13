@@ -123,6 +123,9 @@ Route::group(['middleware' => ['auth', 'CheckRole:guru']], function () {
     Route::controller(LandingController::class)->group(function () {
         Route::get('/home-lms-guru', 'home_lms_guru');
     });
+    Route::controller(ImportController::class)->group(function(){
+        Route::post('/admin-import-data-quiz', 'import_data_quiz');
+    });
 });
 
 Route::group(['middleware' => ['auth', 'CheckRole:guru,siswa']], function () {

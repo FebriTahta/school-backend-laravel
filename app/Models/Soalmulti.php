@@ -12,7 +12,6 @@ class Soalmulti extends Model
     protected $fillable = [
         'ujian_id',
         'soal_kode',
-        'soal_name',
-        'soal_img'
+        'soal_name'
     ];
 }

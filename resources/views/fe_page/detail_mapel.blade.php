@@ -25,7 +25,8 @@
                                     <h3 class="events__sponsor-title">Overview</h3>
                                     <div class="events__sponsor-info">
                                         <h3>Guru : {{ $mapelmaster->guru->guru_name }}</h3>
-                                        <h4><span>Materi pada matapelajaran ini meliputi : {{ $doc_total }} dokumen {{ $vid_total }} video dan 4
+                                        <h4><span>Materi pada matapelajaran ini meliputi : {{ $doc_total }} dokumen
+                                                {{ $vid_total }} video dan 4
                                                 exam</span></h4>
                                     </div>
                                 </div>
@@ -189,12 +190,16 @@
                                                                             <span class="item"
                                                                                 style="margin-right: 10px"><i
                                                                                     class="icon_clock_alt"></i></span>
-                                                                            <a href="#{{ $v->vids_link }}"  data-bs-toggle="modal" data-bs-target="#modalplayvids" 
-                                                                                data-src="{{ $v->vids_link }}" class="text-danger"><i
-                                                                                    class="fa fa-play"
-                                                                                    style="font-size: 12px" ></i> tonton</a>
+                                                                            <a href="#{{ $v->vids_link }}"
+                                                                                data-bs-toggle="modal"
+                                                                                data-bs-target="#modalplayvids"
+                                                                                data-src="{{ $v->vids_link }}"
+                                                                                class="text-danger"><i class="fa fa-play"
+                                                                                    style="font-size: 12px"></i> tonton</a>
                                                                             <a class="text-info">| edit</a>
-                                                                            <a href="#_" data-bs-toggle="modal" data-bs-target="#modalhapusvideo" class="text-warning">| hapus</a>
+                                                                            <a href="#_" data-bs-toggle="modal"
+                                                                                data-bs-target="#modalhapusvideo"
+                                                                                class="text-warning">| hapus</a>
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
@@ -220,14 +225,17 @@
                                                                             <h3> <span>{{ $d->docs_name }} </span></h3>
                                                                         </div>
                                                                         <div class="course__curriculum-meta">
-                                                                           <span class="item"
-                                                                           style="margin-right: 10px"><i
-                                                                               class="icon_clock_alt"></i></span>
-                                                                       <a href="#" data-bs-toggle="modal" data-bs-target="#modaldownloaddocs"
-                                                                       data-id="{{ $d->id }}" data-docs_name="{{ $d->docs_name }}"
-                                                                       data-docs_desc="{{ $d->docs_desc }}" class="text-primary"><i
-                                                                               class="fa fa-download"
-                                                                               style="font-size: 14px"></i> unduh</a>
+                                                                            <span class="item"
+                                                                                style="margin-right: 10px"><i
+                                                                                    class="icon_clock_alt"></i></span>
+                                                                            <a href="#" data-bs-toggle="modal"
+                                                                                data-bs-target="#modaldownloaddocs"
+                                                                                data-id="{{ $d->id }}"
+                                                                                data-docs_name="{{ $d->docs_name }}"
+                                                                                data-docs_desc="{{ $d->docs_desc }}"
+                                                                                class="text-primary"><i
+                                                                                    class="fa fa-download"
+                                                                                    style="font-size: 14px"></i> unduh</a>
                                                                             <a class="text-info">| edit</a>
                                                                             <a class="text-warning">| hapus</a>
                                                                         </div>
@@ -516,7 +524,8 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="ratio ratio-16x9">
-                            <iframe  width="420" height="315" class="embed-responsive-item" src="" id="video" frameborder="0"  allowscriptaccess="always" allow="autoplay"></iframe>
+                            <iframe width="420" height="315" class="embed-responsive-item" src=""
+                                id="video" frameborder="0" allowscriptaccess="always" allow="autoplay"></iframe>
                         </div>
                     </div>
                 </div>
@@ -537,7 +546,8 @@
                         <p id="docs_desc"></p>
                     </div>
                     <div class="form-group">
-                        <a href="" id="download" class="btn btn-sm btn-outline-primary"><i class="fa fa-download"></i> unduh</a>
+                        <a href="" id="download" class="btn btn-sm btn-outline-primary"><i
+                                class="fa fa-download"></i> unduh</a>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -601,13 +611,14 @@
                         <div class="row">
                             <div class="col">
                                 <a href="#" class="btn btn-sm btn-outline-info" data-bs-toggle="modal"
-                                data-bs-target="#modalcreateujian"><i class="fa fa-plus"></i>
-                                Ujian</a>
-                                <a href="#" class="btn btn-sm btn-outline-primary" id="showtemplateujian" data-bs-toggle="modal"
-                                data-bs-target="#modaltemplateujian"><i class="fa fa-book"></i> Download Template</a>
+                                    data-bs-target="#modalcreateujian"><i class="fa fa-plus"></i>
+                                    Ujian</a>
+                                <a href="#" class="btn btn-sm btn-outline-primary" id="showtemplateujian"
+                                    data-bs-toggle="modal" data-bs-target="#modaltemplateujian"><i
+                                        class="fa fa-book"></i> Download Template</a>
                                 <a href="#" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal"
-                                data-bs-target="#modalimportujian"><i class="fa fa-upload"></i>
-                                Import From Template</a>
+                                    data-bs-target="#modalimportquiz"><i class="fa fa-upload"></i>
+                                    Import From Template</a>
                             </div>
                         </div>
                     </div>
@@ -631,16 +642,42 @@
                         <div class="row">
                             <div class="col">
                                 <input type="number" class="form-control" name="number_soal" id="number_soal"
-                                        placeholder="Jumlah soal" required>
+                                    placeholder="Jumlah soal" required>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="closemodaladdujian" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" id="closemodaladdujian" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
                         <a href="#" class="btn btn-sm btn-outline-primary" id="btnaddujian">Download</a>
                         {{-- <input type="submit" id="btnaddujian" class="btn btn-sm btn-primary" value="Submit"> --}}
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalimportquiz" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: rgb(93, 154, 233);">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">IMPORT DATA QUIZ</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <form action="/admin-import-data-quiz" method="POST" enctype="multipart/form-data">@csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="file" style="font-size: 14px">Import Excel File Template Quiz</label>
+                            <input type="file" class="form-control" style="border: none" name="file"
+                                id="file">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" id="btnimportsiswa" class="btn btn-sm btn-primary" value="Import">
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>
@@ -662,45 +699,45 @@
         $('#closemodaldownloaddocs').on('click', function() {
             $('#modaldownloaddocs').modal('hide');
         })
-        $('#modaldownloaddocs').on('show.bs.modal', function(event){
+        $('#modaldownloaddocs').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
             var id = button.data('id')
             var docs_name = button.data('docs_name')
             var docs_desc = button.data('docs_desc')
             var modal = $(this)
-            $("#download").attr("href", '/download-docs/'+id);
+            $("#download").attr("href", '/download-docs/' + id);
             modal.find('.modal-body #docs_name').html(docs_name);
             modal.find('.modal-body #docs_desc').html(docs_desc);
         })
-       
+
         var videoSrc;
         $('#closemodalplayvids').on('click', function() {
             $('#modalplayvids').modal('hide');
-            $('#video').attr('src',videoSrc);
+            $('#video').attr('src', videoSrc);
         })
-        $('#modalplayvids').on('show.bs.modal', function(event){
+        $('#modalplayvids').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
             videoSrc = button.data('src')
-            $('#video').attr('src',videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
+            $('#video').attr('src', videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
             console.log(videoSrc);
         })
         $('#closemodalmateri4').on('click', function() {
             $('#modaladdmateri4').modal('hide');
         })
 
-        $("#showtemplateujian").on('click', function(){
+        $("#showtemplateujian").on('click', function() {
             $('#modaladdmateri4').modal('hide');
         })
-        $('#btnaddujian').on('click', function(){
+        $('#btnaddujian').on('click', function() {
             var number_soal;
             number_soal = document.getElementById('number_soal').value;
             // number_soal = 1;
             // alert(number_soal);
             var modal = $(this)
-            $("#btnaddujian").attr("href","/guru-download-template-ujian/"+number_soal)
+            $("#btnaddujian").attr("href", "/guru-download-template-ujian/" + number_soal)
             $('#modaltemplateujian').modal('hide');
         })
-        $('#closemodaladdujian').on('click', function(){
+        $('#closemodaladdujian').on('click', function() {
             $('#modaltemplateujian').modal('hide');
         })
 

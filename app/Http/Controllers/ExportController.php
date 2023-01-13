@@ -25,6 +25,7 @@ class ExportController extends Controller
     {
         return Excel::download(new TemplateQuizExport(), 'template_quiz.xlsx',ExcelExcel::XLSX);
     }
+    
     public function download_template_mapel()
     {
         return Excel::download(new TemplateMapelExport(), 'template_mapel.xlsx',ExcelExcel::XLSX);
