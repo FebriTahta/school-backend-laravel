@@ -90,11 +90,13 @@
                                     <div class="tab-pane fade" id="description" role="tabpanel"
                                         aria-labelledby="description-tab">
                                         <div class="course__description">
-                                            <h3>Petunjuk</h3>
+                                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#modaltugas"><i class="fa fa-plus"></i>
+                                            Tugas</button>
+                                            <h3 class="mt-3">Petunjuk</h3>
                                             <p>
                                                 Lakukan display sama seperti materi kalau bisa tampilkan dengan preview dokumen, kalau belum bisa lewati dulu preview dokumennya
                                                 1 tugas dapat memiliki beberapa docs_file
-                                                
                                             </p>
                                         </div>
                                     </div>
@@ -365,6 +367,35 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modaltugas" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">TUGAS BARU</h4>
+                </div>
+                <form id=""> @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="judul_tugas">Judul <span class="text-danger">*</span></label>
+                                <input type="text" placeholder="judul tugas" name="judul_tugas" class="form-control mb-3" id="judul_tugas" required>
+                                <label for="doc_tugas">Dokumen</label>
+                                <input type="file" name="doc_tugas" id="doc_tugas" class="form-control mb-3" placeholder="dokumen tugas">
+                                <label for="desc_tugas">Deskripsi <span class="text-danger">*</span></label>
+                                <textarea name="desc_tugas" id="desc_tugas" cols="10" rows="5" placeholder="deskripsi tugas" class="form-control mb-3" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closemodaltugas" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
+                        <input type="submit" id="btnaddtugas" class="btn btn-sm btn-primary" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="modaladdvids" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -610,6 +641,9 @@
             var modal = $(this)
             modal.find('.modal-body #id').val(id);
             modal.find('.modal-body #jurusan_name').val(jurusan_name);
+        })
+        $('#closemodaltugas').on('click', function() {
+            $('#modaltugas').modal('hide');
         })
 
         $('#formadd').submit(function(e) {
