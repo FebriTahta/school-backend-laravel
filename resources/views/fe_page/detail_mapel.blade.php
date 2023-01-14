@@ -94,6 +94,9 @@
                                             <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#modaltugas"><i class="fa fa-plus"></i>
                                             Tugas</button>
+                                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                            data-bs-target="#modaladddocstugas"><i class="fa fa-book"></i>
+                                            Dokumen</button>
                                             <h3 class="mt-3">Petunjuk</h3>
                                             <p>
                                                 Lakukan display sama seperti materi kalau bisa tampilkan dengan preview dokumen, kalau belum bisa lewati dulu preview dokumennya
@@ -385,11 +388,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <label for="judul_tugas">Judul <span class="text-danger">*</span></label>
                                 <input type="text" placeholder="judul tugas" name="judul_tugas" class="form-control mb-3" id="judul_tugas" required>
-                                <label for="doc_tugas">Dokumen</label>
-                                <input type="file" name="doc_tugas" id="doc_tugas" class="form-control mb-3" placeholder="dokumen tugas">
-                                <label for="desc_tugas">Deskripsi <span class="text-danger">*</span></label>
                                 <textarea name="desc_tugas" id="desc_tugas" cols="10" rows="5" placeholder="deskripsi tugas" class="form-control mb-3" required></textarea>
                             </div>
                         </div>
@@ -398,6 +397,36 @@
                         <button type="button" id="closemodaltugas" class="btn btn-sm btn-default"
                             data-dismiss="modal">Close</button>
                         <input type="submit" id="btnaddtugas" class="btn btn-sm btn-primary" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modaladddocstugas" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">DOKUMEN TUGAS BARU</h4>
+                </div>
+                <form id=""> @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <select name="materi_id" id="materi_id" required class="form-control mb-3">
+                                    <option value="">:: Tugas ::</option>
+                                    @foreach ($tugas as $item)
+                                        <option value="{{ $item->id }}">{{ $item->materi_name }}</option>
+                                    @endforeach
+                                </select>
+                                <input type="file" name="docs_tugas" id="docs_tugas">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closemodaldocstugas" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
+                        <input type="submit" id="btnadddocstugas" class="btn btn-sm btn-primary" value="Submit">
                     </div>
                 </form>
             </div>
@@ -681,6 +710,9 @@
         })
         $('#closemodaltugas').on('click', function() {
             $('#modaltugas').modal('hide');
+        })
+        $('#closemodaldocstugas').on('click', function() {
+            $('#modaladddocstugas').modal('hide');
         })
 
         $('#formadd').submit(function(e) {
