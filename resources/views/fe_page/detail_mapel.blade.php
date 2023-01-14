@@ -25,9 +25,10 @@
                                     <h3 class="events__sponsor-title">Overview</h3>
                                     <div class="events__sponsor-info">
                                         <h3>Guru : {{ $mapelmaster->guru->guru_name }}</h3>
-                                        <h4><span>Materi pada matapelajaran ini meliputi : {{ $mapelmaster->docs_count }} dokumen
+                                        <h4><span>Materi pada matapelajaran ini meliputi : {{ $mapelmaster->docs_count }}
+                                                dokumen
                                                 {{ $mapelmaster->vids_count }} video
-                                             dan {{ $mapelmaster->ujian_count }} exam</span></h4>
+                                                dan {{ $mapelmaster->ujian_count }} exam</span></h4>
                                     </div>
                                 </div>
                             </div>
@@ -99,7 +100,8 @@
                                             Dokumen</button>
                                             <h3 class="mt-3">Petunjuk</h3>
                                             <p>
-                                                Lakukan display sama seperti materi kalau bisa tampilkan dengan preview dokumen, kalau belum bisa lewati dulu preview dokumennya
+                                                Lakukan display sama seperti materi kalau bisa tampilkan dengan preview
+                                                dokumen, kalau belum bisa lewati dulu preview dokumennya
                                                 1 tugas dapat memiliki beberapa docs_file
                                             </p>
                                         </div>
@@ -281,28 +283,28 @@
                                         aria-labelledby="member-tab">
                                         <div class="course__member mb-45">
                                             @foreach ($mapelmaster->kelas->siswa as $item)
-                                            <div class="course__member-item">
-                                                <div class="row align-items-center">
-                                                    
-                                                    <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-10 col-sm-8">
-                                                        <div class="course__member-thumb d-flex align-items-center">
-                                                            <img src="{{ asset('fe_assets/assets/img/course/instructor/course-instructor-1.jpg') }}"
-                                                                alt="">
-                                                            <div class="course__member-name ml-20">
-                                                                <h5>{{ $item->siswa_name }}</h5>
-                                                                <span>RPL</span>
+                                                <div class="course__member-item">
+                                                    <div class="row align-items-center">
+
+                                                        <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-10 col-sm-8">
+                                                            <div class="course__member-thumb d-flex align-items-center">
+                                                                <img src="{{ asset('fe_assets/assets/img/course/instructor/course-instructor-1.jpg') }}"
+                                                                    alt="">
+                                                                <div class="course__member-name ml-20">
+                                                                    <h5>{{ $item->siswa_name }}</h5>
+                                                                    <span>RPL</span>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2 col-4">
-                                                        <div class="course__member-info pl-45">
-                                                            <h5>70</h5>
-                                                            <span>AVG</span>
+                                                        <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2 col-4">
+                                                            <div class="course__member-info pl-45">
+                                                                <h5>70</h5>
+                                                                <span>AVG</span>
+                                                            </div>
                                                         </div>
+
                                                     </div>
-                                                   
                                                 </div>
-                                            </div>
                                             @endforeach
                                         </div>
                                     </div>
@@ -452,7 +454,8 @@
                         <div class="row">
                             <div class="col-md-12 col-12" id="block-new-jurusan" style="padding-right: 5px">
                                 <div class="form-group mb-20">
-                                    <input type="hidden" class="form-control" value="{{ $mapelmaster->id }}" name="mapelmaster_id">
+                                    <input type="hidden" class="form-control" value="{{ $mapelmaster->id }}"
+                                        name="mapelmaster_id">
                                     <select name="materi_id" id="materi_id" required class="form-control">
                                         <option value="">:: Materi ::</option>
                                         @foreach ($mapelmaster->materi as $item)
@@ -535,7 +538,8 @@
                         <div class="row">
                             <div class="col-md-12 col-12" id="block-new-jurusan" style="padding-right: 5px">
                                 <div class="form-group mb-20">
-                                    <input type="hidden" class="form-control" value="{{ $mapelmaster->id }}" name="mapelmaster_id">
+                                    <input type="hidden" class="form-control" value="{{ $mapelmaster->id }}"
+                                        name="mapelmaster_id">
                                     <select name="materi_id" id="materi_id" required class="form-control">
                                         <option value="">:: Materi ::</option>
                                         @foreach ($mapelmaster->materi as $item)
@@ -634,6 +638,7 @@
                 <form action="/admin-import-data-quiz" method="POST" enctype="multipart/form-data">@csrf
                     <div class="modal-body">
                         <div class="form-group">
+                            <input type="text" value="{{ $mapelmaster->id }}" id="ujianId" name="ujianId">
                             <label for="file" style="font-size: 14px">Import Excel File Template Quiz</label>
                             <input type="file" class="form-control" style="border: none" name="file"
                                 id="file">
