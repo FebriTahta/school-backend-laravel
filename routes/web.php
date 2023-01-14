@@ -33,11 +33,14 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::group(['middleware' => ['auth', 'CheckRole:admin']], function () {
 
-    Route::controller(UserController::class)->group(function(){
-        Route::get('admin-daftar-user','daftar_user');
-    });
+Route::controller(UserController::class)->group(function(){
+    Route::get('/admin-daftar-user','daftar_user');
+    Route::post('/admin-ubah-password','ubah_password');
+    Route::post('/admin-ubah-photo','ubah_photo');
+});
+
+Route::group(['middleware' => ['auth', 'CheckRole:admin']], function () {
 
     Route::controller(DashboardController::class)->group(function () {
         route::get('/admin-dashboard', 'admin_dashboard_page');
