@@ -13,4 +13,9 @@ class Ujian extends Model
     {
         return $this->belongsTo(Materi::class);
     }
+
+    public function mapelmaster()
+    {
+        return $this->belongsTo(Mapelmaster::class);
+    }
 }

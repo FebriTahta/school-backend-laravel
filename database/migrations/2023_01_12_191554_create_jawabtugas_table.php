@@ -13,13 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('docs', function (Blueprint $table) { 
+        Schema::create('jawabtugas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('mapelmaster_id')->nullable();
-            $table->unsignedBigInteger('materi_id')->nullable();
-            $table->longText('docs_file')->nullable();
-            $table->longText('docs_name')->nullable();
-            $table->longText('docs_desc')->nullable();
+            $table->unsignedBigInteger('tugas_id')->nullable();
+            $table->unsignedBigInteger('siswa_id')->nullable();
+            $table->unsignedBigInteger('guru_id')->nullable();
+            $table->longText('jawabtugas_file')->nullable();
+            $table->longText('jawabtugas_name')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('docs');
+        Schema::dropIfExists('jawabtugas');
     }
 };

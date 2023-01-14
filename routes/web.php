@@ -12,6 +12,7 @@ use App\Http\Controllers\GuruController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PelajaranController;
 use App\Http\Controllers\MateriController;
+use App\Http\Controllers\UserController;
 use GuzzleHttp\Psr7\Request;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 
@@ -34,6 +35,9 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::group(['middleware' => ['auth', 'CheckRole:admin']], function () {
 
+    Route::controller(UserController::class)->group(function(){
+        Route::get('admin-daftar-user','daftar_user');
+    });
 
     Route::controller(DashboardController::class)->group(function () {
         route::get('/admin-dashboard', 'admin_dashboard_page');
@@ -130,7 +134,8 @@ Route::group(['middleware' => ['auth', 'CheckRole:guru']], function () {
 
 Route::group(['middleware' => ['auth', 'CheckRole:guru,siswa']], function () {
     Route::controller(PelajaranController::class)->group(function () {
-        Route::get('/mapel/{mastermapel_id}', 'mapel_mapelmaster');
+        Route::get('/mapel/{mapelmaster_id}', 'mapel_mapelmaster');
+        Route::get('/mapel-siswa/{mapelmaster_id}','mapel_mapelmaster_siswa');
     });
     Route::controller(MateriController::class)->group(function(){
         Route::post('/post-materi','post_materi');
@@ -138,4 +143,8 @@ Route::group(['middleware' => ['auth', 'CheckRole:guru,siswa']], function () {
         Route::post('/post-docs','post_docs');
         Route::get('/download-docs/{docs_id}','download_docs');
     });
+});
+
+Route::get('/do-quiz',function(){
+    return view('fe_page.do_quiz');
 });

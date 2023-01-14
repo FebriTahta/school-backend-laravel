@@ -179,7 +179,7 @@
                                 class="icon icon-account_box light-red-text s-18"></i>QUIZ<i
                                 class="icon icon-angle-left s-18 pull-right"></i></a>
                         <ul class="treeview-menu">
-                            <li><a href="/backend-user"><i class="icon icon-circle-o"></i>All Users</a>
+                            {{-- <li><a href="/backend-user"><i class="icon icon-circle-o"></i>All Users</a> --}}
                             </li>
                         </ul>
                     </li>
@@ -191,7 +191,7 @@
                                 class="icon icon-account_box light-red-text s-18"></i>Users<i
                                 class="icon icon-angle-left s-18 pull-right"></i></a>
                         <ul class="treeview-menu">
-                            <li><a href="/admin-all-user"><i class="icon icon-circle-o"></i>All Users</a>
+                            <li><a href="/admin-daftar-user"><i class="icon icon-circle-o"></i>All Users</a>
                             </li>
                         </ul>
                     </li>

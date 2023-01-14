@@ -1,4 +1,4 @@
-@extends('new_layouts.be_master')
+@extends('be_layouts.be_master')
 
 @section('content')
     <div class="page has-sidebar-left height-full">
@@ -45,20 +45,23 @@
 
 
                     </div>
-
+                    <style>
+                        td {
+                        text-align: left;
+                        }
+                    </style>
                     <div class="white">
                         <div class="card-body">
 
                             <div class="table-responsive">
                                 <table id="example"
-                                    class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                    class="responsive nowrap table table-bordered table-striped table-hover js-basic-example dataTable">
                                     <thead>
                                         <tr>
                                             <th style="width: 10%">No</th>
                                             <th>Username</th>
                                             <th>Password</th>
                                             <th>Role</th>
-                                            <th style="width: 15%">Opsi</th>
                                         </tr>
                                     </thead>
                                     <tbody class="text-capitalize">
@@ -329,7 +332,7 @@
                 destroy: true,
                 processing: true,
                 serverSide: true,
-                ajax: "/backend-user",
+                ajax: "/admin-daftar-user",
                 columns: [{
                         "width": 10,
                         "data": null,
@@ -349,13 +352,6 @@
                     {
                         data: 'role',
                         name: 'role'
-                    },
-
-                    {
-                        data: 'opsi',
-                        name: 'opsi',
-                        orderable: true,
-                        searchable: true
                     },
                 ]
             });

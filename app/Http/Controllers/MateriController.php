@@ -51,6 +51,7 @@ class MateriController extends Controller
     public function post_vids(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'mapelmaster_id'  => 'required',
             'materi_id'       => 'required',
             'vids_name'       => 'required',
             'vids_desc'       => 'required',
@@ -79,6 +80,7 @@ class MateriController extends Controller
                         'id' => $request->id,
                     ],
                     [
+                        'mapelmaster_id' => $request->mapelmaster_id,
                         'vids_name' => $request->vids_name,
                         'vids_link' => $source,
                         'vids_desc' => $request->vids_desc,
@@ -97,6 +99,7 @@ class MateriController extends Controller
     public function post_docs(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'mapelmaster_id'  => 'required',
             'materi_id'       => 'required',
             'docs_file'       => 'required|mimes:pdf,docx,csv,xlsx',
             'docs_name'       => 'required',
@@ -133,6 +136,7 @@ class MateriController extends Controller
                         'id' => $request->id,
                     ],
                     [
+                        'mapelmaster_id' => $request->mapelmaster_id,
                         'materi_id' => $request->materi_id,
                         'docs_file' => $filename,
                         'docs_name' => $request->docs_name,

@@ -24,8 +24,6 @@ class QuizImport implements ToCollection
      */
     public function collection(Collection $collection)
     {
-        // return ['uuids' => $this->uuid, 'paths' =>  $this->path];
-        $skip = 5; // cs 5 opt
         $soal = [];
         try {
             foreach ($collection as $key => $row) {

@@ -43,19 +43,15 @@
           </div>
           <div class="teacher__courses pt-55">
              <div class="section__title-wrapper mb-30">
-                <div class="row">
-                   <div class="col-md-8">
-                      <h2 class="section__title">Materi <span class="yellow-bg yellow-bg-big">Pengajar<img src="assets/img/shape/yellow-bg.png" alt=""></span></h2>
-                   </div>
-                   <div class="col-md-4">
-                      <div class="sidebar__search p-relative">
-                         <form action="#">
-                            <input type="text" placeholder="Search...">
-                            <button type="submit"><i class="fad fa-search"></i></button>
-                         </form>
+               <div class="course__tab-inner grey-bg-2 mb-50">
+                  <div class="course__sort d-flex justify-content-sm-end">
+                      <div class="course__sort-inner">
+                          <select>
+                              <option>Search Mapel</option>
+                          </select>
                       </div>
-                   </div>
-                </div>
+                  </div>
+              </div>
                 
                 
              </div>
@@ -63,7 +59,6 @@
              <div class="teacher__course-wrapper">
                 <div class="row">
                    @foreach ($guru->mapelmaster as $item)
-                     
                      <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4">
                         <div class="course__item white-bg mb-30 fix">
                            <div class="course__thumb w-img p-relative fix">
@@ -78,11 +73,16 @@
                            </div>
                            <div class="course__content" style="max-height: 120px">
                               <div class="course__meta d-flex align-items-center justify-content-between">
-                                 <div class="course__lesson">
-                                    <span style="font-size: 14px; margin-right: 10px"><i class="far fa-book-alt"></i>72 Materi</span>
-                                 </div>
+                                 <div class="course__lesson mr-20">
+                                    <span style="margin-right: 10px"><i
+                                            class="far fa-book-alt"></i>{{ $item->docs->count() }}-Docs</span>
+                                    <span style="margin-right: 10px"><i
+                                            class="far fa-video"></i>{{ $item->vids->count() }}-Video</span>
+                                    <span style="margin-right: 10px"><i
+                                            class="far fa-pencil-alt"></i>{{ $item->ujian->count() }}-Soal</span>
+                                </div>
                               </div>
-                              <h3 class="course__title"><a href="/mapel/{{ $item->id }}">{{ $item->kelas->angkatan->angkatan_name }} {{ $item->kelas->angkatan->tingkat->tingkat_name }} {{ $item->kelas->jurusan->jurusan_name }} {{ $item->kelas->kelas_name }} : {{ $item->mapel->mapel_name }}</a></h3>
+                              <h3 class="course__title"><a href="/mapel/{{ Crypt::encrypt($item->id) }}">{{ $item->kelas->angkatan->angkatan_name }} {{ $item->kelas->angkatan->tingkat->tingkat_name }} {{ $item->kelas->jurusan->jurusan_name }} {{ $item->kelas->kelas_name }} : {{ $item->mapel->mapel_name }}</a></h3>
                            </div>
                         </div>
                      </div>

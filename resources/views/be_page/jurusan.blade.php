@@ -44,6 +44,10 @@
                     table.dataTable thead {
                         font-size: 16px !important;
                     }
+
+                    td {
+                        text-align: left;
+                    }
                 </style>
                 <div class="col-md-12" style="margin-top: 20px">
                     <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modaladd"><i

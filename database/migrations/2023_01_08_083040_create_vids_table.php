@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('vids', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('mapelmaster_id')->nullable();
             $table->unsignedBigInteger('materi_id')->nullable();
             $table->longText('vids_link')->nullable();
             $table->longText('vids_name')->nullable();
