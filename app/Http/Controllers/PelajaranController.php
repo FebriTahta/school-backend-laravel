@@ -8,6 +8,7 @@ use App\Models\Materi;
 use App\Models\Tugas;
 use App\Models\Vids;
 use Crypt;
+use Validator;
 use Illuminate\Http\Request;
 
 class PelajaranController extends Controller
@@ -29,5 +30,42 @@ class PelajaranController extends Controller
         $mapelmaster_id = Crypt::decrypt($mapelmaster_id);
         $mapelmaster = Mapelmaster::findOrFail($mapelmaster_id)->with('materi')->withcount('docs','vids','ujian','materi')->first();
         return view('fe_page.detail_mapel_siswa',['mapelmaster'=> $mapelmaster]);
+    }
+
+    public function add_tugas_siswa(Request $request){
+
+        // dd($request);
+        
+        $validator = Validator::make($request->all(), [
+            'tugas_name'       => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            # code...
+            return response()->json([
+                'status' => 400,
+                'message' => $validator->messages(),
+            ]);
+        }else {
+            # code...
+            $data = Tugas::updateOrCreate(
+                [
+                    'id'=> $request->id,
+                ],
+                [
+                    'mapelmaster_id'=> $request->mapelmaster_id,
+                    'guru_id' => $request->guru_id,
+                    'kelas_id' => $request->kelas_id,
+                    'uploader_nip' => $request->uploader_nip,
+                    'tugas_name' => $request->tugas_name,
+                    'tugas_desc' => $request->tugas_desc
+                ]
+            );
+
+            return response()->json([
+                'status'=> 200,
+                'message' => 'Tugas baru ditambahkan'
+            ]);
+        }
     }
 }

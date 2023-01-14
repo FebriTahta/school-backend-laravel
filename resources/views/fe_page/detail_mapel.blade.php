@@ -384,12 +384,20 @@
                 <div class="modal-header bg-primary">
                     <h4 class="modal-title" style="font-size: 16px; color:white">TUGAS BARU</h4>
                 </div>
-                <form id=""> @csrf
+                <form id="add_tugas_siswa" > @csrf
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <input type="text" placeholder="judul tugas" name="judul_tugas" class="form-control mb-3" id="judul_tugas" required>
-                                <textarea name="desc_tugas" id="desc_tugas" cols="10" rows="5" placeholder="deskripsi tugas" class="form-control mb-3" required></textarea>
+                                <input type="hidden" class="form-control" name="mapelmaster_id"
+                                    value="{{ $mapelmaster->id }}">
+                                <input type="hidden" class="form-control" name="guru_id"
+                                    value="{{ auth()->user()->guru->id }}">
+                                <input type="hidden" class="form-control" name="kelas_id"
+                                    value="{{ $mapelmaster->kelas->id }}">
+                                <input type="hidden" class="form-control" name="uploader_nip"
+                                    value="{{ auth()->user()->guru->guru_nip }}">
+                                <input type="text" placeholder="judul tugas" name="tugas_name" class="form-control mb-3" id="judul_tugas" required>
+                                <textarea name="tugas_desc" id="tugas_desc" cols="10" rows="5" placeholder="deskripsi tugas" class="form-control mb-3" required></textarea>
                             </div>
                         </div>
                     </div>
@@ -409,7 +417,7 @@
                 <div class="modal-header bg-primary">
                     <h4 class="modal-title" style="font-size: 16px; color:white">DOKUMEN TUGAS BARU</h4>
                 </div>
-                <form id=""> @csrf
+                <form method="POST"> @csrf
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12">
@@ -690,8 +698,6 @@
         $('#btnaddujian').on('click', function() {
             var number_soal;
             number_soal = document.getElementById('number_soal').value;
-            // number_soal = 1;
-            // alert(number_soal);
             var modal = $(this)
             $("#btnaddujian").attr("href", "/guru-download-template-ujian/" + number_soal)
             $('#modaltemplateujian').modal('hide');
@@ -747,6 +753,56 @@
                     } else {
                         $('#btnadd').val('Submit');
                         $('#btnadd').attr('disabled', false);
+                        var values = '';
+                        jQuery.each(response.message, function(key, value) {
+                            values += value + '\n'
+                        });
+                        swal({
+                            title: "Maaf",
+                            text: values,
+                            type: "error",
+                        });
+                        toastr.error(values);
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        $('#add_tugas_siswa').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: "/post-tugas-siswa",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btnaddtugas').attr('disabled', 'disabled');
+                    $('#btnaddtugas').val('Process...');
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        $('#modaltugas').modal('hide');
+                        $("#add_tugas_siswa")[0].reset();
+                        $('#btnaddtugas').val('Submit');
+                        $('#btnaddtugas').attr('disabled', false);
+
+                        toastr.success(response.message);
+                        swal({
+                            title: "SUCCESS!",
+                            text: response.message,
+                            type: "success"
+                        });
+                        reload();
+
+                    } else {
+                        $('#btnaddtugas').val('Submit');
+                        $('#btnaddtugas').attr('disabled', false);
                         var values = '';
                         jQuery.each(response.message, function(key, value) {
                             values += value + '\n'
