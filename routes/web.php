@@ -12,6 +12,7 @@ use App\Http\Controllers\GuruController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PelajaranController;
 use App\Http\Controllers\MateriController;
+use App\Http\Controllers\QuizController;
 use App\Http\Controllers\UserController;
 use GuzzleHttp\Psr7\Request;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
@@ -148,6 +149,8 @@ Route::group(['middleware' => ['auth', 'CheckRole:guru,siswa']], function () {
     });
 });
 
-Route::get('/do-quiz',function(){
-    return view('fe_page.do_quiz');
-});
+// Route::get('/do-quiz',function(){
+//     return view('fe_page.do_quiz');
+// });
+
+Route::get('/do-quiz/{ujian_id}', [QuizController::class, 'doQuiz'])->name('doQuiz');
