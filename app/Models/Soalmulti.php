@@ -14,4 +14,9 @@ class Soalmulti extends Model
         'soal_kode',
         'soal_name'
     ];
+
+    public function OptionMulti()
+    {
+        return $this->hasMany(Optionmulti::class);
+    }
 }

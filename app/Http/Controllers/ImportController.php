@@ -9,6 +9,7 @@ use App\Imports\GuruImport;
 use App\Imports\QuizImport;
 use App\Imports\MapelImport;
 use App\Models\Kelas;
+use App\Models\Ujian;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
@@ -30,7 +31,7 @@ class ImportController extends Controller
         return redirect()->back()->with('success', 'data guru berhasil diimport');
     }
 
-    public function import_data_quiz()
+    public function import_data_quiz(Request $request)
     {
         try {
             $objphpexcel = IOFactory::load(request()->file('file'));
@@ -85,10 +86,20 @@ class ImportController extends Controller
             $writer = new Xlsx($objphpexcel);
             $temp = 'be_assets\quiz\tempImportQuiz.xlsx';
             $writer->save($temp);
-            Excel::import(new QuizImport(), $temp);
+            $ujian = Ujian::create([
+                'mapelmaster_id' => $request->ujianId,
+                'materi_id' => 1,
+                'ujian_name' => 'ujian name',
+                'ujian_slug' => 'ujian-name-' . Str::random(5),
+                'ujian_jenis' => 1,
+                'ujian_lamapengerjaan' => 60,
+                'ujian_datetimestart' => '2023-01-12 09:00:00',
+                'ujian_datetimeend' => '2023-01-12 10:00:00',
+            ]);
+            Excel::import(new QuizImport($ujian->id), $temp);
             return redirect()->back()->with('success', 'data quiz berhasil diimport');
         } catch (\Throwable $th) {
-            return 'prob';
+            // return 'prob';
             throw $th;
         }
     }
@@ -96,6 +107,6 @@ class ImportController extends Controller
     public function import_data_mapel()
     {
         Excel::import(new MapelImport(), request()->file('file'));
-        return redirect()->back()->with('success','data mapel berhasil diimport');
+        return redirect()->back()->with('success', 'data mapel berhasil diimport');
     }
 }

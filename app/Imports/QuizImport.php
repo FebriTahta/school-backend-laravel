@@ -11,13 +11,12 @@ use Illuminate\Support\Str;
 class QuizImport implements ToCollection
 {
 
-    private $uuid, $path;
+    private $ujianId;
 
-    // public function __construct(array $uuid, $path)
-    // {
-    //     $this->uuid = $uuid;
-    //     $this->path = $path;
-    // }
+    public function __construct($ujianId)
+    {
+        $this->ujianId = $ujianId;
+    }
 
     /**
      * @param Collection $collection
@@ -31,7 +30,7 @@ class QuizImport implements ToCollection
                     // input soal
                     if ($row[1] === 'Soal') {
                         $soal = [
-                            'ujian_id' => '1',
+                            'ujian_id' => $this->ujianId,
                             'soal_kode' => $row[0],
                             'soal_name' => $row[2],
                         ];
@@ -40,7 +39,7 @@ class QuizImport implements ToCollection
                     // input opt
                     if ($row[1] === 'option') {
                         $opt = Optionmulti::create([
-                            'soalmulti_id' => '1',//$soal->id,
+                            'soalmulti_id' => $soal->id, //$soal->id,
                             'option_name' => $row[2],
                             'option_true' => $row[3],
                         ]);
