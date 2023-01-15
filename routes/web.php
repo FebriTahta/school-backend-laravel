@@ -137,6 +137,7 @@ Route::group(['middleware' => ['auth', 'CheckRole:guru,siswa']], function () {
     Route::controller(PelajaranController::class)->group(function () {
         Route::get('/mapel/{mapelmaster_id}', 'mapel_mapelmaster');
         Route::get('/mapel-siswa/{mapelmaster_id}', 'mapel_mapelmaster_siswa');
+        Route::post('/post-tugas-siswa','add_tugas_siswa');
     });
     Route::controller(MateriController::class)->group(function () {
         Route::post('/post-materi', 'post_materi');
