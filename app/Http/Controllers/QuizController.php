@@ -19,15 +19,24 @@ class QuizController extends Controller
     public function doQuiz($id, Request $request)
     {
         $ujian = Ujian::where('id', $id)->with(['soal' => function ($soal) {
-            $soal->inRandomOrder()->with('OptionMulti');
+            $soal->inRandomOrder()->with(['OptionMulti' => function ($opt) {
+                $opt->inRandomOrder();
+            }]);
         }])->first();
         // return $ujian;
         $quizCount = Soalmulti::where('ujian_id', $id)->count();
-        $currQuiz = 1;
+        $currQuiz = 0;
+        $opts = ['A', 'B', 'C', 'D', 'E'];
         return view('fe_page.do_quiz')->with([
             'quizCount' => $quizCount,
             'quiz' => $ujian,
             'currQuiz' => $currQuiz,
+            'opts' => $opts
         ]);
+    }
+
+    public function postQuiz(Request $request)
+    {
+        return $request->all();
     }
 }

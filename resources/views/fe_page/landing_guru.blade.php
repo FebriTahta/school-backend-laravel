@@ -19,7 +19,11 @@
                 <div class="row">
                     <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6">
                         <div class="teacher__details-thumb p-relative w-img pr-30">
+                            @if ($guru->detailguru)
+                            <img src="{{ asset('guru_image/'.$guru->detailguru->img_guru) }}" alt="">
+                            @else
                             <img src="{{ asset('fe_assets/assets/img/teacer-details-1.jpg') }}" alt="">
+                            @endif
                             <div class="teacher__details-shape">
                                 <img class="teacher-details-shape-1"
                                     src="{{ asset('fe_assets/assets/img/teacher/details/shape/shape-1.png') }}"
@@ -36,10 +40,17 @@
                                         class="btn btn-sm btn-outline-info">credential</button>
                                 </div>
                                 <div class="col-md-4 col-4">
-                                    <button style="width: 100%" class="btn btn-sm btn-outline-primary">photo</button>
+                                    <button style="width: 100%" data-bs-toggle="modal" data-guru_id="{{ $guru->id }}"
+                                       @if ($guru->detailguru)
+                                       data-wa_guru="{{ $guru->detailguru->wa_guru }}"
+                                       @else
+                                       data-wa_guru=""
+                                       @endif
+                                       data-bs-target="#modalphoto" class="btn btn-sm btn-outline-primary">photo</button>
                                 </div>
                                 <div class="col-md-4 col-4">
-                                    <button style="width: 100%" class="btn btn-sm btn-outline-success">my bio</button>
+                                    <button data-bs-target="#modalbio" data-bs-toggle="modal" data-guru_id="{{ $guru->id }}"
+                                     style="width: 100%" class="btn btn-sm btn-outline-success">my bio</button>
                                 </div>
                             </div>
                         </div>
@@ -54,12 +65,17 @@
                             </div>
                             <div class="teacher__bio">
                                 <h3>Short Bio</h3>
+                                @if ($guru->quote !== null)
+                                    <p>{{ $guru->quote }}</p>
+                                @else
                                 <p>Bapak memiliki tujuan pribadi dalam hidup, yaitu ikut serta mencerdaskan anak bangsa
                                     dibidang ilmu teknologi dan komunikasi dengan cara menjadi guru di salah satu sekolah
                                     kebanggaan Bapak
                                     yaitu SMK 1 Krian. Dengan mengikuti seluruh arahan bapak dengan baik, kalian akan
                                     menjadi manusia yang maju dibidang IPTEK
                                 </p>
+                                @endif
+                               
                             </div>
 
                         </div>
@@ -153,13 +169,106 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modalphoto" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">UPDATE PHOTO</h4>
+                </div>
+                <form id="formupdatephoto" enctype="multipart/form-data"> @csrf
+                    @if ($guru->detailguru)
+                        <input type="hidden" id="formupdate" value="/update-photo-guru2">
+                    @else
+                        <input type="hidden" id="formupdate" value="/update-photo-guru">
+                    @endif
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input type="hidden" name="guru_id" id="guru_id" class="form-control">
+                                    <div class="custom-file">
+                                        
+                                        <input type="file" name="img_guru" class="custom-file-input"
+                                            id="inputGroupFile01" accept="image/*" onchange="showPreview(event);">
+                                        <p class="custom-file-label form-control" readonly style="margin-top: 20px" id="label_img" for="inputGroupFile01">Chose
+                                            Image</p>
+                                    </div>
+                                    <div class="preview" style="max-width: 100%; margin-top: 20px; margin-bottom: 20px">
+                                        @if ($guru->detailguru)
+                                            <input type="hidden" name="id" id="id" value="{{ $guru->detailguru->id }}">
+                                            <img style="max-width: 300px" id="inputGroupFile01-preview" src="{{ asset('guru_image/'.$guru->detailguru->img_guru) }}">
+                                        @else
+                                            <img style="max-width: 300px" id="inputGroupFile01-preview" src="">
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" class="form-control" id="wa_guru" name="wa_guru" placeholder="nomor whatsapp guru">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closemodalphoto" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
+                        <input type="submit" id="btnupdatephoto" class="btn btn-sm btn-primary" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalbio" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">UPDATE BIO</h4>
+                </div>
+                <form id="formbio" enctype="multipart/form-data"> @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input type="hidden" name="guru_id" id="guru_id" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    @if ($guru->quote !== null)
+                                        <textarea name="quote" id="quote" class="form-control" cols="30" rows="10">{{ $guru->quote }}</textarea>
+                                        @else
+                                        <textarea name="quote" id="quote" class="form-control" cols="30" rows="10"></textarea>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closemodalbio" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
+                        <input type="submit" id="btnbio" class="btn btn-sm btn-primary" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')
     <script>
+        var updatepoto;
         $(document).ready(function() {
-
+            updatepoto = $('#formupdate').val()
         })
+
+        function showPreview(event) {
+            if (event.target.files.length > 0) {
+                var src = URL.createObjectURL(event.target.files[0]);
+                var preview = document.getElementById("inputGroupFile01-preview");
+                preview.src = src;
+                preview.style.display = "block";
+                $('#label_img').html(src.substr(0, 30));
+            }
+        }
 
         function reload() {
             location.reload();
@@ -168,6 +277,13 @@
         $('#closemodaluser').on('click', function() {
             $('#modaluser').modal('hide');
         })
+        $('#closemodalphoto').on('click', function() {
+            $('#modalphoto').modal('hide');
+        })
+        $('#closemodalbio').on('click', function() {
+            $('#modalbio').modal('hide');
+        })
+
         $('#modaluser').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
             var user_id = button.data('user_id')
@@ -177,6 +293,22 @@
             modal.find('.modal-body #user_id').val(user_id);
             modal.find('.modal-body #username').val(username);
             modal.find('.modal-body #pass').val(pass);
+        })
+
+        $('#modalphoto').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var guru_id = button.data('guru_id')
+            var wa_guru = button.data('wa_guru')
+            var modal = $(this)
+            modal.find('.modal-body #guru_id').val(guru_id);
+            modal.find('.modal-body #wa_guru').val(wa_guru);
+        })
+
+        $('#modalbio').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var guru_id = button.data('guru_id')
+            var modal = $(this)
+            modal.find('.modal-body #guru_id').val(guru_id);
         })
 
         $('#formupdateuser').submit(function(e) {
@@ -190,8 +322,8 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function() {
-                    $('#btnadd').attr('disabled', 'disabled');
-                    $('#btnadd').val('Process...');
+                    $('#btnupdateuser').attr('disabled', 'disabled');
+                    $('#btnupdateuser').val('Process...');
                 },
                 success: function(response) {
                     if (response.status == 200) {
@@ -204,11 +336,107 @@
                             text: response.message,
                             type: "success"
                         });
-                        // reload();
+                        reload();
 
                     } else {
                         $('#btnupdateuser').val('Submit');
                         $('#btnupdateuser').attr('disabled', false);
+                        var values = '';
+                        jQuery.each(response.message, function(key, value) {
+                            values += value + '\n'
+                        });
+                        swal({
+                            title: "Maaf",
+                            text: values,
+                            type: "error",
+                        });
+                        toastr.error(values);
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        $('#formupdatephoto').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: updatepoto,
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btnupdatephoto').attr('disabled', 'disabled');
+                    $('#btnupdatephoto').val('Process...');
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        $('#btnupdatephoto').val('Submit');
+                        $('#btnupdatephoto').attr('disabled', false);
+                        $('#modalphoto').modal('hide');
+                        toastr.success(response.message);
+                        swal({
+                            title: "SUCCESS!",
+                            text: response.message,
+                            type: "success"
+                        });
+                        reload();
+
+                    } else {
+                        $('#btnupdatephoto').val('Submit');
+                        $('#btnupdatephoto').attr('disabled', false);
+                        var values = '';
+                        jQuery.each(response.message, function(key, value) {
+                            values += value + '\n'
+                        });
+                        swal({
+                            title: "Maaf",
+                            text: values,
+                            type: "error",
+                        });
+                        toastr.error(values);
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        $('#formbio').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: "/update-bio",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btnbio').attr('disabled', 'disabled');
+                    $('#btnbio').val('Process...');
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        $('#btnbio').val('Submit');
+                        $('#btnbio').attr('disabled', false);
+                        $('#modalbio').modal('hide');
+                        toastr.success(response.message);
+                        swal({
+                            title: "SUCCESS!",
+                            text: response.message,
+                            type: "success"
+                        });
+                        reload();
+
+                    } else {
+                        $('#btnbio').val('Submit');
+                        $('#btnbio').attr('disabled', false);
                         var values = '';
                         jQuery.each(response.message, function(key, value) {
                             values += value + '\n'

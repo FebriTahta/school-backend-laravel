@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 use App\Models\Guru;
+use App\Models\Detailguru;
 use App\Models\Mapelmaster;
+use Image;
+use File;
 use DataTables;
 use Validator;
 use Illuminate\Http\Request;
@@ -69,6 +72,14 @@ class GuruController extends Controller
         }
     }
 
+    public function createThumbnail($path, $width, $height)
+    {
+        $img = Image::make($path)->resize($width, $height, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        $img->save($path);
+    }
+
     public function post_mapel_master(Request $request)
     {
         foreach ($request->mapel_id as $key => $value) {
@@ -92,5 +103,235 @@ class GuruController extends Controller
             'status'=> 200,
             'message'=> 'Guru pengampuh mapel telah ditambahkan'
         ]);
+    }
+
+    public function update_photo(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'guru_id'       => 'required',
+            'wa_guru'       => 'required',
+            'img_guru'      => 'required|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            # code...
+            return response()->json([
+                'status' => 400,
+                'message' => $validator->messages(),
+            ]);
+        }else {
+            $exist = Detailguru::where('guru_id', $request->guru_id)->first();
+            if ($exist) {
+                # code...
+                if($request->hasFile('img_guru')) {
+                    # code...
+                    if( File::exists(public_path('image_guru/'.$exist->img_guru))){
+                        File::delete(public_path('image_guru/'.$exist->img_guru));
+                        File::delete(public_path('guru_image/'.$exist->img_guru));
+                    }
+                    $filename    = time().'.'.$request->img_guru->getClientOriginalExtension();
+                    $request->file('img_guru')->move('guru_image/',$filename);
+                    $thumbnail   = $filename;
+                    File::copy(public_path('guru_image/'.$filename), public_path('image_guru/'.$thumbnail));
+                        
+                    $largethumbnailpath = public_path('guru_image/'.$thumbnail);
+                    $this->createThumbnail($largethumbnailpath, 366, 431);
+
+                    $data = Detailguru::updateOrCreate(
+                        [
+                            'id' => $request->id,
+                        ],
+                        [
+                            'guru_id' => $request->guru_id,
+                            'img_guru' => $filename,
+                            'wa_guru' => $request->wa_guru,
+                        ]
+                    );
+
+                    return response()->json(
+                        [
+                            'status' => 200,
+                            'message' => 'data berhasil di update',
+                        ]
+                    );
+
+                }else {
+                    # code...
+                    $data = Detailguru::updateOrCreate(
+                        [
+                            'id' => $request->id,
+                        ],
+                        [
+                            'guru_id' => $request->guru_id,
+                            'wa_guru' => $request->wa_guru,
+                        ]
+                    );
+
+                    return response()->json(
+                        [
+                            'status' => 200,
+                            'message' => 'data berhasil di update',
+                        ]
+                    );
+                }
+
+            }else {
+                # code...
+                $filename    = time().'.'.$request->img_guru->getClientOriginalExtension();
+                $request->file('img_guru')->move('guru_image/',$filename);
+                $thumbnail   = $filename;
+                File::copy(public_path('guru_image/'.$filename), public_path('image_guru/'.$thumbnail));
+                    
+                $largethumbnailpath = public_path('guru_image/'.$thumbnail);
+                $this->createThumbnail($largethumbnailpath, 366, 431);
+
+                $data = Detailguru::updateOrCreate(
+                    [
+                        'id' => $request->id,
+                    ],
+                    [
+                        'guru_id' => $request->guru_id,
+                        'img_guru' => $filename,
+                        'wa_guru' => $request->wa_guru,
+                    ]
+                );
+
+                return response()->json(
+                    [
+                        'status' => 200,
+                        'message' => 'data berhasil di update',
+                    ]
+                );
+            }
+        }
+    }
+
+    public function update_photo2(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'guru_id'       => 'required',
+            'wa_guru'       => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            # code...
+            return response()->json([
+                'status' => 400,
+                'message' => $validator->messages(),
+            ]);
+        }else {
+            $exist = Detailguru::where('guru_id', $request->guru_id)->first();
+            if ($exist) {
+                # code...
+                if($request->hasFile('img_guru')) {
+                    # code...
+                    if( File::exists(public_path('image_guru/'.$exist->img_guru))){
+                        File::delete(public_path('image_guru/'.$exist->img_guru));
+                        File::delete(public_path('guru_image/'.$exist->img_guru));
+                    }
+                    $filename    = time().'.'.$request->img_guru->getClientOriginalExtension();
+                    $request->file('img_guru')->move('guru_image/',$filename);
+                    $thumbnail   = $filename;
+                    File::copy(public_path('guru_image/'.$filename), public_path('image_guru/'.$thumbnail));
+                        
+                    $largethumbnailpath = public_path('guru_image/'.$thumbnail);
+                    $this->createThumbnail($largethumbnailpath, 366, 431);
+
+                    $data = Detailguru::updateOrCreate(
+                        [
+                            'id' => $request->id,
+                        ],
+                        [
+                            'guru_id' => $request->guru_id,
+                            'img_guru' => $filename,
+                            'wa_guru' => $request->wa_guru,
+                        ]
+                    );
+
+                    return response()->json(
+                        [
+                            'status' => 200,
+                            'message' => 'data berhasil di update',
+                        ]
+                    );
+
+                }else {
+                    # code...
+                    $data = Detailguru::updateOrCreate(
+                        [
+                            'id' => $request->id,
+                        ],
+                        [
+                            'guru_id' => $request->guru_id,
+                            'wa_guru' => $request->wa_guru,
+                        ]
+                    );
+
+                    return response()->json(
+                        [
+                            'status' => 200,
+                            'message' => 'data berhasil di update',
+                        ]
+                    );
+                }
+
+            }else {
+                # code...
+                $filename    = time().'.'.$request->img_guru->getClientOriginalExtension();
+                $request->file('img_guru')->move('guru_image/',$filename);
+                $thumbnail   = $filename;
+                File::copy(public_path('guru_image/'.$filename), public_path('image_guru/'.$thumbnail));
+                    
+                $largethumbnailpath = public_path('guru_image/'.$thumbnail);
+                $this->createThumbnail($largethumbnailpath, 366, 431);
+
+                $data = Detailguru::updateOrCreate(
+                    [
+                        'id' => $request->id,
+                    ],
+                    [
+                        'guru_id' => $request->guru_id,
+                        'img_guru' => $filename,
+                        'wa_guru' => $request->wa_guru,
+                    ]
+                );
+
+                return response()->json(
+                    [
+                        'status' => 200,
+                        'message' => 'data berhasil di update',
+                    ]
+                );
+            }
+        }
+    }
+
+    public function update_bio(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'guru_id'       => 'required',
+            'quote'       => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            # code...
+            return response()->json([
+                'status' => 400,
+                'message' => $validator->messages(),
+            ]);
+        }else {
+            $data = Guru::where('id', $request->guru_id)->update(
+                [
+                    'quote'=> $request->quote,
+                ]
+            );
+
+            return response()->json(
+                [
+                    'status' => 200,
+                    'message' => 'bio berhasil di update',
+                ]
+            );
+        }
     }
 }

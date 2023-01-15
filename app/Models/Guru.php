@@ -41,4 +41,9 @@ class Guru extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function detailguru()
+    {
+        return $this->hasOne(Detailguru::class);
+    }
 }

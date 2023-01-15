@@ -131,7 +131,7 @@ class MapelController extends Controller
     }
 
     public function update_mapel(Request $request)
-    {
+    { 
         $validator = Validator::make($request->all(), [
             'id' => 'required',
             'mapel_name'       => 'required|',

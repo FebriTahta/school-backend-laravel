@@ -34,4 +34,9 @@ class Siswa extends Model
     {
         return $this->belongsTo(Kelas::class);
     }
+
+    public function detailsiswa()
+    {
+        return $this->hasOne(DetailSiswa::class);
+    }
 }
