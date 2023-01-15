@@ -48,7 +48,7 @@ class QuizController extends Controller
         // return $request->all();
 
         $request->siswaId = 13;
-        $request->ujian_id = 2;
+        $request->ujian_id = 3;
         // $request['soalId'] = 13;
         // ada input jawaban
         if ($request->jawabanId) {

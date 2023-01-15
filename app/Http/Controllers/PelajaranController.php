@@ -27,7 +27,7 @@ class PelajaranController extends Controller
 
     public function mapel_mapelmaster_siswa($mapelmaster_id)
     {
-        // $mapelmaster_id = Crypt::decrypt($mapelmaster_id);
+        $mapelmaster_id = Crypt::decrypt($mapelmaster_id);
         $mapelmaster = Mapelmaster::findOrFail($mapelmaster_id)->with('materi')->withcount('docs', 'vids', 'ujian', 'materi')->first();
         return view('fe_page.detail_mapel_siswa', ['mapelmaster' => $mapelmaster]);
     }

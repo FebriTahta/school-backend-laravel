@@ -22,7 +22,21 @@
                             </div>
                             <div class="events__sidebar-widget white-bg">
                                 <div class="events__sponsor">
-                                    <h3 class="events__sponsor-title">Overview</h3>
+                                    <h3 class="events__sponsor-title">Name : {{ auth()->user()->siswa->siswa_name }}</h3>
+                                    <div class="events__sponsor-info">
+                                        <div class="row">
+                                            <div class="col-md-6 col-6">
+                                                <button style="width: 100%" class="btn btn-sm btn-outline-info">credential</button>
+                                            </div>
+                                            <div class="col-md-6 col-6">
+                                                <button style="width: 100%" class="btn btn-sm btn-outline-info">my photo</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="events__sponsor">
+                                    <h3 class="events__sponsor-title">Class Overview</h3>
                                     <div class="events__sponsor-info">
                                         <h3>Guru : {{ $mapelmaster->guru->guru_name }}</h3>
                                         <h4><span>Materi pada matapelajaran ini meliputi : {{ $mapelmaster->docs_count }} dokumen {{ $mapelmaster->vids_count }} video
