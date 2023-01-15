@@ -125,7 +125,7 @@
         function goto(id) {
             // alert(id);
             // show selected section to user
-            
+
         }
         $(document).on('ready', function() {
             $(document).on("keydown", disableF5);
