@@ -16,12 +16,12 @@ class PelajaranController extends Controller
     public function mapel_mapelmaster($mapelmaster_id)
     {
         // $mapelmaster_id = Crypt::decrypt($mapelmaster_id);
-        $mapelmaster = Mapelmaster::findOrFail($mapelmaster_id)->with('materi')->withcount('docs','vids','ujian','materi')->first();
+        $mapelmaster = Mapelmaster::findOrFail($mapelmaster_id)->with('materi')->withcount('docs', 'vids', 'ujian', 'materi')->first();
         $guru_id = Guru::where('user_id', '=', auth()->user()->id)->first();
         $tugas = Tugas::where('guru_id', '=', $guru_id->id);
-        return view('fe_page.detail_mapel',[
-            'mapelmaster'=> $mapelmaster,
-            'tugas'=> $tugas
+        return view('fe_page.detail_mapel', [
+            'mapelmaster' => $mapelmaster,
+            'tugas' => $tugas
         ]);
     }
 
@@ -32,10 +32,11 @@ class PelajaranController extends Controller
         return view('fe_page.detail_mapel_siswa', ['mapelmaster' => $mapelmaster]);
     }
 
-    public function add_tugas_siswa(Request $request){
+    public function add_tugas_siswa(Request $request)
+    {
 
         // dd($request);
-        
+
         $validator = Validator::make($request->all(), [
             'tugas_name'       => 'required',
         ]);
@@ -46,14 +47,14 @@ class PelajaranController extends Controller
                 'status' => 400,
                 'message' => $validator->messages(),
             ]);
-        }else {
+        } else {
             # code...
             $data = Tugas::updateOrCreate(
                 [
-                    'id'=> $request->id,
+                    'id' => $request->id,
                 ],
                 [
-                    'mapelmaster_id'=> $request->mapelmaster_id,
+                    'mapelmaster_id' => $request->mapelmaster_id,
                     'guru_id' => $request->guru_id,
                     'kelas_id' => $request->kelas_id,
                     'uploader_nip' => $request->uploader_nip,
@@ -63,7 +64,7 @@ class PelajaranController extends Controller
             );
 
             return response()->json([
-                'status'=> 200,
+                'status' => 200,
                 'message' => 'Tugas baru ditambahkan'
             ]);
         }
