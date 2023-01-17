@@ -144,7 +144,7 @@ Route::group(['middleware' => ['auth', 'CheckRole:guru,siswa']], function () {
     Route::controller(PelajaranController::class)->group(function () {
         Route::get('/mapel/{mapelmaster_id}', 'mapel_mapelmaster');
         Route::get('/mapel-siswa/{mapelmaster_id}', 'mapel_mapelmaster_siswa');
-        Route::post('/post-tugas-siswa','add_tugas_siswa');
+        Route::post('/post-tugas-siswa', 'add_tugas_siswa');
     });
     Route::controller(MateriController::class)->group(function () {
         Route::post('/post-materi', 'post_materi');
@@ -159,4 +159,6 @@ Route::group(['middleware' => ['auth', 'CheckRole:guru,siswa']], function () {
 // });
 
 Route::get('/do-quiz/{ujian_id}', [QuizController::class, 'doQuiz'])->name('doQuiz');
+Route::post('/post-quiz', [QuizController::class, 'postQuiz'])->name('postQuiz');
+Route::get('/prev-quiz/{ujian_id}', [QuizController::class, 'prevQuiz'])->name('prevQuiz');
 // Route::post('/post-quiz', [QuizController::class, 'postQuiz'])->name('postQuiz');

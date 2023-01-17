@@ -32,26 +32,17 @@
                                         </div>
                                         <div class="events__sponsor-info button-nav">
                                             @foreach ($quizPanel as $i => $panel)
-                                                @if ($panel->optionmulti_id == null)
-                                                    <a href="{{ route('doQuiz', [
-                                                        'ujian_id' => $quiz->id,
-                                                        'byPanel' => $panel->soalmulti_id,
-                                                    ]) }}"
-                                                        id="btnQuiz-{{$panel->soalmulti_id}}" type="button" style="margin: 7px"
-                                                        class="btn btn-sm btn-outline-secondary"> <span
-                                                            style="font-size: 12px">{{ $i + 1 }}</span> </a>
-                                                @else
-                                                    <a href="{{ route('doQuiz', [
-                                                        'ujian_id' => $quiz->id,
-                                                        'byPanel' => $panel->soalmulti_id,
-                                                    ]) }}"type="button"
-                                                        style="margin: 7px" class="btn btn-sm btn-success">
-                                                        <span style="font-size: 12px">{{ $i + 1 }}</span> </a>
-                                                @endif
+                                                <a href="{{ route('doQuiz', [
+                                                    'ujian_id' => $quiz->id,
+                                                    'byPanel' => $panel->soalmulti_id,
+                                                ]) }}"
+                                                    id="btnQuiz-{{ $panel->soalmulti_id }}" type="button"
+                                                    style="margin: 7px" class="btn btn-sm btn-outline-secondary"> <span
+                                                        style="font-size: 12px">{{ $i + 1 }}</span> </a>
                                             @endforeach
                                             <hr>
-                                            <button style="margin: 7px"
-                                                class="btn btn-sm btn-block btn-suuccess">FINISH</button>
+                                            <button style="margin: 7px" class="e-btn btn-block"
+                                                disabled>FINISH</button>
                                         </div>
                                     </div>
                                 </div>
@@ -96,10 +87,9 @@
                                                 <div class="row">
                                                     @foreach ($q->optionMulti as $key => $opt)
                                                         <div class="form-group col-md-1 col-2">
-                                                            <input id="jawabanId" name="jawabanId" type="radio"
+                                                            <input disabled id="jawabanId" name="jawabanId" type="radio"
                                                                 onclick="postQuiz({{ $quiz->id }},{{ $q->id }},{{ $opt->id }})"
-                                                                value="{{ $opt->id }}"
-                                                                {{ $q->jawabanSiswa == $opt->id ? 'checked' : '' }}><span>
+                                                                value="{{ $opt->id }}"><span>
                                                                 {{ $opts[$key] }}</span>
                                                         </div>
                                                         <div class="form-group col-md-11 col-10">
