@@ -159,4 +159,4 @@ Route::group(['middleware' => ['auth', 'CheckRole:guru,siswa']], function () {
 // });
 
 Route::get('/do-quiz/{ujian_id}', [QuizController::class, 'doQuiz'])->name('doQuiz');
-Route::post('/post-quiz', [QuizController::class, 'postQuiz'])->name('postQuiz');
+// Route::post('/post-quiz', [QuizController::class, 'postQuiz'])->name('postQuiz');

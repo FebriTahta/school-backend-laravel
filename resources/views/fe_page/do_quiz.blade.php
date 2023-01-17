@@ -31,17 +31,23 @@
                                             <h4><span>Usahakan selesaikan seluruh soal sebelum batas waktu pengerjaan
                                                     habis</span></h4>
                                         </div>
-
                                         <div class="events__sponsor-info button-nav">
                                             @foreach ($quizPanel as $i => $panel)
                                                 @if ($panel->optionmulti_id == null)
-                                                    <button type="button" style="margin: 7px"
+                                                    <a href="{{ route('doQuiz', [
+                                                        'ujian_id' => $quiz->id,
+                                                        'byPanel' => $panel->soalmulti_id,
+                                                    ]) }}"
+                                                        type="button" style="margin: 7px"
                                                         class="btn btn-sm btn-outline-secondary"> <span
-                                                            style="font-size: 12px">{{ $i + 1 }}</span> </button>
+                                                            style="font-size: 12px">{{ $i + 1 }}</span> </a>
                                                 @else
-                                                    <button type="button" style="margin: 7px"
-                                                        class="btn btn-sm btn-success"> <span
-                                                            style="font-size: 12px">{{ $i + 1 }}</span> </button>
+                                                    <a href="{{ route('doQuiz', [
+                                                        'ujian_id' => $quiz->id,
+                                                        'byPanel' => $panel->soalmulti_id,
+                                                    ]) }}"type="button"
+                                                        style="margin: 7px" class="btn btn-sm btn-success">
+                                                        <span style="font-size: 12px">{{ $i + 1 }}</span> </a>
                                                 @endif
                                             @endforeach
                                         </div>
@@ -87,9 +93,11 @@
                                             <li style="line-height: 30px">
                                                 <div class="row">
                                                     @foreach ($q->optionMulti as $key => $opt)
+                                                       
                                                         <div class="form-group col-md-1 col-2">
                                                             <input id="jawabanId" name="jawabanId" type="radio"
-                                                                value="{{ $opt->id }}"><span>
+                                                                value="{{ $opt->id }}"
+                                                                {{ $q->jawabanSiswa == $opt->id ? 'checked' : '' }}><span>
                                                                 {{ $opts[$key] }}</span>
                                                         </div>
                                                         <div class="form-group col-md-11 col-10">
@@ -162,6 +170,7 @@
                 e.preventDefault();
             }
         };
+        
         $(document).on("keydown", this.disableF5);
         this.startQuiz();
     </script>
