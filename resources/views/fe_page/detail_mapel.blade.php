@@ -93,11 +93,11 @@
                                         aria-labelledby="description-tab">
                                         <div class="course__description">
                                             <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#modaltugas"><i class="fa fa-plus"></i>
-                                            Tugas</button>
+                                                data-bs-target="#modaltugas"><i class="fa fa-plus"></i>
+                                                Tugas</button>
                                             <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
-                                            data-bs-target="#modaladddocstugas"><i class="fa fa-book"></i>
-                                            Dokumen</button>
+                                                data-bs-target="#modaladddocstugas"><i class="fa fa-book"></i>
+                                                Dokumen</button>
                                             <h3 class="mt-3">Petunjuk</h3>
                                             <p>
                                                 Lakukan display sama seperti materi kalau bisa tampilkan dengan preview
@@ -386,7 +386,7 @@
                 <div class="modal-header bg-primary">
                     <h4 class="modal-title" style="font-size: 16px; color:white">TUGAS BARU</h4>
                 </div>
-                <form id="add_tugas_siswa" > @csrf
+                <form id="add_tugas_siswa"> @csrf
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12">
@@ -398,8 +398,10 @@
                                     value="{{ $mapelmaster->kelas->id }}">
                                 <input type="hidden" class="form-control" name="uploader_nip"
                                     value="{{ auth()->user()->guru->guru_nip }}">
-                                <input type="text" placeholder="judul tugas" name="tugas_name" class="form-control mb-3" id="judul_tugas" required>
-                                <textarea name="tugas_desc" id="tugas_desc" cols="10" rows="5" placeholder="deskripsi tugas" class="form-control mb-3" required></textarea>
+                                <input type="text" placeholder="judul tugas" name="tugas_name"
+                                    class="form-control mb-3" id="judul_tugas" required>
+                                <textarea name="tugas_desc" id="tugas_desc" cols="10" rows="5" placeholder="deskripsi tugas"
+                                    class="form-control mb-3" required></textarea>
                             </div>
                         </div>
                     </div>
@@ -649,7 +651,53 @@
                         <input type="submit" id="btnimportsiswa" class="btn btn-sm btn-primary" value="Import">
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
 
+    <div class="modal fade" id="modalcreateujian" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">UJIAN BARU</h4>
+                </div>
+                <form id="add_ujian"> @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="hidden" class="form-control" name="mapelmaster_id"
+                                    value="{{ $mapelmaster->id }}">
+                                <select name="materi_id" id="materi_id" required class="form-control mb-3">
+                                    <option value="">:: Ujian ::</option>
+                                    @foreach ($mapelmaster->materi as $materi)
+                                        <option value="{{ $materi->id }}">{{ $item->materi_name }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="form-group mb-20">
+                                    <input class="form-control" id="ujian_name" name="ujian_name"
+                                        placeholder="Nama Ujian">
+                                </div>
+                                <div class="form-group mb-20">
+                                    <input class="form-control" id="ujian_lamapengerjaan" name="ujian_lamapengerjaan"
+                                        placeholder="Lama pengerjaan (in minute)">
+                                </div>
+                                <div class="form-group mb-20">
+                                    <input class="form-control" type="datetime-local" id="ujian_datetimestart"
+                                        name="ujian_datetimestart" placeholder="Waktu mulai">
+                                </div>
+                                <div class="form-group mb-20">
+                                <input class="form-control" type="datetime-local" id="ujian_datetimeend"
+                                    name="ujian_datetimeend" placeholder="Waktu berakhir">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closemodalcreateujian" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
+                        <input type="submit" id="btnaddujian" class="btn btn-sm btn-primary" value="Submit">
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -724,6 +772,10 @@
         })
         $('#closemodaldocstugas').on('click', function() {
             $('#modaladddocstugas').modal('hide');
+        })
+        $('#closemodalcreateujian').on('click', function() {
+            // alert('a');
+            $('#modalcreateujian').modal('hide');
         })
 
         $('#formadd').submit(function(e) {
@@ -908,6 +960,56 @@
                     } else {
                         $('#btnadddocs').val('Submit');
                         $('#btnadddocs').attr('disabled', false);
+                        var values = '';
+                        jQuery.each(response.message, function(key, value) {
+                            values += value + '\n'
+                        });
+                        swal({
+                            title: "Maaf",
+                            text: values,
+                            type: "error",
+                        });
+                        toastr.error(values);
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        $('#add_ujian').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: "/ujianStore",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btnaddujian').attr('disabled', 'disabled');
+                    $('#btnaddujian').val('Process...');
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        $('#modalcreateujian').modal('hide');
+                        $("#add_tugas_siswa")[0].reset();
+                        $('#btnaddujian').val('Submit');
+                        $('#btnaddujian').attr('disabled', false);
+
+                        toastr.success(response.message);
+                        swal({
+                            title: "SUCCESS!",
+                            text: response.message,
+                            type: "success"
+                        });
+                        reload();
+
+                    } else {
+                        $('#btnaddujian').val('Submit');
+                        $('#btnaddujian').attr('disabled', false);
                         var values = '';
                         jQuery.each(response.message, function(key, value) {
                             values += value + '\n'
