@@ -180,8 +180,9 @@ class QuizController extends Controller
 
     public function finishQuiz(Request $request)
     {
-        return 'finish here';
-        return $request->all();
+        return redirect('/');
+        // return 'finish here';
+        // return $request->all();
     }
 
     public function ujianStore(Request $request)
@@ -192,7 +193,7 @@ class QuizController extends Controller
             Ujian::create($request->all());
             return response()->json([
                 'status' => 200,
-                'message' => 'Materi baru ditambahkan'
+                'message' => 'Ujian baru ditambahkan'
             ]);
         } catch (\Throwable $th) {
             throw $th;
