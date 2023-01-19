@@ -7,9 +7,15 @@ use App\Models\Soalmulti;
 use App\Models\Ujian;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class QuizController extends Controller
 {
+
+    public function addUjian()
+    {
+    }
+
     public function doQuiz($id, Request $request)
     {
         $request->siswaId = 13;
@@ -174,6 +180,23 @@ class QuizController extends Controller
 
     public function finishQuiz(Request $request)
     {
-        return $request->all();
+        return redirect('/');
+        // return 'finish here';
+        // return $request->all();
+    }
+
+    public function ujianStore(Request $request)
+    {
+        try {
+            $request['ujian_jenis'] = 1;
+            $request['ujian_slug'] = Str::slug($request['ujian_name']) . '-' . Str::random(5);
+            Ujian::create($request->all());
+            return response()->json([
+                'status' => 200,
+                'message' => 'Ujian baru ditambahkan'
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }
