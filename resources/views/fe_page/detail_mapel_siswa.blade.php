@@ -184,6 +184,11 @@
                                                                                 data-src="{{ $v->vids_link }}"
                                                                                 class="text-danger"><i class="fa fa-play"
                                                                                     style="font-size: 12px"></i> tonton</a>
+                                                                            @foreach ($item->ujian as $ujian)
+                                                                                <button type="button"
+                                                                                    class="btn btn-sm btn-default"
+                                                                                    onclick="check({{ $mapelmaster->id }},{{ $item->id }},{{ $ujian }})">OK</button>
+                                                                            @endforeach
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
@@ -220,16 +225,16 @@
                                                                                 class="text-primary"><i
                                                                                     class="fa fa-download"
                                                                                     style="font-size: 14px"></i> unduh</a>
-                                                                            <button class="text-primary"> OK</button>
+                                                                            @foreach ($item->ujian as $ujian)
+                                                                                <button type="button"
+                                                                                    class="btn btn-sm btn-default"
+                                                                                    onclick="check({{ $mapelmaster->id }},{{ $item->id }},{{ $ujian }})">OK</button>
+                                                                            @endforeach
 
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
-                                                                @foreach ($item->ujian as $ujian)
-                                                                    <button type="button" class="btn btn-sm btn-default"
-                                                                        onclick="check({{ $mapelmaster->id }},{{ $item->id }},{{ $ujian }})">UJIAN
-                                                                        NAME :{{ $ujian->ujian_name }}</button>
-                                                                @endforeach
+
                                                             </div>
                                                         </div>
                                                     </div>
