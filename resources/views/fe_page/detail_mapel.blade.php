@@ -203,6 +203,9 @@
                                                                                 class="text-danger"><i class="fa fa-play"
                                                                                     style="font-size: 12px"></i> tonton</a>
                                                                             <a class="text-info">| edit</a>
+                                                                            {{-- skip --}}
+                                                                            <a href="#" class="text-success">|
+                                                                                preview</a>
                                                                             <a href="#_" data-bs-toggle="modal"
                                                                                 data-bs-target="#modalhapusvideo"
                                                                                 class="text-warning">| hapus</a>
@@ -243,6 +246,7 @@
                                                                                     class="fa fa-download"
                                                                                     style="font-size: 14px"></i> unduh</a>
                                                                             <a class="text-info">| edit</a>
+                                                                            <a class="text-success">| preview</a>
                                                                             <a class="text-warning">| hapus</a>
                                                                         </div>
                                                                     </div>
@@ -686,8 +690,8 @@
                                         name="ujian_datetimestart" placeholder="Waktu mulai">
                                 </div>
                                 <div class="form-group mb-20">
-                                <input class="form-control" type="datetime-local" id="ujian_datetimeend"
-                                    name="ujian_datetimeend" placeholder="Waktu berakhir">
+                                    <input class="form-control" type="datetime-local" id="ujian_datetimeend"
+                                        name="ujian_datetimeend" placeholder="Waktu berakhir">
                                 </div>
                             </div>
                         </div>

@@ -25,8 +25,9 @@
                                     <h3 class="events__sponsor-title">Overview</h3>
                                     <div class="events__sponsor-info">
                                         <h3>Guru : {{ $mapelmaster->guru->guru_name }}</h3>
-                                        <h4><span>Materi pada matapelajaran ini meliputi : {{ $mapelmaster->docs_count }} dokumen {{ $mapelmaster->vids_count }} video
-                                             dan {{ $mapelmaster->ujian_count }} exam</span></h4>
+                                        <h4><span>Materi pada matapelajaran ini meliputi : {{ $mapelmaster->docs_count }}
+                                                dokumen {{ $mapelmaster->vids_count }} video
+                                                dan {{ $mapelmaster->ujian_count }} exam</span></h4>
                                     </div>
                                 </div>
                             </div>
@@ -92,16 +93,17 @@
                                         <div class="course__description">
                                             <h3>Petunjuk</h3>
                                             <p>
-                                                Lakukan display sama seperti materi kalau bisa tampilkan dengan preview dokumen, kalau belum bisa lewati dulu preview dokumennya
+                                                Lakukan display sama seperti materi kalau bisa tampilkan dengan preview
+                                                dokumen, kalau belum bisa lewati dulu preview dokumennya
                                                 1 tugas dapat memiliki beberapa docs_file
-                                                
+
                                             </p>
                                         </div>
                                     </div>
                                     <div class="tab-pane fade  show active" id="curriculum" role="tabpanel"
                                         aria-labelledby="curriculum-tab">
                                         <div class="course__curriculum">
-                                            
+
                                             @if ($mapelmaster->materi_count < 1)
                                                 <div class="accordion" style="margin-top: 20px">
                                                     <h4 style="color: red">
@@ -151,6 +153,7 @@
                                                                         </div>
                                                                     </div>
                                                                 @endif
+
                                                                 @foreach ($item->vids as $v)
                                                                     <div
                                                                         class="course__curriculum-content d-sm-flex justify-content-between align-items-center">
@@ -175,10 +178,12 @@
                                                                             <span class="item"
                                                                                 style="margin-right: 10px"><i
                                                                                     class="icon_clock_alt"></i></span>
-                                                                            <a href="#{{ $v->vids_link }}"  data-bs-toggle="modal" data-bs-target="#modalplayvids" 
-                                                                                data-src="{{ $v->vids_link }}" class="text-danger"><i
-                                                                                    class="fa fa-play"
-                                                                                    style="font-size: 12px" ></i> tonton</a>
+                                                                            <a href="#{{ $v->vids_link }}"
+                                                                                data-bs-toggle="modal"
+                                                                                data-bs-target="#modalplayvids"
+                                                                                data-src="{{ $v->vids_link }}"
+                                                                                class="text-danger"><i class="fa fa-play"
+                                                                                    style="font-size: 12px"></i> tonton</a>
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
@@ -204,16 +209,26 @@
                                                                             <h3> <span>{{ $d->docs_name }} </span></h3>
                                                                         </div>
                                                                         <div class="course__curriculum-meta">
-                                                                           <span class="item"
-                                                                           style="margin-right: 10px"><i
-                                                                               class="icon_clock_alt"></i></span>
-                                                                       <a href="#" data-bs-toggle="modal" data-bs-target="#modaldownloaddocs"
-                                                                       data-id="{{ $d->id }}" data-docs_name="{{ $d->docs_name }}"
-                                                                       data-docs_desc="{{ $d->docs_desc }}" class="text-primary"><i
-                                                                               class="fa fa-download"
-                                                                               style="font-size: 14px"></i> unduh</a>
+                                                                            <span class="item"
+                                                                                style="margin-right: 10px"><i
+                                                                                    class="icon_clock_alt"></i></span>
+                                                                            <a href="#" data-bs-toggle="modal"
+                                                                                data-bs-target="#modaldownloaddocs"
+                                                                                data-id="{{ $d->id }}"
+                                                                                data-docs_name="{{ $d->docs_name }}"
+                                                                                data-docs_desc="{{ $d->docs_desc }}"
+                                                                                class="text-primary"><i
+                                                                                    class="fa fa-download"
+                                                                                    style="font-size: 14px"></i> unduh</a>
+                                                                            <button class="text-primary"> OK</button>
+
                                                                         </div>
                                                                     </div>
+                                                                @endforeach
+                                                                @foreach ($item->ujian as $ujian)
+                                                                    <button type="button" class="btn btn-sm btn-default"
+                                                                        onclick="check({{ $mapelmaster->id }},{{ $item->id }},{{ $ujian }})">UJIAN
+                                                                        NAME :{{ $ujian->ujian_name }}</button>
                                                                 @endforeach
                                                             </div>
                                                         </div>
@@ -251,28 +266,28 @@
                                         aria-labelledby="member-tab">
                                         <div class="course__member mb-45">
                                             @foreach ($mapelmaster->kelas->siswa as $item)
-                                            <div class="course__member-item">
-                                                <div class="row align-items-center">
-                                                    
-                                                    <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-10 col-sm-8">
-                                                        <div class="course__member-thumb d-flex align-items-center">
-                                                            <img src="{{ asset('fe_assets/assets/img/course/instructor/course-instructor-1.jpg') }}"
-                                                                alt="">
-                                                            <div class="course__member-name ml-20">
-                                                                <h5>{{ $item->siswa_name }}</h5>
-                                                                <span>RPL</span>
+                                                <div class="course__member-item">
+                                                    <div class="row align-items-center">
+
+                                                        <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-10 col-sm-8">
+                                                            <div class="course__member-thumb d-flex align-items-center">
+                                                                <img src="{{ asset('fe_assets/assets/img/course/instructor/course-instructor-1.jpg') }}"
+                                                                    alt="">
+                                                                <div class="course__member-name ml-20">
+                                                                    <h5>{{ $item->siswa_name }}</h5>
+                                                                    <span>RPL</span>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2 col-4">
-                                                        <div class="course__member-info pl-45">
-                                                            <h5>70</h5>
-                                                            <span>AVG</span>
+                                                        <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2 col-4">
+                                                            <div class="course__member-info pl-45">
+                                                                <h5>70</h5>
+                                                                <span>AVG</span>
+                                                            </div>
                                                         </div>
+
                                                     </div>
-                                                   
                                                 </div>
-                                            </div>
                                             @endforeach
                                         </div>
                                     </div>
@@ -312,7 +327,7 @@
         </div>
     </div>
 
-    
+
 
     <div class="modal fade" id="modaladdvids" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
@@ -325,7 +340,8 @@
                         <div class="row">
                             <div class="col-md-12 col-12" id="block-new-jurusan" style="padding-right: 5px">
                                 <div class="form-group mb-20">
-                                    <input type="hidden" class="form-control" value="{{ $mapelmaster->id }}" name="mapelmaster_id">
+                                    <input type="hidden" class="form-control" value="{{ $mapelmaster->id }}"
+                                        name="mapelmaster_id">
                                     <select name="materi_id" id="materi_id" required class="form-control">
                                         <option value="">:: Materi ::</option>
                                         @foreach ($mapelmaster->materi as $item)
@@ -363,7 +379,8 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="ratio ratio-16x9">
-                            <iframe  width="420" height="315" class="embed-responsive-item" src="" id="video" frameborder="0"  allowscriptaccess="always" allow="autoplay"></iframe>
+                            <iframe width="420" height="315" class="embed-responsive-item" src=""
+                                id="video" frameborder="0" allowscriptaccess="always" allow="autoplay"></iframe>
                         </div>
                     </div>
                 </div>
@@ -384,7 +401,8 @@
                         <p id="docs_desc"></p>
                     </div>
                     <div class="form-group">
-                        <a href="" id="download" class="btn btn-sm btn-outline-primary"><i class="fa fa-download"></i> unduh</a>
+                        <a href="" id="download" class="btn btn-sm btn-outline-primary"><i
+                                class="fa fa-download"></i> unduh</a>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -406,7 +424,8 @@
                         <div class="row">
                             <div class="col-md-12 col-12" id="block-new-jurusan" style="padding-right: 5px">
                                 <div class="form-group mb-20">
-                                    <input type="hidden" class="form-control" value="{{ $mapelmaster->id }}" name="mapelmaster_id">
+                                    <input type="hidden" class="form-control" value="{{ $mapelmaster->id }}"
+                                        name="mapelmaster_id">
                                     <select name="materi_id" id="materi_id" required class="form-control">
                                         <option value="">:: Materi ::</option>
                                         @foreach ($mapelmaster->materi as $item)
@@ -449,13 +468,14 @@
                         <div class="row">
                             <div class="col">
                                 <a href="#" class="btn btn-sm btn-outline-info" data-bs-toggle="modal"
-                                data-bs-target="#modalcreateujian"><i class="fa fa-plus"></i>
-                                Ujian</a>
-                                <a href="#" class="btn btn-sm btn-outline-primary" id="showtemplateujian" data-bs-toggle="modal"
-                                data-bs-target="#modaltemplateujian"><i class="fa fa-book"></i> Download Template</a>
+                                    data-bs-target="#modalcreateujian"><i class="fa fa-plus"></i>
+                                    Ujian</a>
+                                <a href="#" class="btn btn-sm btn-outline-primary" id="showtemplateujian"
+                                    data-bs-toggle="modal" data-bs-target="#modaltemplateujian"><i
+                                        class="fa fa-book"></i> Download Template</a>
                                 <a href="#" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal"
-                                data-bs-target="#modalimportujian"><i class="fa fa-upload"></i>
-                                Import From Template</a>
+                                    data-bs-target="#modalimportujian"><i class="fa fa-upload"></i>
+                                    Import From Template</a>
                             </div>
                         </div>
                     </div>
@@ -479,12 +499,13 @@
                         <div class="row">
                             <div class="col">
                                 <input type="number" class="form-control" name="number_soal" id="number_soal"
-                                        placeholder="Jumlah soal" required>
+                                    placeholder="Jumlah soal" required>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="closemodaladdujian" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" id="closemodaladdujian" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
                         <a href="#" class="btn btn-sm btn-outline-primary" id="btnaddujian">Download</a>
                         {{-- <input type="submit" id="btnaddujian" class="btn btn-sm btn-primary" value="Submit"> --}}
                     </div>
@@ -510,45 +531,45 @@
         $('#closemodaldownloaddocs').on('click', function() {
             $('#modaldownloaddocs').modal('hide');
         })
-        $('#modaldownloaddocs').on('show.bs.modal', function(event){
+        $('#modaldownloaddocs').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
             var id = button.data('id')
             var docs_name = button.data('docs_name')
             var docs_desc = button.data('docs_desc')
             var modal = $(this)
-            $("#download").attr("href", '/download-docs/'+id);
+            $("#download").attr("href", '/download-docs/' + id);
             modal.find('.modal-body #docs_name').html(docs_name);
             modal.find('.modal-body #docs_desc').html(docs_desc);
         })
-       
+
         var videoSrc;
         $('#closemodalplayvids').on('click', function() {
             $('#modalplayvids').modal('hide');
-            $('#video').attr('src',videoSrc);
+            $('#video').attr('src', videoSrc);
         })
-        $('#modalplayvids').on('show.bs.modal', function(event){
+        $('#modalplayvids').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
             videoSrc = button.data('src')
-            $('#video').attr('src',videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
+            $('#video').attr('src', videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
             console.log(videoSrc);
         })
         $('#closemodalmateri4').on('click', function() {
             $('#modaladdmateri4').modal('hide');
         })
 
-        $("#showtemplateujian").on('click', function(){
+        $("#showtemplateujian").on('click', function() {
             $('#modaladdmateri4').modal('hide');
         })
-        $('#btnaddujian').on('click', function(){
+        $('#btnaddujian').on('click', function() {
             var number_soal;
             number_soal = document.getElementById('number_soal').value;
             // number_soal = 1;
             // alert(number_soal);
             var modal = $(this)
-            $("#btnaddujian").attr("href","/guru-download-template-ujian/"+number_soal)
+            $("#btnaddujian").attr("href", "/guru-download-template-ujian/" + number_soal)
             $('#modaltemplateujian').modal('hide');
         })
-        $('#closemodaladdujian').on('click', function(){
+        $('#closemodaladdujian').on('click', function() {
             $('#modaltemplateujian').modal('hide');
         })
 
@@ -710,6 +731,21 @@
                 }
             });
         });
+
+        function check(mapelmaster_id, materi_id, ujian) {
+            let now = new Date().getTime();
+            let countDownDate = new Date(ujian.ujian_datetimeend).getTime();;
+            // console.log(countDownDate);
+            var distance = countDownDate - now;
+            // console.log(distance);
+            if (distance < 0) {
+                swal({
+                    title: "Waktu habis",
+                    html: 'Ujian berakhir. Redirecting... ',
+                    type: "info",
+                });
+            }
+        }
 
         function reload() {
             location.reload();
