@@ -770,6 +770,7 @@
             let now = new Date().getTime();
             let countDownDate = new Date(ujian.ujian_datetimeend).getTime();
             var distance = countDownDate - now;
+            
             if (distance < 0) {
                 swal({
                     title: "Waktu habis",
@@ -785,6 +786,8 @@
                     window.location = url;
                 });
             }
+            // var url = "/do-quiz/" + ujian.id;
+            // window.location.href = url;
         }
 
         function reload() {

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jawabanmulti;
+use App\Models\Siswa;
 use App\Models\Soalmulti;
 use App\Models\Ujian;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class QuizController extends Controller
@@ -18,7 +20,7 @@ class QuizController extends Controller
 
     public function doQuiz($id, Request $request)
     {
-        $request->siswaId = 13;
+        $request->siswaId =  Siswa::where('user_id', Auth::id())->first()->id;
         $request->ujian_id = $id;
         if ($request->jawabanId) {
             $data = Jawabanmulti::where('siswa_id', $request->siswaId)
@@ -59,14 +61,16 @@ class QuizController extends Controller
         $quizCount = Soalmulti::where('ujian_id', $ujian->id)->count();
         $jawabanCount = Jawabanmulti::where('siswa_id', $request->siswaId)
             ->where('ujian_id', $id)
-            ->where('optionmulti_id', '!=', null)
+            // ->where('optionmulti_id', '!=', 0)
             ->count();
         $nextQuiz = Jawabanmulti::where('siswa_id', $request->siswaId)
             ->where('ujian_id', $request->ujian_id)
-            ->where('optionmulti_id', null)->first();
+            // ->where('optionmulti_id', '!=', 0)
+            ->first();
         $quizPanel = Jawabanmulti::where('siswa_id', $request->siswaId)
             ->where('ujian_id', $id)
-            ->where('optionmulti_id', null)->get();
+            // ->where('optionmulti_id', '!=', 0)
+            ->get();
         $indx = 1;
         $soal = [];
         $arx = Jawabanmulti::where('siswa_id', $request->siswaId)
@@ -104,7 +108,7 @@ class QuizController extends Controller
 
     public function prevQuiz($id, Request $request)
     {
-        $request->siswaId = 13;
+        $request->siswaId =  Siswa::where('user_id', Auth::id())->first()->id;
         $request->ujian_id = $id;
         if ($request->jawabanId) {
             $data = Jawabanmulti::where('siswa_id', $request->siswaId)
@@ -175,7 +179,7 @@ class QuizController extends Controller
     public function postQuiz(Request $request)
     {
         try {
-            $request->siswaId = 13;
+            $request->siswaId =  Siswa::where('user_id', Auth::id())->first()->id;
             $data = Jawabanmulti::where('siswa_id', $request->siswaId)
                 ->where('ujian_id', $request->ujianId)
                 ->where('soalmulti_id', $request->soalId)->first();
