@@ -182,9 +182,8 @@
                         html: 'Ujian berakhir. Redirecting... ',
                         type: "info",
                     });
-                    setInterval(function() {
-                        document.getElementById("formQuiz").submit();
-                    }, 1000);
+                    document.getElementById("formQuiz").submit();
+                    window.location.href= '/';
                 }
             }, 1000);
 
