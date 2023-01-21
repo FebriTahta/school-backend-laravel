@@ -30,7 +30,7 @@ class QuizController extends Controller
             $data->jawabanku = $request->jawabanId;
             $data->save();
         }
-        $quiz = Soalmulti::inRandomOrder()->Get();
+
         $cond = Jawabanmulti::where('siswa_id', $request->siswaId)
             ->where('ujian_id', $request->ujian_id);
         if ($cond->count() <= 0) {
@@ -70,9 +70,11 @@ class QuizController extends Controller
         $quizPanel = Jawabanmulti::where('siswa_id', $request->siswaId)
             ->where('ujian_id', $id)
             // ->where('optionmulti_id', '!=', 0)
+            ->orderBy('id', 'desc')
             ->get();
         $indx = 1;
-        $soal = [];
+        $soal = Soalmulti::where('ujian_id', $request->ujian_id)->with(['OptionMulti'])->orderBy('id', 'desc')->first();
+        // $quiz = Soalmulti::inRandomOrder()->Get();
         $arx = Jawabanmulti::where('siswa_id', $request->siswaId)
             ->where('ujian_id', $request->ujian_id)->orderBy('id', 'asc')->pluck('id')->toArray();
         if ($jawabanCount >= $quizCount) {
@@ -93,7 +95,7 @@ class QuizController extends Controller
                 if ($value == $soal->id) $indx = $key + 1;
             }
         }
-        // return $indx;
+        // return $soal;
         $opts = ['A', 'B', 'C', 'D', 'E'];
         return view('fe_page.do_quiz')->with([
             'quizCount' => $quizCount,
