@@ -644,7 +644,29 @@
                 <form action="/admin-import-data-quiz" method="POST" enctype="multipart/form-data">@csrf
                     <div class="modal-body">
                         <div class="form-group">
-                            <input type="text" value="{{ $mapelmaster->id }}" id="ujianId" name="ujianId">
+                            <input type="hidden" class="form-control" name="mapelmaster_id"
+                                value="{{ $mapelmaster->id }}">
+                            <select name="materi_id" id="materi_id" required class="form-control mb-3">
+                                <option value="">:: Ujian ::</option>
+                                @foreach ($mapelmaster->materi as $materi)
+                                    <option value="{{ $materi->id }}">{{ $item->materi_name }}</option>
+                                @endforeach
+                            </select>
+                            <div class="form-group mb-20">
+                                <input class="form-control" id="ujian_name" name="ujian_name" placeholder="Nama Ujian">
+                            </div>
+                            <div class="form-group mb-20">
+                                <input class="form-control" id="ujian_lamapengerjaan" name="ujian_lamapengerjaan"
+                                    placeholder="Lama pengerjaan (in minute)">
+                            </div>
+                            <div class="form-group mb-20">
+                                <input class="form-control" type="datetime-local" id="ujian_datetimestart"
+                                    name="ujian_datetimestart" placeholder="Waktu mulai">
+                            </div>
+                            <div class="form-group mb-20">
+                                <input class="form-control" type="datetime-local" id="ujian_datetimeend"
+                                    name="ujian_datetimeend" placeholder="Waktu berakhir">
+                            </div>
                             <label for="file" style="font-size: 14px">Import Excel File Template Quiz</label>
                             <input type="file" class="form-control" style="border: none" name="file"
                                 id="file">

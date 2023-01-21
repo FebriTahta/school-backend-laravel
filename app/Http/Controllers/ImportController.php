@@ -87,14 +87,14 @@ class ImportController extends Controller
             $temp = 'be_assets\quiz\tempImportQuiz.xlsx';
             $writer->save($temp);
             $ujian = Ujian::create([
-                'mapelmaster_id' => $request->ujianId,
-                'materi_id' => 1,
-                'ujian_name' => 'ujian name',
-                'ujian_slug' => 'ujian-name-' . Str::random(5),
+                'mapelmaster_id' => $request->mapelmaster_id,
+                'materi_id' => $request->materi_id,
+                'ujian_name' => $request->ujian_name,
+                'ujian_slug' =>  Str::slug($request->ujian_name) . '-' . Str::random(5),
                 'ujian_jenis' => 1,
-                'ujian_lamapengerjaan' => 60,
-                'ujian_datetimestart' => '2023-01-12 09:00:00',
-                'ujian_datetimeend' => '2023-01-12 10:00:00',
+                'ujian_lamapengerjaan' => $request->ujian_lamapengerjaan,
+                'ujian_datetimestart' => $request->ujian_datetimestart,
+                'ujian_datetimeend' => $request->ujian_datetimeend,
             ]);
             Excel::import(new QuizImport($ujian->id), $temp);
             return redirect()->back()->with('success', 'data quiz berhasil diimport');

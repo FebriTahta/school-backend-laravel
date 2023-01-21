@@ -18,9 +18,10 @@ class PelajaranController extends Controller
     public function mapel_mapelmaster($mapelmaster_id)
     {
         // $mapelmaster_id = Crypt::decrypt($mapelmaster_id);
-        $mapelmaster = Mapelmaster::findOrFail($mapelmaster_id)->with('materi')->withcount('docs', 'vids', 'ujian', 'materi')->first();
+        $mapelmaster = Mapelmaster::findOrFail($mapelmaster_id)->with(['materi','mapel'])->withcount('mapel','docs', 'vids', 'ujian', 'materi')->first();
         $guru_id = Guru::where('user_id', '=', auth()->user()->id)->first();
         $tugas = Tugas::where('guru_id', '=', $guru_id->id);
+        // return $mapelmaster;
         return view('fe_page.detail_mapel', [
             'mapelmaster' => $mapelmaster,
             'tugas' => $tugas
