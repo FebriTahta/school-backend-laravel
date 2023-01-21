@@ -19,7 +19,7 @@ class QuizController extends Controller
     public function doQuiz($id, Request $request)
     {
         $request->siswaId = 13;
-        $request->ujian_id = 3;
+        $request->ujian_id = $id;
         if ($request->jawabanId) {
             $data = Jawabanmulti::where('siswa_id', $request->siswaId)
                 ->where('ujian_id', $request->ujian_id)
@@ -45,10 +45,15 @@ class QuizController extends Controller
         $ujian = Ujian::find($request->ujian_id);
         $now = Carbon::parse(Carbon::now());
         if ($now < $ujian->ujian_datetimestart) {
-            return 'belum dibuka pages here'; //bisa redirect pages
+            #abaikan
+            // return 'belum dibuka pages here'; //bisa redirect pages
+            // $status = 0;
+            // return redirect()->route('home')->with('warning', 'ujian belum dibuka');
         }
         if ($now > $ujian->ujian_datetimeend) {
-            return 'expired'; //bisa redirect pages
+            // return 'expired'; //bisa redirect pages
+            // $status = 2;
+            return redirect()->route('home')->with('success', 'ujian telah berakhir');
         }
         // 
         $quizCount = Soalmulti::where('ujian_id', $ujian->id)->count();
@@ -60,30 +65,38 @@ class QuizController extends Controller
             ->where('ujian_id', $request->ujian_id)
             ->where('optionmulti_id', null)->first();
         $quizPanel = Jawabanmulti::where('siswa_id', $request->siswaId)
-            ->where('ujian_id', $id)->get();
+            ->where('ujian_id', $id)
+            ->where('optionmulti_id', null)->get();
+        $indx = 1;
         $soal = [];
+        $arx = Jawabanmulti::where('siswa_id', $request->siswaId)
+            ->where('ujian_id', $request->ujian_id)->orderBy('id', 'asc')->pluck('id')->toArray();
         if ($jawabanCount >= $quizCount) {
             // return 'all soal done pages';
         } else {
             $soal = Soalmulti::where('id', $nextQuiz->soalmulti_id)->with(['OptionMulti'])->first();
-        }
-        $now = Carbon::parse(Carbon::now());
-        if ($now < $ujian->ujian_datetimestart) {
-            return 'belum dibuka pages here';
-        }
+            foreach ($arx as $key => $value) {
+                if ($value == $soal->id) $indx = $key + 1;
+            }
+        };
         if ($request->byPanel) {
             $jawaban = Jawabanmulti::where('siswa_id', $request->siswaId)
                 ->where('ujian_id', $request->ujian_id)
                 ->where('soalmulti_id', $request->byPanel)->first();
             $soal = Soalmulti::where('id', $request->byPanel)->with(['OptionMulti'])->first();
             $soal->jawabanSiswa = $jawaban->optionmulti_id;
+            foreach ($arx as $key => $value) {
+                if ($value == $soal->id) $indx = $key + 1;
+            }
         }
+        // return $indx;
         $opts = ['A', 'B', 'C', 'D', 'E'];
         return view('fe_page.do_quiz')->with([
             'quizCount' => $quizCount,
             'quiz' => $ujian,
+            'indx' => $indx,
             'q' => $soal,
-            'index' => 0, //$count,
+            'index' => $indx, //$count,
             'opts' => $opts,
             'quizPanel' => $quizPanel,
         ]);
@@ -92,7 +105,7 @@ class QuizController extends Controller
     public function prevQuiz($id, Request $request)
     {
         $request->siswaId = 13;
-        $request->ujian_id = 2;
+        $request->ujian_id = $id;
         if ($request->jawabanId) {
             $data = Jawabanmulti::where('siswa_id', $request->siswaId)
                 ->where('ujian_id', $request->ujian_id)
@@ -102,19 +115,6 @@ class QuizController extends Controller
             $data->save();
         }
         $quiz = Soalmulti::inRandomOrder()->Get();
-        $cond = Jawabanmulti::where('siswa_id', $request->siswaId)
-            ->where('ujian_id', $request->ujian_id);
-        if ($cond->count() <= 0) {
-            foreach ($quiz as $key => $value) {
-                Jawabanmulti::firstOrCreate([
-                    'siswa_id' => $request->siswaId,
-                    'ujian_id' => $request->ujian_id,
-                    'soalmulti_id' => $value->id,
-                    'optionmulti_id' => '0',
-                    'jawabanku' => '0',
-                ]);
-            }
-        }
         $ujian = Ujian::find($request->ujian_id);
         $now = Carbon::parse(Carbon::now());
         if ($now < $ujian->ujian_datetimestart) {
@@ -133,15 +133,24 @@ class QuizController extends Controller
             ->where('ujian_id', $id)
             ->where('optionmulti_id', '!=', null)
             ->count();
-        $nextQuiz = Jawabanmulti::where('siswa_id', $request->siswaId)
-            ->where('ujian_id', $request->ujian_id)
-            ->where('optionmulti_id', '0')->first();
         $quizPanel = Jawabanmulti::where('siswa_id', $request->siswaId)
             ->where('ujian_id', $id)->orderBy('id', 'asc')->get();
         $soal = [];
         if ($jawabanCount >= $quizCount) {
             // return 'all soal done pages';
         } else {
+            foreach ($quiz as $key => $value) {
+                Jawabanmulti::firstOrCreate([
+                    'siswa_id' => $request->siswaId,
+                    'ujian_id' => $request->ujian_id,
+                    'soalmulti_id' => $value->id,
+                    'optionmulti_id' => '0',
+                    'jawabanku' => '0',
+                ]);
+            }
+            $nextQuiz = Jawabanmulti::where('siswa_id', $request->siswaId)
+                ->where('ujian_id', $request->ujian_id)
+                ->where('optionmulti_id', '0')->first();
             $soal = Soalmulti::where('id', $nextQuiz->soalmulti_id)->with(['OptionMulti'])->first();
         }
         if ($request->byPanel) {
@@ -188,9 +197,13 @@ class QuizController extends Controller
     public function ujianStore(Request $request)
     {
         try {
-            $request['ujian_jenis'] = 1;
-            $request['ujian_slug'] = Str::slug($request['ujian_name']) . '-' . Str::random(5);
-            Ujian::create($request->all());
+            $data = $request->all();
+            $data['ujian_jenis'] = 1;
+            $data['ujian_slug'] = Str::slug($request['ujian_name']) . '-' . Str::random(5);
+            $data['ujian_datetimestart'] = (string) Carbon::parse($request['ujian_datetimestart'])->Format('Y-m-d h:i') . ":00";
+            $data['ujian_datetimeend'] = (string) Carbon::parse($request['ujian_datetimeend'])->Format('Y-m-d h:i') . ":00";
+            // return $data;
+            Ujian::create($data);
             return response()->json([
                 'status' => 200,
                 'message' => 'Ujian baru ditambahkan'

@@ -10,8 +10,8 @@
                         <div class="footer__widget mb-50">
                             <div class="footer__widget-head mb-22">
                                 <div class="footer__logo">
-                                    <a href="index.html">
-                                        <img src="{{ asset('fe_assets/assets/img/logo/logo-2.png') }}" alt="">
+                                    <a href="/">
+                                        <img style="max-width: 150px" src="{{ asset('lms-02.png') }}" alt="">
                                     </a>
                                 </div>
                             </div>

@@ -21,7 +21,7 @@
                                 <div class="events__sidebar-widget white-bg">
                                     <div class="events__sponsor" style="text-align: center">
                                         <h3 class="events__sponsor-title">
-                                            <h4>{{ $quiz->ujian_lamapengerjaan }}:00 MENIT (CD)</h4>
+                                            <h4>{{$quiz->ujian_datetimeend }} ({{ $quiz->ujian_lamapengerjaan }}:00 MENIT)</h4>
                                             <h5 id="counter"></h5>
                                         </h3>
 
@@ -37,8 +37,8 @@
                                                         'ujian_id' => $quiz->id,
                                                         'byPanel' => $panel->soalmulti_id,
                                                     ]) }}"
-                                                        id="btnQuiz-{{$panel->soalmulti_id}}" type="button" style="margin: 7px"
-                                                        class="btn btn-sm btn-outline-secondary"> <span
+                                                        id="btnQuiz-{{ $panel->soalmulti_id }}" type="button"
+                                                        style="margin: 7px" class="btn btn-sm btn-outline-secondary"> <span
                                                             style="font-size: 12px">{{ $i + 1 }}</span> </a>
                                                 @else
                                                     <a href="{{ route('doQuiz', [
@@ -67,6 +67,7 @@
                         </div>
                         <div class="col-xxl-8 col-xl-8 col-lg-8">
                             <div class="teacher__wrapper">
+                                {{-- @if (count($q) > 0) --}}
                                 <div class="teacher__top d-md-flex align-items-end justify-content-between mb-20">
                                     <input type="text" hidden id="soalId" name="soalId" value="{{ $q->id }}">
                                     @if (Str::limit($q->soal_name, 3) == 'be_...')
@@ -76,14 +77,12 @@
                                                 <img src="{{ asset($q->soal_name) }}" alt="">
                                             </div>
                                             <br>
-                                            <span>"2020 X RPL 1 : Sejarah"</span>
                                         </div>
                                     @else
                                         <div class="teacher__info" style="padding: 0; margin: 0">
                                             <h5>No. {{ $index }}</h5>
                                             <h5 style="font-size: 28px" class="text-capitalize">{{ $q->soal_name }}
                                             </h5>
-                                            <span>"2020 X RPL 1 : Sejarah"</span>
                                         </div>
                                     @endif
                                 </div>
@@ -124,6 +123,18 @@
                                             style="float: right; font-size: 20px"><u> Finish</u></button>
                                     @endif
                                 </div>
+
+                                {{-- @else
+
+                                <div class="teacher__info" style="padding: 0; margin: 0">
+                                    <h5> - </h5>
+                                    <div class="blog__thumb w-img fix">
+                                        <h5 class="text-uppercase text-danger"> Belum ada soal untuk quiz / ujian ini </h5>
+                                    </div>
+                                    <br>
+                                </div>
+
+                                @endif --}}
                             </div>
                         </div>
                     </div>
@@ -136,10 +147,10 @@
 
 @section('script')
     <!-- Toast -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"> --}}
     <script>
         function startQuiz() {
             var countDownDate = new Date(@json($quiz->ujian_datetimeend)).getTime();
@@ -166,7 +177,14 @@
                 if (distance < 0) {
                     clearInterval(x);
                     document.getElementById("counter").innerHTML = "Tersisa: EXPIRED";
-                    document.getElementById("formQuiz").submit();
+                    swal({
+                        title: "Waktu habis",
+                        html: 'Ujian berakhir. Redirecting... ',
+                        type: "info",
+                    });
+                    setInterval(function() {
+                        document.getElementById("formQuiz").submit();
+                    }, 1000);
                 }
             }, 1000);
 
@@ -179,6 +197,7 @@
         };
 
         $(document).on("keydown", this.disableF5);
+        $(document).ready(function() {});
         this.startQuiz();
 
         function postQuiz(ujianId, soalId, jawabanId) {

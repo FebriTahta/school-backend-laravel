@@ -39,4 +39,9 @@ class Siswa extends Model
     {
         return $this->hasOne(DetailSiswa::class);
     }
+
+    public function komenvideo()
+    {
+        return $this->hasMany(Komenvideo::class);
+    }
 }

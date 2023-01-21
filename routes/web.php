@@ -14,6 +14,7 @@ use App\Http\Controllers\PelajaranController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\KomenController;
 use GuzzleHttp\Psr7\Request;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 
@@ -31,6 +32,9 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 Route::get('/', function () {
     return redirect('login');
 });
+Route::get('/materi-video-comment/{vids_id}',[KomenController::class,'display_komen_video']);
+Route::post('/post-comment-video',[KomenController::class,'post_komen_video']);
+Route::get('/display-komen/{vids_id}',[KomenController::class,'display_komen']);
 
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -163,3 +167,5 @@ Route::post('/post-quiz', [QuizController::class, 'postQuiz'])->name('postQuiz')
 Route::get('/prev-quiz/{ujian_id}', [QuizController::class, 'prevQuiz'])->name('prevQuiz');
 Route::post('/ujianStore', [QuizController::class, 'ujianStore'])->name('ujianStore');
 // Route::post('/post-quiz', [QuizController::class, 'postQuiz'])->name('postQuiz');
+
+

@@ -107,53 +107,48 @@
                                             <div class="accordion" id="course__accordion">
                                                 <div class="accordion-item mb-50">
                                                     <h2 class="accordion-header" id="week-01">
-                                                        <button class="accordion-button text-capitalize"
-                                                            type="button" data-bs-toggle="collapse"
-                                                            data-bs-target="#x"
+                                                        <button class="accordion-button text-capitalize" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#x"
                                                             aria-expanded="true" aria-controls="week-01-content">
                                                             Ex : Tugas Matematik
                                                         </button>
                                                     </h2>
 
-                                                    <div id="x"
-                                                        class="accordion-collapse collapse show"
+                                                    <div id="x" class="accordion-collapse collapse show"
                                                         aria-labelledby="week-01" data-bs-parent="#course__accordion">
                                                         <div class="accordion-body">
                                                             <div
-                                                            class="course__curriculum-content d-sm-flex justify-content-between align-items-center">
-                                                            <div class="course__curriculum-info">
-                                                                <svg class="document" viewBox="0 0 24 24">
-                                                                    <path class="st0"
-                                                                        d="M14,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8L14,2z" />
-                                                                    <polyline class="st0"
-                                                                        points="14,2 14,8 20,8 " />
-                                                                    <line class="st0" x1="16"
-                                                                        y1="13" x2="8"
-                                                                        y2="13" />
-                                                                    <line class="st0" x1="16"
-                                                                        y1="17" x2="8"
-                                                                        y2="17" />
-                                                                    <polyline class="st0"
-                                                                        points="10,9 9,9 8,9 " />
-                                                                </svg>
-                                                                <h3> <span>...</span></h3>
+                                                                class="course__curriculum-content d-sm-flex justify-content-between align-items-center">
+                                                                <div class="course__curriculum-info">
+                                                                    <svg class="document" viewBox="0 0 24 24">
+                                                                        <path class="st0"
+                                                                            d="M14,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8L14,2z" />
+                                                                        <polyline class="st0"
+                                                                            points="14,2 14,8 20,8 " />
+                                                                        <line class="st0" x1="16"
+                                                                            y1="13" x2="8"
+                                                                            y2="13" />
+                                                                        <line class="st0" x1="16"
+                                                                            y1="17" x2="8"
+                                                                            y2="17" />
+                                                                        <polyline class="st0" points="10,9 9,9 8,9 " />
+                                                                    </svg>
+                                                                    <h3> <span>...</span></h3>
+                                                                </div>
+                                                                <div class="course__curriculum-meta">
+                                                                    <span class="item" style="margin-right: 10px"><i
+                                                                            class="icon_clock_alt"></i></span>
+                                                                    <a href="#" data-bs-toggle="modal"
+                                                                        data-bs-target="#modalplayvids" data-src=""
+                                                                        class="text-danger"><i class="fa fa-play"
+                                                                            style="font-size: 12px"></i> tonton</a>
+                                                                    <a class="text-info">| edit</a>
+                                                                    <a href="#_" data-bs-toggle="modal"
+                                                                        data-bs-target="#modalhapusvideo"
+                                                                        class="text-warning">| hapus</a>
+
+                                                                </div>
                                                             </div>
-                                                            <div class="course__curriculum-meta">
-                                                                <span class="item"
-                                                                    style="margin-right: 10px"><i
-                                                                        class="icon_clock_alt"></i></span>
-                                                                <a href="#"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#modalplayvids"
-                                                                    data-src=""
-                                                                    class="text-danger"><i class="fa fa-play"
-                                                                        style="font-size: 12px"></i> tonton</a>
-                                                                <a class="text-info">| edit</a>
-                                                                <a href="#_" data-bs-toggle="modal"
-                                                                    data-bs-target="#modalhapusvideo"
-                                                                    class="text-warning">| hapus</a>
-                                                            </div>
-                                                        </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -248,13 +243,11 @@
                                                                             <h3> <span>{{ $v->vids_name }}</span></h3>
                                                                         </div>
                                                                         <div class="course__curriculum-meta">
-                                                                            <span class="item"
-                                                                                style="margin-right: 10px"><i
-                                                                                    class="icon_clock_alt"></i></span>
                                                                             <a href="#{{ $v->vids_link }}"
                                                                                 data-bs-toggle="modal"
                                                                                 data-bs-target="#modalplayvids"
                                                                                 data-src="{{ $v->vids_link }}"
+                                                                                data-detail="/materi-video-comment/{{ Crypt::encrypt($v->id) }}"
                                                                                 class="text-danger"><i class="fa fa-play"
                                                                                     style="font-size: 12px"></i> tonton</a>
                                                                             <a class="text-info">| edit</a>
@@ -286,9 +279,6 @@
                                                                             <h3> <span>{{ $d->docs_name }} </span></h3>
                                                                         </div>
                                                                         <div class="course__curriculum-meta">
-                                                                            <span class="item"
-                                                                                style="margin-right: 10px"><i
-                                                                                    class="icon_clock_alt"></i></span>
                                                                             <a href="#" data-bs-toggle="modal"
                                                                                 data-bs-target="#modaldownloaddocs"
                                                                                 data-id="{{ $d->id }}"
@@ -299,6 +289,39 @@
                                                                                     style="font-size: 14px"></i> unduh</a>
                                                                             <a class="text-info">| edit</a>
                                                                             <a class="text-warning">| hapus</a>
+                                                                        </div>
+                                                                    </div>
+                                                                @endforeach
+
+                                                                @foreach ($item->ujian as $u)
+                                                                    <div
+                                                                        class="course__curriculum-content d-sm-flex justify-content-between align-items-center">
+                                                                        <div class="course__curriculum-info">
+                                                                            <svg class="document" viewBox="0 0 24 24">
+                                                                                <path class="st0"
+                                                                                    d="M14,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8L14,2z" />
+                                                                                <polyline class="st0"
+                                                                                    points="14,2 14,8 20,8 " />
+                                                                                <line class="st0" x1="16"
+                                                                                    y1="13" x2="8"
+                                                                                    y2="13" />
+                                                                                <line class="st0" x1="16"
+                                                                                    y1="17" x2="8"
+                                                                                    y2="17" />
+                                                                                <polyline class="st0"
+                                                                                    points="10,9 9,9 8,9 " />
+                                                                            </svg>
+                                                                            <h3> <span>{{ $u->ujian_name }}</span></h3>
+                                                                        </div>
+                                                                        <div class="course__curriculum-meta">
+                                                                            <a href="#preview" class="text-success"><i
+                                                                                    class="fa fa-eye"
+                                                                                    style="font-size: 12px"></i>
+                                                                                previw</a>
+                                                                            <a class="text-info">| edit</a>
+                                                                            <a href="#_" data-bs-toggle="modal"
+                                                                                data-bs-target="#modalhapusvideo"
+                                                                                class="text-warning">| hapus</a>
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
@@ -550,8 +573,13 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="ratio ratio-16x9">
-                            <iframe width="420" height="315" class="embed-responsive-item" src=""
-                                id="video" frameborder="0" allowscriptaccess="always" allow="autoplay"></iframe>
+                            <div class="form-group">
+                                <iframe width="420" height="315" class="embed-responsive-item" src=""
+                                    id="video" frameborder="0" allowscriptaccess="always" allow="autoplay"></iframe>
+                            </div>
+                            <div class="form-group mb-20">
+                                <a id="detailvids" class="btn btn-sm btn-primary">Detail Video</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -741,8 +769,8 @@
                                         name="ujian_datetimestart" placeholder="Waktu mulai">
                                 </div>
                                 <div class="form-group mb-20">
-                                <input class="form-control" type="datetime-local" id="ujian_datetimeend"
-                                    name="ujian_datetimeend" placeholder="Waktu berakhir">
+                                    <input class="form-control" type="datetime-local" id="ujian_datetimeend"
+                                        name="ujian_datetimeend" placeholder="Waktu berakhir">
                                 </div>
                             </div>
                         </div>
@@ -793,8 +821,9 @@
         $('#modalplayvids').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
             videoSrc = button.data('src')
+            var detailvids = button.data('src')
             $('#video').attr('src', videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
-            console.log(videoSrc);
+            $('#detailvids').attr('src', detailvids);
         })
         $('#closemodalmateri4').on('click', function() {
             $('#modaladdmateri4').modal('hide');
