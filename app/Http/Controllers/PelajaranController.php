@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Guru;
 use App\Models\Mapelmaster;
 use App\Models\Materi;
+use App\Models\Siswa;
 use App\Models\Tugas;
 use App\Models\Vids;
 use Crypt;
 use Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PelajaranController extends Controller
 {
@@ -28,8 +30,12 @@ class PelajaranController extends Controller
     public function mapel_mapelmaster_siswa($mapelmaster_id)
     {
         // $mapelmaster_id = Crypt::decrypt($mapelmaster_id);
+        $siswa = Siswa::where('user_id', Auth::id())->first();
         $mapelmaster = Mapelmaster::findOrFail($mapelmaster_id)->with('materi')->withcount('docs', 'vids', 'ujian', 'materi')->first();;
-        return view('fe_page.detail_mapel_siswa', ['mapelmaster' => $mapelmaster]);
+        return view('fe_page.detail_mapel_siswa', [
+            'mapelmaster' => $mapelmaster,
+            'siswa_id' => $siswa->id
+        ]);
     }
 
     public function add_tugas_siswa(Request $request)

@@ -750,6 +750,8 @@
                     type: "info",
                 });
             }
+            var url = "/do-quiz/" + ujian.id;
+            window.location.href = url;
         }
 
         function reload() {
