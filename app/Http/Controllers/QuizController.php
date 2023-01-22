@@ -30,7 +30,7 @@ class QuizController extends Controller
             $data->jawabanku = $request->jawabanId;
             $data->save();
         }
-
+        $quiz = Soalmulti::inRandomOrder()->Get();
         $cond = Jawabanmulti::where('siswa_id', $request->siswaId)
             ->where('ujian_id', $request->ujian_id);
         if ($cond->count() <= 0) {
