@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Guru;
 use App\Models\Mapelmaster;
+use App\Models\Jawabanmulti;
 use App\Models\Materi;
 use App\Models\Siswa;
 use App\Models\Tugas;
@@ -31,7 +32,8 @@ class PelajaranController extends Controller
     {
         $mapelmaster_id = Crypt::decrypt($mapelmaster_id);
         $siswa = Siswa::where('user_id', Auth::id())->first();
-        $mapelmaster = Mapelmaster::findOrFail($mapelmaster_id)->with('materi')->withcount('docs', 'vids', 'ujian', 'materi')->first();;
+        $mapelmaster = Mapelmaster::findOrFail($mapelmaster_id)->with('materi')->withcount('docs', 'vids', 'ujian', 'materi')->first();
+        
         return view('fe_page.detail_mapel_siswa', [
             'mapelmaster' => $mapelmaster,
             'siswa_id' => $siswa->id

@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('jawabanmultis', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('siswa_id')->nullable();
+            $table->unsignedBigInteger('mapelmaster_id')->nullable();
+            $table->unsignedBigInteger('materi_id')->nullable();
             $table->unsignedBigInteger('ujian_id')->nullable();
             $table->unsignedBigInteger('soalmulti_id')->nullable();
             $table->unsignedBigInteger('optionmulti_id')->nullable();

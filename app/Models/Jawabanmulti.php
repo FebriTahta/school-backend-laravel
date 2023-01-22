@@ -11,6 +11,8 @@ class Jawabanmulti extends Model
 
     protected $fillable = [
         'siswa_id',
+        'mapelmaster_id',
+        'materi_id',
         'ujian_id',
         'soalmulti_id',
         'optionmulti_id',

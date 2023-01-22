@@ -18,8 +18,9 @@ class QuizController extends Controller
     {
     }
 
-    public function doQuiz($id, Request $request)
+    public function doQuiz($mapelmaster_id,$materi_id,$id, Request $request)
     {
+        
         $request->siswaId =  Siswa::where('user_id', Auth::id())->first()->id;
         $request->ujian_id = $id;
         if ($request->jawabanId) {
@@ -30,13 +31,15 @@ class QuizController extends Controller
             $data->jawabanku = $request->jawabanId;
             $data->save();
         }
-
+        $quiz = Soalmulti::where('ujian_id', $id)->inRandomOrder()->get();
         $cond = Jawabanmulti::where('siswa_id', $request->siswaId)
             ->where('ujian_id', $request->ujian_id);
         if ($cond->count() <= 0) {
             foreach ($quiz as $key => $value) {
                 Jawabanmulti::firstOrCreate([
                     'siswa_id' => $request->siswaId,
+                    'mapelmaster_id' => $request->mapelmaster_id,
+                    'materi_id' => $request->materi_id,
                     'ujian_id' => $request->ujian_id,
                     'soalmulti_id' => $value->id,
                     'optionmulti_id' => null,
@@ -85,6 +88,7 @@ class QuizController extends Controller
                 if ($value == $soal->id) $indx = $key + 1;
             }
         };
+        
         if ($request->byPanel) {
             $jawaban = Jawabanmulti::where('siswa_id', $request->siswaId)
                 ->where('ujian_id', $request->ujian_id)
@@ -96,6 +100,7 @@ class QuizController extends Controller
             }
         }
         // return $soal;
+        // return $mapelmaster_id;
         $opts = ['A', 'B', 'C', 'D', 'E'];
         return view('fe_page.do_quiz')->with([
             'quizCount' => $quizCount,
@@ -105,10 +110,12 @@ class QuizController extends Controller
             'index' => $indx, //$count,
             'opts' => $opts,
             'quizPanel' => $quizPanel,
+            'mapelmaster_id'=> $mapelmaster_id,
+            'materi_id'=> $materi_id
         ]);
     }
 
-    public function prevQuiz($id, Request $request)
+    public function prevQuiz($mapelmaster_id,$materi_id,$id, Request $request)
     {
         $request->siswaId =  Siswa::where('user_id', Auth::id())->first()->id;
         $request->ujian_id = $id;
@@ -117,10 +124,10 @@ class QuizController extends Controller
                 ->where('ujian_id', $request->ujian_id)
                 ->where('soalmulti_id', $request->soalId)->first();
             $data->optionmulti_id = $request->jawabanId;
-            $data->jawabanku = $request->jawabanId;
+            $data->jawabanku = $request->option_true;
             $data->save();
         }
-        $quiz = Soalmulti::inRandomOrder()->Get();
+        $quiz = Soalmulti::where('ujian_id', $id)->inRandomOrder()->get();
         $ujian = Ujian::find($request->ujian_id);
         $now = Carbon::parse(Carbon::now());
         if ($now < $ujian->ujian_datetimestart) {
@@ -148,6 +155,8 @@ class QuizController extends Controller
             foreach ($quiz as $key => $value) {
                 Jawabanmulti::firstOrCreate([
                     'siswa_id' => $request->siswaId,
+                    'mapelmaster_id' => $request->mapelmaster_id,
+                    'materi_id' => $request->materi_id,
                     'ujian_id' => $request->ujian_id,
                     'soalmulti_id' => $value->id,
                     'optionmulti_id' => '0',
@@ -175,6 +184,8 @@ class QuizController extends Controller
             'index' => 0, //$count,
             'opts' => $opts,
             'quizPanel' => $quizPanel,
+            'mapelmaster_id' => $mapelmaster_id,
+            'materi_id'=> $materi_id,
         ]);
     }
 
@@ -183,10 +194,12 @@ class QuizController extends Controller
         try {
             $request->siswaId =  Siswa::where('user_id', Auth::id())->first()->id;
             $data = Jawabanmulti::where('siswa_id', $request->siswaId)
+                ->where('mapelmaster_id', $request->mapelmaster_id)
+                ->where('materi_id', $request->materi_id)
                 ->where('ujian_id', $request->ujianId)
                 ->where('soalmulti_id', $request->soalId)->first();
             $data->optionmulti_id = $request->jawabanId;
-            $data->jawabanku = $request->jawabanId;
+            $data->jawabanku = $request->option_true;
             $data->save();
         } catch (\Throwable $th) {
             throw $th;

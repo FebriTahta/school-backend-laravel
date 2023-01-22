@@ -353,6 +353,22 @@
                                                             </div>
                                                         </div>
                                                     </li>
+                                                    <li>
+                                                        <div class="course__comment-box ">
+                                                            <div class="course__comment-thumb float-start">
+                                                                <img src="{{ asset('fe_assets/assets/img/course/comment/course-comment-1.jpg') }}"
+                                                                    alt="">
+                                                            </div>
+                                                            <div class="course__comment-content">
+                                                                <div class="course__comment-wrapper ml-70 fix">
+                                                                    <div class="course__comment-info float-start">
+                                                                        <h4>Nama Ujian 1 / Tugas 1</h4>
+                                                                        <span>July 14, 2022</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>

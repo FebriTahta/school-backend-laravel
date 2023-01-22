@@ -260,7 +260,7 @@
                                                                         </div>
                                                                         <div class="course__curriculum-meta">
                                                                             <a href="#mulai"
-                                                                                onclick="check({{ $mapelmaster->id }},{{ $item->id }},{{ $u }},'/do-quiz/{{ $u->id }}')"
+                                                                                onclick="check({{ $mapelmaster->id }},{{ $item->id }},{{ $u }},'/do-quiz')"
                                                                                 class="text-success"><i class="fa fa-eye"
                                                                                     style="font-size: 12px"></i>
                                                                                 Kerjakan</a>
@@ -783,7 +783,7 @@
                     text: "MULAI MENGERJAKAN",
                     type: "info",
                 }, function () {
-                    window.location = url;
+                    window.location = url+'/'+mapelmaster_id+'/'+materi_id+'/'+ujian.id;
                 });
             }
             // var url = "/do-quiz/" + ujian.id;

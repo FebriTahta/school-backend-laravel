@@ -36,6 +36,8 @@
                                                     <a href="{{ route('doQuiz', [
                                                         'ujian_id' => $quiz->id,
                                                         'byPanel' => $panel->soalmulti_id,
+                                                        'mapelmaster_id' => $mapelmaster_id,
+                                                        'materi_id'=> $materi_id,
                                                     ]) }}"
                                                         id="btnQuiz-{{ $panel->soalmulti_id }}" type="button"
                                                         style="margin: 7px" class="btn btn-sm btn-outline-secondary"> <span
@@ -44,6 +46,8 @@
                                                     <a href="{{ route('doQuiz', [
                                                         'ujian_id' => $quiz->id,
                                                         'byPanel' => $panel->soalmulti_id,
+                                                        'mapelmaster_id' => $mapelmaster_id,
+                                                        'materi_id'=> $materi_id,
                                                     ]) }}"type="button"
                                                         style="margin: 7px" class="btn btn-sm btn-success">
                                                         <span style="font-size: 12px">{{ $i + 1 }}</span> </a>
@@ -72,7 +76,8 @@
                                     <input type="text" hidden id="soalId" name="soalId" value="{{ $q->id }}">
                                     @if (Str::limit($q->soal_name, 3) == 'be_...')
                                         <div class="teacher__info" style="padding: 0; margin: 0">
-                                            <h5>No. {{ $index }}</h5>
+                                            {{-- <h5>No. {{ $index }}</h5> --}}
+                                            <p>Jawablah pertanyaan berikut ini dengan benar...</p>
                                             <div class="blog__thumb w-img fix">
                                                 <img src="{{ asset($q->soal_name) }}" alt="">
                                             </div>
@@ -80,13 +85,14 @@
                                         </div>
                                     @else
                                         <div class="teacher__info" style="padding: 0; margin: 0">
-                                            <h5>No. {{ $index }}</h5>
-                                            <h5 style="font-size: 28px" class="text-capitalize">{{ $q->soal_name }}
+                                            {{-- <h5>No. {{ $index }}</h5> --}}
+                                            <p>Jawablah pertanyaan berikut ini dengan benar...</p>
+                                            <h5 style="font-size: 20px" class="text-capitalize">{{ $q->soal_name }}
                                             </h5>
                                         </div>
                                     @endif
                                 </div>
-                                <h4>Multiple Choice :</h4>
+                                <h4 style="font-size: 18px">Pilihan Jawaban :</h4>
                                 <div class="soal_multi">
                                     <h4 style="font-weight: 400"></h4>
                                     <div class="option">
@@ -96,7 +102,7 @@
                                                     @foreach ($q->optionMulti as $key => $opt)
                                                         <div class="form-group col-md-1 col-2">
                                                             <input id="jawabanId" name="jawabanId" type="radio"
-                                                                onclick="postQuiz({{ $quiz->id }},{{ $q->id }},{{ $opt->id }})"
+                                                                onclick="postQuiz({{ $quiz->id }},{{ $q->id }},{{ $opt->id }},{{ $opt->option_true }},{{ $mapelmaster_id }}, {{ $materi_id }})"
                                                                 value="{{ $opt->id }}"
                                                                 {{ $q->jawabanSiswa == $opt->id ? 'checked' : '' }}><span>
                                                                 {{ $opts[$key] }}</span>
@@ -110,7 +116,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="navigation-soal" style="margin-top: 20px">
+                                {{-- <div class="navigation-soal" style="margin-top: 20px">
                                     @if ($index > 0)
                                         <a href="#" onclick="showQuiz({{ $index - 1 }})"
                                             style="float: left; font-size: 20px"><u> Prev</u></a>
@@ -122,7 +128,7 @@
                                         <button onclick="this.form('formQuiz').submit" type="submit" href="#"
                                             style="float: right; font-size: 20px"><u> Finish</u></button>
                                     @endif
-                                </div>
+                                </div> --}}
 
                                 {{-- @else
 
@@ -199,13 +205,16 @@
         $(document).ready(function() {});
         this.startQuiz();
 
-        function postQuiz(ujianId, soalId, jawabanId) {
+        function postQuiz(ujianId, soalId, jawabanId, option_true, mapelmaster_id, materi_id) {
             console.log(soalId + ":" + jawabanId);
             let data = {
                 _token: "{{ csrf_token() }}",
+                mapelmaster_id: mapelmaster_id,
+                materi_id: materi_id,
                 ujianId: ujianId,
                 soalId: soalId,
                 jawabanId: jawabanId,
+                option_true: option_true,
             };
             $.ajax({
                 type: "POST",
