@@ -73,10 +73,10 @@ class QuizController extends Controller
         $quizPanel = Jawabanmulti::where('siswa_id', $request->siswaId)
             ->where('ujian_id', $id)
             // ->where('optionmulti_id', '!=', 0)
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'asc')
             ->get();
 
-        $soal = Soalmulti::where('ujian_id', $request->ujian_id)->with(['OptionMulti'])->orderBy('id', 'desc')->first();
+        $soal = Soalmulti::where('ujian_id', $request->ujian_id)->with(['OptionMulti'])->orderBy('id', 'asc')->first();
         // $quiz = Soalmulti::inRandomOrder()->Get();
         $arx = Jawabanmulti::where('siswa_id', $request->siswaId)
             ->where('ujian_id', $request->ujian_id)->orderBy('id', 'asc')->pluck('id')->toArray();
