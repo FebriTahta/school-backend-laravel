@@ -7,7 +7,7 @@
     <title>:: LMS :: </title>
     <meta property="og:title" content="LMS" style="text-transform: capitalize" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="{{ asset('lms-2.png') }}" />
+    <meta property="og:image" content="{{ asset('lms-022.png') }}" />
     <meta property="og:description" content="Learning Management System SMK 1 Krian Sidoarjo" />
     <meta property="og:url" content="http://lms.coffinashop.com" />
     <meta name="theme-color" content="#8CC0DE">
