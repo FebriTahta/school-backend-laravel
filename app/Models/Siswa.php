@@ -38,7 +38,7 @@ class Siswa extends Model
 
     public function detailsiswa()
     {
-        return $this->hasOne(DetailSiswa::class);
+        return $this->hasOne(Detailsiswa::class);
     }
 
     public function komenvideo()
