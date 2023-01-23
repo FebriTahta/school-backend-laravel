@@ -149,15 +149,21 @@ Route::group(['middleware' => ['auth', 'CheckRole:guru,siswa']], function () {
         Route::get('/mapel/{mapelmaster_id}', 'mapel_mapelmaster');
         Route::get('/mapel-siswa/{mapelmaster_id}', 'mapel_mapelmaster_siswa');
         Route::post('/post-tugas-siswa', 'add_tugas_siswa');
+        Route::get('/cek-nilai-siswa/{kelas_id}/{mapelmaster_id}/{ujian_id}','cek_nilai_siswa');
     });
     Route::controller(MateriController::class)->group(function () {
         Route::post('/post-materi', 'post_materi');
         Route::post('/post-vids', 'post_vids');
+        Route::post('/remove-vids','remove_vids');
+        Route::post('/remove-docs','remove_docs');
         Route::post('/post-docs', 'post_docs');
         Route::get('/download-docs/{docs_id}', 'download_docs');
     });
+    Route::controller(SiswaController::class)->group(function() {
+        Route::post('/update-photo-siswa','update_photo');
+    });
 });
-
+Route::get('/cek-siswa/{kelas_id}',[PelajaranController::class,'cek_siswa']);
 // Route::get('/do-quiz',function(){
 //     return view('fe_page.do_quiz');
 // });

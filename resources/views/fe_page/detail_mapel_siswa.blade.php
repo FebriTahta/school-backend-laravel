@@ -18,7 +18,11 @@
                     <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 pb-20">
                         <div class="teacher__details-thumb p-relative w-img">
                             <div class="blocl">
-                                <img src="{{ asset('fe_assets/assets/img/teacer-details-1.jpg') }}" alt="">
+                                @if (auth()->user()->siswa->detailsiswa)
+                                    <img src="{{ asset('siswa_image/'.auth()->user()->siswa->detailsiswa->img_siswa) }}" alt="">    
+                                @else
+                                    <img src="{{ asset('fe_assets/assets/img/teacer-details-1.jpg') }}" alt="">
+                                @endif
                             </div>
                             <div class="events__sidebar-widget white-bg">
                                 <div class="events__sponsor">
@@ -27,11 +31,16 @@
                                         <div class="row">
                                             <div class="col-md-6 col-6">
                                                 <button style="width: 100%"
-                                                    class="btn btn-sm btn-outline-info">credential</button>
+                                                    class="btn btn-sm btn-outline-info"
+                                                    data-user_id="{{ auth()->user()->id }}" data-bs-toggle="modal"
+                                        data-username="{{ auth()->user()->username }}" data-pass="{{ auth()->user()->pass }}"
+                                        data-bs-target="#modaluser" >credential</button> 
                                             </div>
                                             <div class="col-md-6 col-6">
-                                                <button style="width: 100%" class="btn btn-sm btn-outline-info">my
-                                                    photo</button>
+                                                <button style="width: 100%" class="btn btn-sm btn-outline-info"
+                                                data-bs-toggle="modal" data-siswa_id="{{ auth()->user()->siswa->id }}"
+                                                data-bs-target="#modalphoto"
+                                                >myphoto</button>
                                             </div>
                                         </div>
                                     </div>
@@ -279,22 +288,28 @@
                                         <div class="course__review">
                                             <div class="course__comment mb-75">
                                                 <ul>
+                                                    @foreach ($nama_quiz as $key=>$ujian_name)
                                                     <li>
                                                         <div class="course__comment-box ">
                                                             <div class="course__comment-thumb float-start">
+                                                                @if (auth()->user()->siswa->detailsiswa)
+                                                                <img src="{{ asset('siswa_image/'.auth()->user()->siswa->detailsiswa->img_siswa) }}" alt="">    
+                                                                @else
                                                                 <img src="{{ asset('fe_assets/assets/img/course/comment/course-comment-1.jpg') }}"
-                                                                    alt="">
+                                                                alt="">
+                                                                @endif
                                                             </div>
                                                             <div class="course__comment-content">
                                                                 <div class="course__comment-wrapper ml-70 fix">
                                                                     <div class="course__comment-info float-start">
-                                                                        <h4>Nama Ujian 1 / Tugas 1</h4>
-                                                                        <span>July 14, 2022</span>
+                                                                        <h4 class="text-capitalize">{{ $ujian_name }}</h4>
+                                                                        <u><span>Nilai : {{ $nilai_quiz[$key] }}</span></u>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </li>
+                                                    @endforeach
                                                 </ul>
                                             </div>
                                         </div>
@@ -306,20 +321,53 @@
                                                 <div class="course__member-item">
                                                     <div class="row align-items-center">
 
-                                                        <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-10 col-sm-8">
+                                                        <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-9 col-sm-8 col-12">
                                                             <div class="course__member-thumb d-flex align-items-center">
-                                                                <img src="{{ asset('fe_assets/assets/img/course/instructor/course-instructor-1.jpg') }}"
-                                                                    alt="">
+                                                                @if ($item->detailsiswa)
+                                                                <img src="{{ asset('siswa_image/'.$item->detailsiswa->img_siswa) }}" alt="">    
+                                                                @else
+                                                                <img src="{{ asset('fe_assets/assets/img/course/comment/course-comment-1.jpg') }}"
+                                                                alt="">
+                                                                @endif
                                                                 <div class="course__member-name ml-20">
                                                                     <h5>{{ $item->siswa_name }}</h5>
-                                                                    <span>RPL</span>
+                                                                    <span>rata-rata nilai berdasarkan total ujian yang dikerjakan</span>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2 col-4">
+                                                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3 col-4">
                                                             <div class="course__member-info pl-45">
-                                                                <h5>70</h5>
-                                                                <span>AVG</span>
+                                                                @php
+                                                                $ujian = App\Models\Ujian::where('mapelmaster_id', $mapelmaster->id)->get();
+                                                                
+                                                                $nilai = [];
+                                                                foreach ($ujian as $key => $value) {
+                                                                    # code...
+                                                                    $jawabanku = App\Models\Jawabanmulti::where('mapelmaster_id', $mapelmaster->id)
+                                                                                                        ->where('ujian_id', $value->id)
+                                                                                                        ->where('siswa_id', $item->id)->sum('jawabanku');
+                                                                    if ($jawabanku > 0) {
+                                                                        # code...
+                                                                        $nilai[] = ($jawabanku / App\Models\Jawabanmulti::where('ujian_id', $value->id)->where('siswa_id', $item->id)->count()) * 100;
+                                                                    }else {
+                                                                        # code...
+                                                                        $nilai[] = 0;
+                                                                    }
+                                                                }
+                                                                $sum = array_sum($nilai);
+                                                                $avg = '';
+                                                                if ($sum > 0) {
+                                                                    # code...
+                                                                    $avg = round($sum / $ujian->count());
+                                                                }else {
+                                                                    # code...
+                                                                    $avg = 0;
+                                                                }
+                                                                @endphp 
+                                                                <h5>
+                                                                    AVG : {{ $avg }}
+                                                                </h5>
+                                                                <span>rata-rata</span>
                                                             </div>
                                                         </div>
 
@@ -336,6 +384,38 @@
             </div>
         </section>
     </main>
+
+    <div class="modal fade" id="modaluser" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">UPDATE DATA USER</h4>
+                </div>
+                <form id="formupdateuser"> @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input type="hidden" name="user_id" id="user_id" class="form-control">
+                                    <input type="text" placeholder="username" id="username" name="username"
+                                        class="form-control mb-3" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" placeholder="password" id="pass" name="pass"
+                                        class="form-control mb-3" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closemodaluser" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
+                        <input type="submit" id="btnupdateuser" class="btn btn-sm btn-primary" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" id="modalhapusvideo" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
@@ -549,11 +629,56 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modalphoto" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">UPDATE PHOTO</h4>
+                </div>
+                <form id="formupdatephoto" enctype="multipart/form-data"> @csrf
+                    <input type="hidden" id="formupdate" value="/update-photo-siswa">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input type="hidden" name="siswa_id" id="siswa_id" class="form-control">
+                                    <div class="custom-file">
+                                        
+                                        <input type="file" name="img_siswa" class="custom-file-input"
+                                            id="inputGroupFile01" accept="image/*" onchange="showPreview(event);">
+                                        <p class="custom-file-label form-control" readonly style="margin-top: 20px" id="label_img" for="inputGroupFile01">Chose
+                                            Image</p>
+                                    </div>
+                                    <div class="preview" style="max-width: 100%; margin-top: 20px; margin-bottom: 20px">
+                                        @if (auth()->user()->siswa->detailsiswa)
+                                            <input type="hidden" name="id" id="id" value="{{ auth()->user()->siswa->detailsiswa->id }}">
+                                            <img style="max-width: 300px" id="inputGroupFile01-preview" src="{{ asset('siswa_image/'.auth()->user()->siswa->detailsiswa->img_siswa) }}">
+                                        @else
+                                            <img style="max-width: 300px" id="inputGroupFile01-preview" src="">
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closemodalphoto" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
+                        <input type="submit" id="btnupdatephoto" class="btn btn-sm btn-primary" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 
 @section('script')
     <script>
+        var updatepoto;
+        $(document).ready(function() {
+            updatepoto = $('#formupdate').val()
+        })
         $(document).ready(function() {})
         $('#closemodalmateri').on('click', function() {
             $('#modaladdmateri').modal('hide');
@@ -567,6 +692,131 @@
         $('#closemodaldownloaddocs').on('click', function() {
             $('#modaldownloaddocs').modal('hide');
         })
+        $('#closemodaluser').on('click', function() {
+            $('#modaluser').modal('hide');
+        })
+        $('#closemodalphoto').on('click', function() {
+            $('#modalphoto').modal('hide');
+        })
+        function showPreview(event) {
+            if (event.target.files.length > 0) {
+                var src = URL.createObjectURL(event.target.files[0]);
+                var preview = document.getElementById("inputGroupFile01-preview");
+                preview.src = src;
+                preview.style.display = "block";
+                $('#label_img').html(src.substr(0, 30));
+            }
+        }
+        $('#modalphoto').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var siswa_id = button.data('siswa_id')
+            var modal = $(this)
+            modal.find('.modal-body #siswa_id').val(siswa_id);
+        })
+        $('#modaluser').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var user_id = button.data('user_id')
+            var username = button.data('username')
+            var pass = button.data('pass')
+            var modal = $(this)
+            modal.find('.modal-body #user_id').val(user_id);
+            modal.find('.modal-body #username').val(username);
+            modal.find('.modal-body #pass').val(pass);
+        })
+        $('#formupdateuser').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: "/admin-ubah-password",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btnupdateuser').attr('disabled', 'disabled');
+                    $('#btnupdateuser').val('Process...');
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        $('#btnupdateuser').val('Submit');
+                        $('#btnupdateuser').attr('disabled', false);
+                        $('#modaluser').modal('hide');
+                        toastr.success(response.message);
+                        swal({
+                            title: "SUCCESS!",
+                            text: response.message,
+                            type: "success"
+                        });
+                        reload();
+
+                    } else {
+                        $('#btnupdateuser').val('Submit');
+                        $('#btnupdateuser').attr('disabled', false);
+                        var values = '';
+                        jQuery.each(response.message, function(key, value) {
+                            values += value + '\n'
+                        });
+                        swal({
+                            title: "Maaf",
+                            text: values,
+                            type: "error",
+                        });
+                        toastr.error(values);
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+        $('#formupdatephoto').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: updatepoto,
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btnupdatephoto').attr('disabled', 'disabled');
+                    $('#btnupdatephoto').val('Process...');
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        $('#btnupdatephoto').val('Submit');
+                        $('#btnupdatephoto').attr('disabled', false);
+                        $('#modalphoto').modal('hide');
+                        toastr.success(response.message);
+                        swal({
+                            title: "SUCCESS!",
+                            text: response.message,
+                            type: "success"
+                        });
+                        reload();
+
+                    } else {
+                        $('#btnupdatephoto').val('Submit');
+                        $('#btnupdatephoto').attr('disabled', false);
+                        var values = '';
+                        jQuery.each(response.message, function(key, value) {
+                            values += value + '\n'
+                        });
+                        swal({
+                            title: "Maaf",
+                            text: values,
+                            type: "error",
+                        });
+                        toastr.error(values);
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        });
         $('#modaldownloaddocs').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
             var id = button.data('id')

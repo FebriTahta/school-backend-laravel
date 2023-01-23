@@ -25,12 +25,20 @@
         </section>
 
         <section class="course__area pt-120 pb-120">
-            <div class="container">
+            <div class="container"> 
                 <div class="course__tab-inner grey-bg-2 mb-50">
                     <div class="course__sort d-flex justify-content-sm-end">
                         <div class="course__sort-inner">
-                            <select>
+                            <select id="search_mapel">
                                 <option>Search Mapel</option>
+                                @foreach ($siswa->kelas->mapelmaster as $item)
+                                    <option style="max-width: 100%" value="/mapel-siswa/{{ Crypt::encrypt($item->id) }}">
+                                        {{ $item->kelas->angkatan->angkatan_name }}
+                                        {{ $item->kelas->angkatan->tingkat->tingkat_name }}
+                                        {{ $item->kelas->jurusan->jurusan_name }}
+                                        {{ $item->kelas->kelas_name }} : {{ $item->mapel->mapel_name }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -78,7 +86,7 @@
                                                                     <h3 class="course__title course__title-3"
                                                                         style="margin: 0">
                                                                         <a style="font-size: 18px"
-                                                                            href="#">{{ $item->mapel->mapel_name }}</a>
+                                                                            href="/mapel-siswa/{{ Crypt::encrypt($item->id) }}">{{ $item->mapel->mapel_name }}</a>
                                                                     </h3>
                                                                     <div class="course__summary">
                                                                         <p style="font-size: 14px" style="margin: 0">Simak &
@@ -92,7 +100,7 @@
                                                                                     alt="">
                                                                             </div>
                                                                             <h6 style="margin: 0"><a
-                                                                                    href="#">{{ $item->guru->guru_name }}</a>
+                                                                                    href="/mapel-siswa/{{ Crypt::encrypt($item->id) }}">{{ $item->guru->guru_name }}</a>
                                                                             </h6>
                                                                         </div>
                                                                     </div>
@@ -112,4 +120,15 @@
             </div>
         </section>
     </main>
+@endsection
+
+@section('script')
+<script>
+     $('#search_mapel').on('change', function () {
+            if (this.value !== null) {
+                window.location = this.value;
+            }
+        })
+
+</script>
 @endsection

@@ -1,5 +1,11 @@
 @extends('fe_layouts.master2')
 
+@section('css')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
+@endsection
+
 @section('fe_content')
     <main>
         <!-- instructor details area start -->
@@ -18,7 +24,11 @@
                     <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 pb-20">
                         <div class="teacher__details-thumb p-relative w-img">
                             <div class="blocl">
+                                @if (auth()->user()->guru->detailguru)
+                                <img src="{{ asset('guru_image/'.auth()->user()->guru->detailguru->img_guru) }}" alt="">
+                                @else
                                 <img src="{{ asset('fe_assets/assets/img/teacer-details-1.jpg') }}" alt="">
+                                @endif
                             </div>
                             <div class="events__sidebar-widget white-bg">
                                 <div class="events__sponsor">
@@ -142,10 +152,10 @@
                                                                         data-bs-target="#modalplayvids" data-src=""
                                                                         class="text-danger"><i class="fa fa-play"
                                                                             style="font-size: 12px"></i> tonton</a>
-                                                                    <a class="text-info">| edit</a>
+                                                                    {{-- <a class="text-info">| edit</a> --}}
                                                                     <a href="#_" data-bs-toggle="modal"
-                                                                        data-bs-target="#modalhapusvideo"
-                                                                        class="text-warning">| hapus</a>
+                                                                        data-bs-target="#modalhapusvideo" 
+                                                                        class="text-danger">| hapus</a>
 
                                                                 </div>
                                                             </div>
@@ -183,7 +193,7 @@
 
                                             @foreach ($mapelmaster->materi as $key => $item)
                                                 <div class="accordion" id="course__accordion">
-                                                    <div class="accordion-item mb-50">
+                                                    <div class="accordion-item mb-20">
                                                         <h2 class="accordion-header" id="week-01">
                                                             <button class="accordion-button text-capitalize"
                                                                 type="button" data-bs-toggle="collapse"
@@ -194,7 +204,9 @@
                                                         </h2>
 
                                                         <div id="x{{ $key }}"
-                                                            class="accordion-collapse collapse show"
+                                                            @if ($key == 0) class="accordion-collapse collapse show"
+                                                            @else
+                                                        class="accordion-collapse collapse" @endif
                                                             aria-labelledby="week-01" data-bs-parent="#course__accordion">
                                                             <div class="accordion-body">
                                                                 @if ($mapelmaster->vids_count == 0 && $mapelmaster->docs_count == 0 && $mapelmaster->ujian_count == 0)
@@ -250,10 +262,10 @@
                                                                                 data-detail="/materi-video-comment/{{ Crypt::encrypt($v->id) }}"
                                                                                 class="text-danger"><i class="fa fa-play"
                                                                                     style="font-size: 12px"></i> tonton</a>
-                                                                            <a class="text-info">| edit</a>
+                                                                            {{-- <a class="text-info">| edit</a> --}}
                                                                             <a href="#_" data-bs-toggle="modal"
-                                                                                data-bs-target="#modalhapusvideo"
-                                                                                class="text-warning">| hapus</a>
+                                                                                data-bs-target="#modalhapusvideo" data-id="{{ $v->id }}" data-vids_name="{{ $v->vids_name }}"
+                                                                                class="text-danger">| hapus</a>
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
@@ -287,8 +299,9 @@
                                                                                 class="text-primary"><i
                                                                                     class="fa fa-download"
                                                                                     style="font-size: 14px"></i> unduh</a>
-                                                                            <a class="text-info">| edit</a>
-                                                                            <a class="text-warning">| hapus</a>
+                                                                            {{-- <a class="text-info">| edit</a> --}}
+                                                                            <a href="hapus_docs" data-bs-toggle="modal" data-bs-target="#modalhapusdocs"
+                                                                            data-id="{{ $d->id }}" data-docs_name="{{ $d->docs_name }}" class="text-danger">| hapus</a>
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
@@ -318,10 +331,10 @@
                                                                                     class="fa fa-eye"
                                                                                     style="font-size: 12px"></i>
                                                                                 previw</a>
-                                                                            <a class="text-info">| edit</a>
+                                                                            {{-- <a class="text-info">| edit</a> --}}
                                                                             <a href="#_" data-bs-toggle="modal"
                                                                                 data-bs-target="#modalhapusvideo"
-                                                                                class="text-warning">| hapus</a>
+                                                                                class="text-danger">| hapus</a>
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
@@ -335,42 +348,61 @@
                                     <div class="tab-pane  fade" id="review" role="tabpanel"
                                         aria-labelledby="review-tab">
                                         <div class="course__review">
-                                            <div class="course__comment mb-75">
-                                                <ul>
-                                                    <li>
-                                                        <div class="course__comment-box ">
-                                                            <div class="course__comment-thumb float-start">
-                                                                <img src="{{ asset('fe_assets/assets/img/course/comment/course-comment-1.jpg') }}"
-                                                                    alt="">
-                                                            </div>
-                                                            <div class="course__comment-content">
-                                                                <div class="course__comment-wrapper ml-70 fix">
-                                                                    <div class="course__comment-info float-start">
-                                                                        <h4>Nama Ujian 1 / Tugas 1</h4>
-                                                                        <span>July 14, 2022</span>
+                                            @foreach ($mapelmaster->materi as $key => $item)
+                                                <div class="accordion" id="course__accordion">
+                                                    <div class="accordion-item mb-20">
+                                                        <h2 class="accordion-header" id="week-01">
+                                                            <button class="accordion-button text-capitalize"
+                                                                type="button" data-bs-toggle="collapse"
+                                                                data-bs-target="#x{{ $key }}"
+                                                                aria-expanded="true" aria-controls="week-01-content">
+                                                                {{ $item->materi_name }}
+                                                            </button>
+                                                        </h2>
+
+                                                        <div id="x{{ $key }}"
+                                                            @if ($key == 0) class="accordion-collapse collapse show"
+                                                        @else
+                                                        class="accordion-collapse collapse" @endif
+                                                            aria-labelledby="week-01" data-bs-parent="#course__accordion">
+                                                            <div class="accordion-body">
+                                                                @foreach ($item->ujian as $u)
+                                                                    <div
+                                                                        class="course__curriculum-content d-sm-flex justify-content-between align-items-center">
+                                                                        <div class="course__curriculum-info">
+                                                                            <svg class="document" viewBox="0 0 24 24">
+                                                                                <path class="st0"
+                                                                                    d="M14,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8L14,2z" />
+                                                                                <polyline class="st0"
+                                                                                    points="14,2 14,8 20,8 " />
+                                                                                <line class="st0" x1="16"
+                                                                                    y1="13" x2="8"
+                                                                                    y2="13" />
+                                                                                <line class="st0" x1="16"
+                                                                                    y1="17" x2="8"
+                                                                                    y2="17" />
+                                                                                <polyline class="st0"
+                                                                                    points="10,9 9,9 8,9 " />
+                                                                            </svg>
+                                                                            <h3> <span>{{ $u->ujian_name }}</span></h3>
+                                                                        </div>
+                                                                        <div class="course__curriculum-meta">
+                                                                            <a href="#" data-bs-toggle="modal"
+                                                                                data-bs-target="#modalnilaisiswa" data-ujian_name="{{ $u->ujian_name }}"
+                                                                                data-mapelmaster_id="{{ $mapelmaster_id }}" data-kelas_id="{{ $kelas_id }}" data-ujian_id="{{ $u->id }}"
+                                                                                class="text-success"><i class="fa fa-eye"
+                                                                                    style="font-size: 12px"></i> Lihat
+                                                                                Nilai</a>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
+                                                                @endforeach
+
                                                             </div>
                                                         </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="course__comment-box ">
-                                                            <div class="course__comment-thumb float-start">
-                                                                <img src="{{ asset('fe_assets/assets/img/course/comment/course-comment-1.jpg') }}"
-                                                                    alt="">
-                                                            </div>
-                                                            <div class="course__comment-content">
-                                                                <div class="course__comment-wrapper ml-70 fix">
-                                                                    <div class="course__comment-info float-start">
-                                                                        <h4>Nama Ujian 1 / Tugas 1</h4>
-                                                                        <span>July 14, 2022</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="member" role="tabpanel"
@@ -380,23 +412,55 @@
                                                 <div class="course__member-item">
                                                     <div class="row align-items-center">
 
-                                                        <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-10 col-sm-8">
+                                                        <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-9 col-sm-9">
                                                             <div class="course__member-thumb d-flex align-items-center">
-                                                                <img src="{{ asset('fe_assets/assets/img/course/instructor/course-instructor-1.jpg') }}"
-                                                                    alt="">
+                                                                @if ($item->detailsiswa)
+                                                                <img src="{{ asset('siswa_image/'.$item->detailsiswa->img_siswa) }}" alt="">    
+                                                                @else
+                                                                <img src="{{ asset('fe_assets/assets/img/course/comment/course-comment-1.jpg') }}"
+                                                                alt="">
+                                                                @endif
                                                                 <div class="course__member-name ml-20">
                                                                     <h5>{{ $item->siswa_name }}</h5>
-                                                                    <span>RPL</span>
+                                                                    <span>rata-rata nilai berdasarkan total ujian yang dikerjakan</span>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2 col-4">
+                                                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3 col-4">
                                                             <div class="course__member-info pl-45">
-                                                                <h5>70</h5>
-                                                                <span>AVG</span>
+                                                                @php
+                                                                $ujian = App\Models\Ujian::where('mapelmaster_id', $mapelmaster->id)->get();
+                                                                
+                                                                $nilai = [];
+                                                                foreach ($ujian as $key => $value) {
+                                                                    # code...
+                                                                    $jawabanku = App\Models\Jawabanmulti::where('mapelmaster_id', $mapelmaster->id)
+                                                                                                        ->where('ujian_id', $value->id)
+                                                                                                        ->where('siswa_id', $item->id)->sum('jawabanku');
+                                                                    if ($jawabanku > 0) {
+                                                                        # code...
+                                                                        $nilai[] = ($jawabanku / App\Models\Jawabanmulti::where('ujian_id', $value->id)->where('siswa_id', $item->id)->count()) * 100;
+                                                                    }else {
+                                                                        # code...
+                                                                        $nilai[] = 0;
+                                                                    }
+                                                                }
+                                                                $sum = array_sum($nilai);
+                                                                $avg = '';
+                                                                if ($sum > 0) {
+                                                                    # code...
+                                                                    $avg = round($sum / $ujian->count());
+                                                                }else {
+                                                                    # code...
+                                                                    $avg = 0;
+                                                                }
+                                                                @endphp 
+                                                                <h5>
+                                                                    AVG : {{ $avg }}
+                                                                </h5>
+                                                                <span>rata-rata</span>
                                                             </div>
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -411,10 +475,39 @@
         </section>
     </main>
 
-    <div class="modal fade" id="modalhapusvideo" role="dialog">
+    <div class="modal fade" id="modalnilaisiswa" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">NILAI SISWA <span id="header_ujian_name" class="text-uppercase"></span></h4>
+                </div>
+                <div class="modal-body">
+                    <table id="example"
+                    class="display responsive nowrap" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%">No</th>
+                                <th>Nama Siswa</th>
+                                <th style="width: 10%">Nilai</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-capitalize">
+                            {{-- data --}}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closemodalnilaisiswa" class="btn btn-sm btn-default"
+                        data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalhapusvideo" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
                     <h4 class="modal-title" style="font-size: 16px; color:white">HAPUS VIDEO</h4>
                 </div>
                 <form id="formremovevids"> @csrf
@@ -424,14 +517,43 @@
                                 <input type="hidden" class="form-control" id="id" name="id">
                             </div>
                             <div class="col-md-12 col-12" id="block-new-jurusan" style="padding-right: 5px">
-
+                                <p class="text-danger">Anda yakin akan menghapus video tersebut ?</p>
+                                <h5 id="vids_name"></h5>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="closemodalmateri" class="btn btn-sm btn-default"
+                        <button type="button" id="btncloseremovevids" class="btn btn-sm btn-default"
                             data-dismiss="modal">Close</button>
                         <input type="submit" id="btnremovevids" class="btn btn-sm btn-primary" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalhapusdocs" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">HAPUS DOCUMENT</h4>
+                </div>
+                <form id="formremovedocs"> @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="hidden" class="form-control" id="id" name="id">
+                            </div>
+                            <div class="col-md-12 col-12" id="block-new-jurusan" style="padding-right: 5px">
+                                <p class="text-danger">Anda yakin akan menghapus dokumen tersebut ?</p>
+                                <h5 id="docs_name"></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closehapusdocs" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
+                        <input type="submit" id="btnhapusdocs" class="btn btn-sm btn-primary" value="Submit">
                     </div>
                 </form>
             </div>
@@ -681,15 +803,17 @@
                 <form id="formaddmateri4"> @csrf
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col">
-                                <a href="#" class="btn btn-sm btn-outline-info" data-bs-toggle="modal"
+                            <div class="col-md-6 col-6">
+                                {{-- <a href="#" class="btn btn-sm btn-outline-info" data-bs-toggle="modal"
                                     data-bs-target="#modalcreateujian"><i class="fa fa-plus"></i>
-                                    Ujian</a>
-                                <a href="#" class="btn btn-sm btn-outline-primary" id="showtemplateujian"
-                                    data-bs-toggle="modal" data-bs-target="#modaltemplateujian"><i
+                                    Ujian</a> --}}
+                                <a href="#" class="btn btn-sm btn-outline-primary" style="width: 100%"
+                                    id="showtemplateujian" data-bs-toggle="modal" data-bs-target="#modaltemplateujian"><i
                                         class="fa fa-book"></i> Download Template</a>
-                                <a href="#" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal"
-                                    data-bs-target="#modalimportquiz"><i class="fa fa-upload"></i>
+                            </div>
+                            <div class="col-md-6 col-6">
+                                <a href="#" class="btn btn-sm btn-outline-success" style="width: 100%"
+                                    data-bs-toggle="modal" data-bs-target="#modalimportquiz"><i class="fa fa-upload"></i>
                                     Import From Template</a>
                             </div>
                         </div>
@@ -734,7 +858,6 @@
             <div class="modal-content">
                 <div class="modal-header" style="background-color: rgb(93, 154, 233);">
                     <h4 class="modal-title" style="font-size: 16px; color:white">IMPORT DATA QUIZ</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <form action="/admin-import-data-quiz" method="POST" enctype="multipart/form-data">@csrf
                     <div class="modal-body">
@@ -744,7 +867,7 @@
                             <select name="materi_id" id="materi_id" required class="form-control mb-3">
                                 <option value="">:: Ujian ::</option>
                                 @foreach ($mapelmaster->materi as $materi)
-                                    <option value="{{ $materi->id }}">{{ $item->materi_name }}</option>
+                                    <option value="{{ $materi->id }}">{{ $materi->materi_name }}</option>
                                 @endforeach
                             </select>
                             <div class="form-group mb-20">
@@ -764,11 +887,12 @@
                             </div>
                             <label for="file" style="font-size: 14px">Import Excel File Template Quiz</label>
                             <input type="file" class="form-control" style="border: none" name="file"
-                                id="file">
+                                id="file" required>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" id="btnclosemodalquiz" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
                         <input type="submit" id="btnimportsiswa" class="btn btn-sm btn-primary" value="Import">
                     </div>
                 </form>
@@ -826,8 +950,24 @@
 
 
 @section('script')
+
+    {{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> --}}
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.colVis.min.js"></script>
+
     <script>
-        $(document).ready(function() {})
+        $(document).ready(function() {
+
+
+        })
+        $(document).ready(function() {
+            
+        } );
+        $('#closemodalnilaisiswa').on('click', function() {
+            $('#modalnilaisiswa').modal('hide');
+        })
         $('#closemodalmateri').on('click', function() {
             $('#modaladdmateri').modal('hide');
         })
@@ -836,6 +976,9 @@
         })
         $('#closemodaldocs').on('click', function() {
             $('#modaladddocs').modal('hide');
+        })
+        $('#btnclosemodalquiz').on('click', function() {
+            $('#modalimportquiz').modal('hide');
         })
         $('#closemodaldownloaddocs').on('click', function() {
             $('#modaldownloaddocs').modal('hide');
@@ -870,6 +1013,33 @@
         $("#showtemplateujian").on('click', function() {
             $('#modaladdmateri4').modal('hide');
         })
+        $('#btncloseremovevids').on('click', function () {
+            $('#modalhapusvideo').modal('hide');
+        })
+
+        $('#closehapusdocs').on('click', function () {
+            $('#modalhapusdocs').modal('hide');
+        })
+
+
+        $('#modalhapusvideo').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var vids_name = button.data('vids_name')
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #vids_name').html(vids_name);
+        })
+
+        $('#modalhapusdocs').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var docs_name = button.data('docs_name')
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #docs_name').html(docs_name);
+        })
+
         $('#btnaddujian').on('click', function() {
             var number_soal;
             number_soal = document.getElementById('number_soal').value;
@@ -889,6 +1059,63 @@
             modal.find('.modal-body #id').val(id);
             modal.find('.modal-body #jurusan_name').val(jurusan_name);
         })
+        $('#modalnilaisiswa').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var ujian_name = button.data('ujian_name')
+            var mapelmaster_id = button.data('mapelmaster_id')
+            var kelas_id = button.data('kelas_id')
+            var ujian_id = button.data('ujian_id')
+            var modal = $(this)
+            modal.find('#header_ujian_name').html(ujian_name);
+            var url_cek_nilai = '/cek-nilai-siswa/'+kelas_id+'/'+mapelmaster_id+'/'+ujian_id;
+            var oTable = $('#example').dataTable();
+            oTable.fnDraw(false);
+                $.ajax({
+                    type: 'GET',
+                    url: url_cek_nilai,
+                    success: function(response) {
+                        if (response.status) {
+                            $('#modalnilaisiswa').modal('hide');
+                            toastr.error("Belum ada siswa yang mengerjakan");
+                            swal({
+                                title: "SORRY!",
+                                text: "Belum ada siswa yang mengerjakan",
+                                type: "error"
+                            });
+                        }else{
+                            var table = $('#example').DataTable({
+                                destroy: true,
+                                processing: true,
+                                serverSide: true,
+                                ajax: url_cek_nilai,
+                                columns: [{
+                                        "width": 10,
+                                        "data": null,
+                                        "sortable": false,
+                                        render: function(data, type, row, meta) {
+                                            return meta.row + meta.settings._iDisplayStart + 1;
+                                        }
+                                    },
+                                    {
+                                        data: 'siswa_name',
+                                        name: 'siswa_name'
+                                    },
+                                    {
+                                        data: 'nilai',
+                                        name: 'nilai'
+                                    },
+                                ]
+                            });
+                        }
+
+                    }
+                });
+
+
+            
+            
+        })
+
         $('#closemodaltugas').on('click', function() {
             $('#modaltugas').modal('hide');
         })
@@ -899,6 +1126,106 @@
             // alert('a');
             $('#modalcreateujian').modal('hide');
         })
+
+        $('#formremovevids').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: "/remove-vids",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btnremovevids').attr('disabled', 'disabled');
+                    $('#btnremovevids').val('Process...');
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        $('#modalhapusvideo').modal('hide');
+                        $("#formremovevids")[0].reset();
+                        $('#btnremovevids').val('Submit');
+                        $('#btnremovevids').attr('disabled', false);
+
+                        toastr.success(response.message);
+                        swal({
+                            title: "SUCCESS!",
+                            text: response.message,
+                            type: "success"
+                        });
+                        reload();
+
+                    } else {
+                        $('#btnremovevids').val('Submit');
+                        $('#btnremovevids').attr('disabled', false);
+                        var values = '';
+                        jQuery.each(response.message, function(key, value) {
+                            values += value + '\n'
+                        });
+                        swal({
+                            title: "Maaf",
+                            text: values,
+                            type: "error",
+                        });
+                        toastr.error(values);
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        $('#formremovedocs').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: "/remove-docs",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btnhapusdocs').attr('disabled', 'disabled');
+                    $('#btnhapusdocs').val('Process...');
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        $('#modalhapusdocs').modal('hide');
+                        $("#formremovedocs")[0].reset();
+                        $('#btnhapusdocs').val('Submit');
+                        $('#btnhapusdocs').attr('disabled', false);
+
+                        toastr.success(response.message);
+                        swal({
+                            title: "SUCCESS!",
+                            text: response.message,
+                            type: "success"
+                        });
+                        reload();
+
+                    } else {
+                        $('#btnhapusdocs').val('Submit');
+                        $('#btnhapusdocs').attr('disabled', false);
+                        var values = '';
+                        jQuery.each(response.message, function(key, value) {
+                            values += value + '\n'
+                        });
+                        swal({
+                            title: "Maaf",
+                            text: values,
+                            type: "error",
+                        });
+                        toastr.error(values);
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        });
 
         $('#formadd').submit(function(e) {
             e.preventDefault();

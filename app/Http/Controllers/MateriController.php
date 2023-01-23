@@ -170,4 +170,31 @@ class MateriController extends Controller
         $filepath = public_path('docs_files/'.$docs->docs_file);
         return Response::download($filepath); 
     }
+
+    public function remove_vids(Request $request)
+    {
+        $data = Vids::findOrFail($request->id);
+        $data->delete();
+        return response()->json([
+            'status'=>200,
+            'message'=> 'materi video telah dihapus'
+        ]);
+    }
+
+    public function remove_docs(Request $request)
+    {
+        $data = Docs::findOrFail($request->id);
+        if(File::exists(public_path('docs_files/'.$data->docs_files)))
+        {
+            File::delete(public_path('docs_files/'.$data->docs_files));
+            $data->delete();
+        }else {
+            # code...
+            $data->delete();
+        }
+        return response()->json([
+            'status'=>200,
+            'message'=> 'materi dokumen telah dihapus'
+        ]);
+    }
 }

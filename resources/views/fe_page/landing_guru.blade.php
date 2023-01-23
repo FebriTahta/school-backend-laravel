@@ -87,8 +87,16 @@
                         <div class="course__tab-inner grey-bg-2 mb-50">
                             <div class="course__sort d-flex justify-content-sm-end">
                                 <div class="course__sort-inner">
-                                    <select>
+                                    <select id="search_mapel">
                                         <option>Search Mapel</option>
+                                        @foreach ($guru->mapelmaster as $item)
+                                            <option style="max-width: 100%" value="/mapel/{{ Crypt::encrypt($item->id) }}">
+                                                {{ $item->kelas->angkatan->angkatan_name }}
+                                                {{ $item->kelas->angkatan->tingkat->tingkat_name }}
+                                                {{ $item->kelas->jurusan->jurusan_name }}
+                                                {{ $item->kelas->kelas_name }} : {{ $item->mapel->mapel_name }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -104,10 +112,14 @@
                                     <div class="course__item white-bg mb-30 fix">
                                         <div class="course__thumb w-img p-relative fix">
                                             @if ($item->image == null || $item->image == '')
+                                            <a href="/mapel/{{ Crypt::encrypt($item->id) }}">
                                                 <img src="{{ asset('assets/lms-default.png') }}" alt=""
                                                     style="max-height: 100%; border-radius: 10px; margin-top: 15px">
+                                            </a>
                                             @else
+                                            <a href="/mapel/{{ Crypt::encrypt($item->id) }}">
                                                 <img src="{{ asset('mapl_image/' . $item->image . '') }}" alt="">
+                                            </a>
                                             @endif
                                         </div>
                                         <div class="course__content" style="max-height: 120px">
@@ -269,6 +281,12 @@
                 $('#label_img').html(src.substr(0, 30));
             }
         }
+
+        $('#search_mapel').on('change', function () {
+            if (this.value !== null) {
+                window.location = this.value;
+            }
+        })
 
         function reload() {
             location.reload();

@@ -5,8 +5,16 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>:: LMS :: </title>
-    <meta name="description" content="">
+    <meta property="og:title" content="LMS" style="text-transform: capitalize" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="{{ asset('lms-2.png') }}" />
+    <meta property="og:description" content="Learning Management System SMK 1 Krian Sidoarjo" />
+    <meta property="og:url" content="http://lms.coffinashop.com" />
+    <meta name="theme-color" content="#8CC0DE">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property='og:image:width' content='1200' />
+    <meta property='og:image:height' content='627' />
     <!-- Place favicon.ico in the root directory -->
     <!-- Place favicon.ico in the root directory -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('fe_assets/assets/img/favicon.png') }}">

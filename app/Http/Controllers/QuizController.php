@@ -75,7 +75,7 @@ class QuizController extends Controller
             // ->where('optionmulti_id', '!=', 0)
             ->orderBy('id', 'desc')
             ->get();
-        $indx = 1;
+
         $soal = Soalmulti::where('ujian_id', $request->ujian_id)->with(['OptionMulti'])->orderBy('id', 'desc')->first();
         // $quiz = Soalmulti::inRandomOrder()->Get();
         $arx = Jawabanmulti::where('siswa_id', $request->siswaId)
@@ -84,9 +84,6 @@ class QuizController extends Controller
             // return 'all soal done pages';
         } else {
             $soal = Soalmulti::where('id', $nextQuiz->soalmulti_id)->with(['OptionMulti'])->first();
-            foreach ($arx as $key => $value) {
-                if ($value == $soal->id) $indx = $key + 1;
-            }
         };
         
         if ($request->byPanel) {
@@ -99,8 +96,10 @@ class QuizController extends Controller
                 if ($value == $soal->id) $indx = $key + 1;
             }
         }
-        // return $soal;
-        // return $mapelmaster_id;
+        $arr = Soalmulti::where('ujian_id', $request->ujian_id)->pluck('id')->toArray();
+        $indx = array_search($soal->id, $arr);
+        // return $soal->id;
+        $indx++;
         $opts = ['A', 'B', 'C', 'D', 'E'];
         return view('fe_page.do_quiz')->with([
             'quizCount' => $quizCount,

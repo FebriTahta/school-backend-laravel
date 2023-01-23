@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Siswa;
+use App\Models\Detailsiswa;
 use DataTables;
 use DB;
+use File;
+use Image;
 use Validator;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -20,6 +23,102 @@ class SiswaController extends Controller
 
         return view('be_page.siswa');
     }
+
+    public function createThumbnail($path, $width, $height)
+    {
+        $img = Image::make($path)->resize($width, $height, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        $img->save($path);
+    }
+
+    public function update_photo(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'siswa_id'       => 'required',
+            'img_siswa'      => 'required|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            # code...
+            return response()->json([
+                'status' => 400,
+                'message' => $validator->messages(),
+            ]);
+        }else {
+            $exist = Detailsiswa::where('siswa_id', $request->siswa_id)->first();
+            if ($exist) {
+                # code...
+                if($request->hasFile('img_siswa')) {
+                    # code...
+                    if( File::exists(public_path('image_siswa/'.$exist->img_siswa))){
+                        File::delete(public_path('image_siswa/'.$exist->img_siswa));
+                        File::delete(public_path('siswa_image/'.$exist->img_siswa));
+                    }
+                    $filename    = time().'.'.$request->img_siswa->getClientOriginalExtension();
+                    $request->file('img_siswa')->move('siswa_image/',$filename);
+                    $thumbnail   = $filename;
+                    File::copy(public_path('siswa_image/'.$filename), public_path('image_siswa/'.$thumbnail));
+                        
+                    $largethumbnailpath = public_path('siswa_image/'.$thumbnail);
+                    $this->createThumbnail($largethumbnailpath, 366, 431);
+
+                    $data = DetailSiswa::updateOrCreate(
+                        [
+                            'id' => $request->id,
+                        ],
+                        [
+                            'siswa_id' => $request->siswa_id,
+                            'img_siswa' => $filename,
+                        ]
+                    );
+
+                    return response()->json(
+                        [
+                            'status' => 200,
+                            'message' => 'data berhasil di update',
+                        ]
+                    );
+
+                }else {
+                    # code...
+                    return response()->json([
+                        'status' => 400,
+                        'message' => ['Tidak ada image'],
+                    ]);
+                }
+
+            }else {
+                # code...
+                $filename    = time().'.'.$request->img_siswa->getClientOriginalExtension();
+                $request->file('img_siswa')->move('siswa_image/',$filename);
+                $thumbnail   = $filename;
+                File::copy(public_path('siswa_image/'.$filename), public_path('image_siswa/'.$thumbnail));
+                    
+                $largethumbnailpath = public_path('siswa_image/'.$thumbnail);
+                $this->createThumbnail($largethumbnailpath, 366, 431);
+
+                $data = DetailSiswa::updateOrCreate(
+                    [
+                        'id' => $request->id,
+                    ],
+                    [
+                        'siswa_id' => $request->siswa_id,
+                        'img_siswa' => $filename,
+                    ]
+                );
+
+                return response()->json(
+                    [
+                        'status' => 200,
+                        'message' => 'data berhasil di update',
+                    ]
+                );
+            }
+        }
+    }
+
+    
 
     public function siswa_kelas($kelas_id,Request $request)
     {

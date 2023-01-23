@@ -76,19 +76,19 @@
                                     <input type="text" hidden id="soalId" name="soalId" value="{{ $q->id }}">
                                     @if (Str::limit($q->soal_name, 3) == 'be_...')
                                         <div class="teacher__info" style="padding: 0; margin: 0">
-                                            {{-- <h5>No. {{ $index }}</h5> --}}
-                                            <p>Jawablah pertanyaan berikut ini dengan benar...</p>
+                                            <h5>No. {{ $indx }}</h5>
                                             <div class="blog__thumb w-img fix">
                                                 <img src="{{ asset($q->soal_name) }}" alt="">
                                             </div>
                                             <br>
+                                            <span>"2020 X RPL 1 : Sejarah"</span>
                                         </div>
                                     @else
                                         <div class="teacher__info" style="padding: 0; margin: 0">
-                                            {{-- <h5>No. {{ $index }}</h5> --}}
-                                            <p>Jawablah pertanyaan berikut ini dengan benar...</p>
-                                            <h5 style="font-size: 20px" class="text-capitalize">{{ $q->soal_name }}
+                                            <h5>No. {{ $index }}</h5>
+                                            <h5 style="font-size: 28px" class="text-capitalize">{{ $q->soal_name }}
                                             </h5>
+                                            <span>"2020 X RPL 1 : Sejarah"</span>
                                         </div>
                                     @endif
                                 </div>
