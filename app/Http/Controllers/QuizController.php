@@ -73,14 +73,14 @@ class QuizController extends Controller
             ->orderBy('id', 'asc')
             ->get();
 
-        $soal = Soalmulti::where('ujian_id', $request->ujian_id)->with(['OptionMulti'])->orderBy('id', 'asc')->first();
+        $soal = Soalmulti::where('ujian_id', $request->ujian_id)->with(['OptionMulti'])->orderBy('id', 'desc')->first();
         // $quiz = Soalmulti::inRandomOrder()->Get();
-        $arx = Jawabanmulti::where('siswa_id', $request->siswaId)
-            ->where('ujian_id', $request->ujian_id)->orderBy('id', 'asc')->pluck('id')->toArray();
+        // $arx = Jawabanmulti::where('siswa_id', $request->siswaId)
+        //     ->where('ujian_id', $request->ujian_id)->orderBy('id', 'asc')->orderBy('id', 'asc')->pluck('id')->toArray();
         if ($jawabanCount >= $quizCount) {
             // return 'all soal done pages';
         } else {
-            $soal = Soalmulti::where('id', $nextQuiz->soalmulti_id)->with(['OptionMulti'])->first();
+            $soal = Soalmulti::where('id', $nextQuiz->soalmulti_id)->orderBy('id', 'desc')->with(['OptionMulti'])->first();
         };
         if ($request->byPanel) {
             $jawaban = Jawabanmulti::where('siswa_id', $request->siswaId)
@@ -88,13 +88,24 @@ class QuizController extends Controller
                 ->where('soalmulti_id', $request->byPanel)->first();
             $soal = Soalmulti::where('id', $request->byPanel)->with(['OptionMulti'])->first();
             $soal->jawabanSiswa = $jawaban->optionmulti_id;
-            foreach ($arx as $key => $value) {
-                if ($value == $soal->id) $indx = $key + 1;
+            // foreach ($arx as $key => $value) {
+            //     if ($value == $soal->id) $indx = $key + 1;
+            // }
+        }
+        $indx = 1;
+        $arr = Jawabanmulti::where('siswa_id', $request->siswaId)
+            ->where('ujian_id', $request->ujian_id)->orderBy('id', 'asc')->pluck('soalmulti_id')->toArray();
+        foreach ($arr as $key => $value) {
+            # code...
+            // return $value;
+            if ($value == $soal->id) {
+                // return $value . ';'.$soal->id;
+                $indx = $key ;
+                // return $key;
             }
         }
-        $arr = Soalmulti::where('ujian_id', $request->ujian_id)->pluck('id')->toArray();
-        $indx = array_search($soal->id, $arr);
-        // return $soal->id;
+        // $indx = array_search($soal->id, $arr);
+        // return $indx;
         $indx++;
         $opts = ['A', 'B', 'C', 'D', 'E'];
         return view('fe_page.do_quiz')->with([
