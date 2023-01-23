@@ -20,7 +20,7 @@ class GuruImport implements ToCollection
 
                 $usr = User::updateOrCreate(
                     [
-                        'id'=> $row[2],
+                        'username'=> $row[2],
                         'pass'=> $row[1],
                     ],
                     [
@@ -31,7 +31,7 @@ class GuruImport implements ToCollection
                     ]
                 );
 
-                $usr = User::updateOrCreate(
+                $usr = Guru::updateOrCreate(
                     [
                         'guru_nip'=> $row[1],
                         'guru_name' => $row[2],

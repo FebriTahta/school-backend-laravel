@@ -45,7 +45,7 @@ class PelajaranController extends Controller
             $jawabanku = Jawabanmulti::where('ujian_id', $value->id)->where('siswa_id', auth()->user()->siswa->id)->sum('jawabanku');
             if ($jawabanku > 0) {
                 # code...
-                $nilai[] = ($jawabanku / Jawabanmulti::where('ujian_id', $value->id)->where('siswa_id', auth()->user()->siswa->id)->count()) * 100;
+                $nilai[] = round(($jawabanku / Jawabanmulti::where('ujian_id', $value->id)->where('siswa_id', auth()->user()->siswa->id)->count()) * 100);
             }else {
                 # code..
                 $nilai[] = 0;

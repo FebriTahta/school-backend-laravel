@@ -26,7 +26,7 @@ class SiswaImport implements ToCollection
             if ($key >= 6) {
                     $usr = User::updateOrCreate(
                         [
-                            'id'=> $row[2],
+                            'username'=> $row[2],
                             'pass'=> $row[1],
                         ],
                         [

@@ -93,19 +93,36 @@
                 <form id="formadd">@csrf
                     <div class="modal-body">
                         <div class="form-group">
-                            <input type="radio" name="userbaru" id="userguru" checked><label>Guru Baru</label><br>
-                            <input type="radio" name="userbaru" id="usersiswa"><label>Siswa Baru</label>
+                            <input type="radio" class="radio" name="userbaru" id="userguru" value="userguru" checked><label>Guru Baru</label><br>
+                            <input type="radio" class="radio" name="userbaru" id="usersiswa" value="usersiswa"><label>Siswa Baru</label>
                         </div>
                         <hr>
-                        <div class="form-group guru">
-                            <input type="text" class="form-control" name="guru_name">
+                        <div class="div guru" id="divguru">
+                            <div class="form-group">
+                                <input type="text" class="form-control mb-10" name="guru_name" placeholder="Nama Guru" >
+                            </div>
+                            <div class="form-group" >
+                                <input type="text" class="form-control mb-10" name="guru_nip" placeholder="NIP Guru" >
+                            </div>
                         </div>
-                        <div class="form-group siswa" style="display: none">
-
+                        <div class="div siswa" id="divsiswa" style="display: none">
+                            <div class="form-group" >
+                                <input type="text" class="form-control mb-10" name="siswa_name" placeholder="Nama Siswa" >
+                            </div>
+                            <div class="form-group" >
+                                <input type="text" class="form-control mb-10" name="siswa_nik" placeholder="NIK Siswa" >
+                            </div>
+                            <div class="form-group" >
+                                <select name="angkatan_id" class="form-control">
+                                    @foreach ($angkatan as $item)
+                                        <option value="{{ $item->id }}">{{ $item->angkatan_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <input type="submit" id="btnadd" class="btn btn-sm btn-primary" value="REMOVE">
+                        <input type="submit" id="btnadd" class="btn btn-sm btn-primary" value="SUBMIT">
                     </div>
                 </form>
             </div>
@@ -278,7 +295,7 @@
                 var formData = new FormData(this);
                 $.ajax({
                     type: 'POST',
-                    url: "/backend-kategori-store",
+                    url: "/admin-user-baru",
                     data: formData,
                     cache: false,
                     contentType: false,
@@ -393,5 +410,15 @@
                 ]
             });
         });
+
+        $('input[name=userbaru]').on('change', function () {
+            if (this.value == 'usersiswa') {
+                document.getElementById('divguru').style.display = 'none';
+                document.getElementById('divsiswa').style.display = 'block';
+            }else{
+                document.getElementById('divguru').style.display = 'block';
+                document.getElementById('divsiswa').style.display = 'none';
+            }
+        })
     </script>
 @endsection

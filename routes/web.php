@@ -43,6 +43,7 @@ Route::controller(UserController::class)->group(function(){
     Route::get('/admin-daftar-user','daftar_user');
     Route::post('/admin-ubah-password','ubah_password');
     Route::post('/admin-ubah-photo','ubah_photo');
+    Route::post('/admin-user-baru','user_baru');
 });
  
 Route::group(['middleware' => ['auth', 'CheckRole:admin']], function () {

@@ -267,19 +267,24 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-4 col-4">
+                        <div class="col-md-3 col-12">
                             <a href="#" style="width: 100%" class="btn btn-sm btn-outline-primary"
                                 id="download_template">Template Siswa</a>
                         </div>
-                        <div class="col-md-4 col-4">
+                        <div class="col-md-3 col-12">
                             <a href="#" style="width: 100%" class="btn btn-sm btn-outline-success"
                                 data-toggle="modal" data-target="#modalimportsiswa" id="import_siswa">Import Data
                                 Siswa</a>
                         </div>
-                        <div class="col-md-4 col-4">
+                        <div class="col-md-3 col-12">
+                            <a href="#" style="width: 100%" class="btn btn-sm btn-outline-success"
+                                data-toggle="modal" data-target="#" id="">Tambahkan Siswa</a>
+                        </div>
+                        <div class="col-md-3 col-12">
                             <a href="#" style="width: 100%" data-toggle="modal" data-target="#modaldatasiswa"
                                 class="btn btn-sm btn-outline-info">Lihat Data Siswa</a>
                         </div>
+
                     </div>
                 </div>
             </div>
