@@ -29,9 +29,9 @@
     <table>
         <thead style="font-weight: bold; border: black">
             <tr style="border: black; text-transform: uppercase">
-                <th rowspan="2">NO</th>
-                <th rowspan="2">NIK</th>
-                <th rowspan="2">NAMA</th>
+                <th rowspan="2" style="50px">NO</th>
+                <th rowspan="2" style="width:200px">NIK</th>
+                <th rowspan="2" style="width:300px">NAMA</th>
             </tr>
         </thead >
         <tbody>

@@ -52,7 +52,10 @@
                     </style>
                     <div class="white">
                         <div class="card-body">
-
+                            <button class="btn btn-sm btn-success" style="width:150px" data-toggle="modal"
+                            data-target="#modaladd"><i class="fa fa-plus"></i> user baru</button>
+                        </div>
+                        <div class="card-body">
                             <div class="table-responsive">
                                 <table id="example"
                                     class="responsive nowrap table table-bordered table-striped table-hover js-basic-example dataTable">
@@ -75,6 +78,40 @@
                 <!--Today Tab End-->
             </div>
         </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-xl-2" id="modaladd" tabindex="-1" role="dialog"
+        aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title mt-0" id="myExtraLargeModalLabel" style="color: white">USER BARU</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="formadd">@csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="radio" name="userbaru" id="userguru" checked><label>Guru Baru</label><br>
+                            <input type="radio" name="userbaru" id="usersiswa"><label>Siswa Baru</label>
+                        </div>
+                        <hr>
+                        <div class="form-group guru">
+                            <input type="text" class="form-control" name="guru_name">
+                        </div>
+                        <div class="form-group siswa" style="display: none">
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" id="btnadd" class="btn btn-sm btn-primary" value="REMOVE">
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
     </div>
 
     <div class="modal fade bs-example-modal-xl-2" id="modaldel" tabindex="-1" role="dialog"

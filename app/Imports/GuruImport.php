@@ -18,20 +18,32 @@ class GuruImport implements ToCollection
         foreach ($collection as $key => $row) {
             if ($key >= 6) {
 
-                    $usr = new User;
-                    $usr->username = $row[2];
-                    $usr->pass = $row[1];
-                    $usr->password = Hash::make($row[1]);
-                    $usr->role = 'guru';
-                    $usr->save();
+                $usr = User::updateOrCreate(
+                    [
+                        'id'=> $row[2],
+                        'pass'=> $row[1],
+                    ],
+                    [
+                        'username' => $row[2],
+                        'pass'=> $row[1],
+                        'password'=> Hash::make($row[1]),
+                        'role'=>'guru'
+                    ]
+                );
 
-                    $gur = new Guru;
-                    $gur->user_id = $usr->id;
-                    $gur->guru_nip= $row[1];
-                    $gur->guru_name = $row[2];
-                    $gur->guru_slug = Str::slug($row[2]);
-                    $gur->guru_status = 'aktif';
-                    $gur->save();
+                $usr = User::updateOrCreate(
+                    [
+                        'guru_nip'=> $row[1],
+                        'guru_name' => $row[2],
+                    ],
+                    [
+                        'user_id' => $usr->id,
+                        'guru_nip'=> $row[1],
+                        'guru_name'=> $row[2],
+                        'guru_slug'=> Str::slug($row[2]),
+                        'guru_status'=> 'aktif'
+                    ]
+                );
             }
         }
     }
