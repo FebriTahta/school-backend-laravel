@@ -159,13 +159,13 @@
                                     </ul>
                                  </li> -->
                                         <li><a href="contact.html">Home</a></li>
-                                        <li class="has-dropdown">
+                                        {{-- <li class="has-dropdown">
                                             <a href="blog.html">Daftar Mapel</a>
                                             <ul class="submenu">
                                                 <li><a href="blog.html">Blog</a></li>
                                                 <li><a href="blog-details.html">Blog Details</a></li>
                                             </ul>
-                                        </li>
+                                        </li> --}}
                                         <li><a href="contact.html">Daftar Peringkat</a></li>
                                         <li><a href="contact.html">Rekap Nilai</a></li>
                                         <li>
