@@ -127,7 +127,8 @@ class QuizController extends Controller
 
     public function prevQuiz($mapelmaster_id,$materi_id,$id, Request $request)
     {
-        $request->siswaId =  Siswa::where('user_id', Auth::id())->first()->id;
+        // $request->siswaId =  Siswa::where('user_id', Auth::id())->first()->id;
+        $request->siswaId = auth()->user()->id;
         $request->ujian_id = $id;
         if ($request->jawabanId) {
             $data = Jawabanmulti::where('siswa_id', $request->siswaId)

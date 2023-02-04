@@ -36,9 +36,9 @@
                                     <div class="events__sponsor-info">
                                         <h3>Guru : {{ $mapelmaster->guru->guru_name }}</h3>
                                         <h4><span>Materi pada matapelajaran ini meliputi : {{ $mapelmaster->docs_count }}
-                                                dokumen
-                                                {{ $mapelmaster->vids_count }} video
-                                                dan {{ $mapelmaster->ujian_count }} exam</span></h4>
+                                                dokumen, 
+                                                {{ $mapelmaster->vids_count }} video,
+                                                {{ $mapelmaster->ujian_count }} exam dan {{ $mapelmaster->tugas_count }} tugas</span></h4>
                                     </div>
                                 </div>
                             </div>
@@ -108,62 +108,102 @@
                                             <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
                                                 data-bs-target="#modaladddocstugas"><i class="fa fa-book"></i>
                                                 Dokumen</button>
-                                            <h3 class="mt-3">Petunjuk</h3>
-                                            <p>
-                                                Lakukan display sama seperti materi kalau bisa tampilkan dengan preview
-                                                dokumen, kalau belum bisa lewati dulu preview dokumennya
-                                                1 tugas dapat memiliki beberapa docs_file
-                                            </p>
-                                            <div class="accordion" id="course__accordion">
-                                                <div class="accordion-item mb-50">
-                                                    <h2 class="accordion-header" id="week-01">
-                                                        <button class="accordion-button text-capitalize" type="button"
-                                                            data-bs-toggle="collapse" data-bs-target="#x"
-                                                            aria-expanded="true" aria-controls="week-01-content">
-                                                            Ex : Tugas Matematik
-                                                        </button>
-                                                    </h2>
+                                            @if ($mapelmaster->tugas_count < 1)
+                                                <div class="accordion" style="margin-top: 20px">
+                                                    <h3 class="mt-3" style="color: rgb(248, 134, 134)">
+                                                        Belum ada tugas yang tersedia
+                                                    </h3>
+                                                </div>
+                                            @else
+                                                @foreach ($mapelmaster->tugas as $key=> $item)
+                                                    <div class="accordion" id="course__accordion{{ $key }}" style="margin-top: 20px">
+                                                        <div class="accordion-item mb-20">
+                                                            <h2 class="accordion-header" id="week-01">
+                                                                <button class="accordion-button text-capitalize" type="button"
+                                                                    data-bs-toggle="collapse" data-bs-target="#x"
+                                                                    aria-expanded="true" aria-controls="week-01-content">
+                                                                    Task : {{ $item->tugas_name }}
+                                                                </button>
+                                                            </h2>
 
-                                                    <div id="x" class="accordion-collapse collapse show"
-                                                        aria-labelledby="week-01" data-bs-parent="#course__accordion">
-                                                        <div class="accordion-body">
-                                                            <div
-                                                                class="course__curriculum-content d-sm-flex justify-content-between align-items-center">
-                                                                <div class="course__curriculum-info">
-                                                                    <svg class="document" viewBox="0 0 24 24">
-                                                                        <path class="st0"
-                                                                            d="M14,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8L14,2z" />
-                                                                        <polyline class="st0"
-                                                                            points="14,2 14,8 20,8 " />
-                                                                        <line class="st0" x1="16"
-                                                                            y1="13" x2="8"
-                                                                            y2="13" />
-                                                                        <line class="st0" x1="16"
-                                                                            y1="17" x2="8"
-                                                                            y2="17" />
-                                                                        <polyline class="st0" points="10,9 9,9 8,9 " />
-                                                                    </svg>
-                                                                    <h3> <span>...</span></h3>
+                                                            <div id="x"
+                                                                @if ($key == '0')
+                                                                class="accordion-collapse collapse show"
+                                                                @else
+                                                                class="accordion-collapse collapse"
+                                                                @endif
+                                                                aria-labelledby="week-01" data-bs-parent="#course__accordion{{ $key }}">
+                                                                <div class="accordion-body">
+                                                                    <div
+                                                                        class="course__curriculum-content d-sm-flex justify-content-between align-items-center">
+                                                                        <div class="course__curriculum-info">
+                                                                            <p>Deskripsi :</p>
+                                                                            <h3> <span>{{ $item->tugas_desc }}</span></h3><br>
+                                                                            <span>Keterangan : 
+                                                                                @if ($item->jawabtugas->count() < 1)
+                                                                                   Belum dikerjakan
+                                                                                @else
+                                                                                   Dikerjakan {{ $item->jawabtugas->count() }} siswa
+                                                                                @endif
+                                                                            </span>
+                                                                        </div>
+                                                                        <div class="course__curriculum-meta">
+                                                                            
+                                                                            <button class="btn btn-sm btn-info text-white" data-bs-toggle="modal"
+                                                                            data-bs-target="#modaltugassiswa" data-tugas_name="{{ $item->tugas_name }}"
+                                                                            data-tugas_id="{{ $item->id }}" data-mapelmaster_id="{{ $mapelmaster_id }}"
+                                                                             data-kelas_id="{{ $kelas_id }}">periksa</button>
+                                                                            {{-- <a href="#_" data-bs-toggle="modal"
+                                                                                data-bs-target="#modalhapusvideo" 
+                                                                                class="btn btn-sm btn-danger text-white">hapus</a> --}}
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="course__curriculum-meta">
-                                                                    <span class="item" style="margin-right: 10px"><i
-                                                                            class="icon_clock_alt"></i></span>
-                                                                    <a href="#" data-bs-toggle="modal"
-                                                                        data-bs-target="#modalplayvids" data-src=""
-                                                                        class="text-danger"><i class="fa fa-play"
-                                                                            style="font-size: 12px"></i> tonton</a>
-                                                                    {{-- <a class="text-info">| edit</a> --}}
-                                                                    <a href="#_" data-bs-toggle="modal"
-                                                                        data-bs-target="#modalhapusvideo" 
-                                                                        class="text-danger">| hapus</a>
-
+                                                                <div class="accordion-body">
+                                                                    @if ($item->docstugas->count() < 1)
+                                                                    <div
+                                                                        class="course__curriculum-content d-sm-flex justify-content-between align-items-center">
+                                                                        <div class="course__curriculum-info">
+                                                                            <h3 class="text-damger">belum ada dokumen tugas</h3>
+                                                                        </div>
+                                                                    </div>
+                                                                    @else
+                                                                        @foreach ($item->docstugas as $dt)
+                                                                        <div
+                                                                            class="course__curriculum-content d-sm-flex justify-content-between align-items-center">
+                                                                            <div class="course__curriculum-info">
+                                                                                <svg class="document" viewBox="0 0 24 24">
+                                                                                    <path class="st0"
+                                                                                        d="M14,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8L14,2z" />
+                                                                                    <polyline class="st0"
+                                                                                        points="14,2 14,8 20,8 " />
+                                                                                    <line class="st0" x1="16"
+                                                                                        y1="13" x2="8"
+                                                                                        y2="13" />
+                                                                                    <line class="st0" x1="16"
+                                                                                        y1="17" x2="8"
+                                                                                        y2="17" />
+                                                                                    <polyline class="st0"
+                                                                                        points="10,9 9,9 8,9 " />
+                                                                                </svg>
+                                                                                <h3> <span>{{ $dt->docs_name }}</span></h3>
+                                                                            </div>
+                                                                            <div class="course__curriculum-meta">
+                                                                                <a href="#_" data-bs-toggle="modal"
+                                                                                    data-bs-target="#modalhapusdocstugas" data-id={{ $dt->id }} data-docs_name={{ $dt->docs_name }}
+                                                                                    class="text-danger">hapus</a> |
+                                                                                <a href="/download-docstugas/{{ $dt->id }}" class="text-primary">unduh</a>
+                                                                            </div>
+                                                                        </div>
+                                                                        @endforeach
+                                                                    @endif
+                                                                    
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-
+                                                @endforeach
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="tab-pane fade  show active" id="curriculum" role="tabpanel"
@@ -327,7 +367,7 @@
                                                                             <h3> <span>{{ $u->ujian_name }}</span></h3>
                                                                         </div>
                                                                         <div class="course__curriculum-meta">
-                                                                            <a href="#preview" class="text-success"><i
+                                                                            <a href="#"><i
                                                                                     class="fa fa-eye"
                                                                                     style="font-size: 12px"></i>
                                                                                 previw</a>
@@ -504,6 +544,36 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modaltugassiswa" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">TUGAS SISWA : <span id="header_tugas_name" class="text-uppercase"></span></h4>
+                </div>
+                <div class="modal-body">
+                    <table id="example2"
+                    class="display responsive nowrap" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%">No</th>
+                                <th>Nama Siswa</th>
+                                <th>Tanggal</th>
+                                <th style="width: 10%">Unduh</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-capitalize">
+                            {{-- data --}}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closemodaltugassiswa" class="btn btn-sm btn-default"
+                        data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="modalhapusvideo" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content">
@@ -554,6 +624,34 @@
                         <button type="button" id="closehapusdocs" class="btn btn-sm btn-default"
                             data-dismiss="modal">Close</button>
                         <input type="submit" id="btnhapusdocs" class="btn btn-sm btn-primary" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalhapusdocstugas" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h4 class="modal-title text-uppercase" style="font-size: 16px; color:white">HAPUS DOCUMENT tugas</h4>
+                </div>
+                <form id="formremovedocstugas"> @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="hidden" class="form-control" id="id" name="id">
+                            </div>
+                            <div class="col-md-12 col-12" id="block-new-jurusan" style="padding-right: 5px">
+                                <p class="text-danger">Anda yakin akan menghapus dokumen tugas tersebut ?</p>
+                                <h5 id="docstugas_name"></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closehapusdocstugas" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
+                        <input type="submit" id="btnhapusdocstugas" class="btn btn-sm btn-primary" value="Submit">
                     </div>
                 </form>
             </div>
@@ -615,7 +713,7 @@
                                 <input type="hidden" class="form-control" name="uploader_nip"
                                     value="{{ auth()->user()->guru->guru_nip }}">
                                 <input type="text" placeholder="judul tugas" name="tugas_name"
-                                    class="form-control mb-3" id="judul_tugas" required>
+                                    class="form-control mb-3" id="tugas_name" required>
                                 <textarea name="tugas_desc" id="tugas_desc" cols="10" rows="5" placeholder="deskripsi tugas"
                                     class="form-control mb-3" required></textarea>
                             </div>
@@ -637,17 +735,25 @@
                 <div class="modal-header bg-primary">
                     <h4 class="modal-title" style="font-size: 16px; color:white">DOKUMEN TUGAS BARU</h4>
                 </div>
-                <form method="POST"> @csrf
+                <form id="formadddocstugas" method="POST"> @csrf
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <select name="materi_id" id="materi_id" required class="form-control mb-3">
-                                    <option value="">:: Tugas ::</option>
-                                    @foreach ($tugas as $item)
-                                        <option value="{{ $item->id }}">{{ $item->materi_name }}</option>
-                                    @endforeach
-                                </select>
-                                <input type="file" name="docs_tugas" id="docs_tugas">
+                                <div class="form-group">
+                                    <input type="hidden" name="mapelmaster_id" value="{{ $mapelmaster_id }}">
+                                    <select name="tugas_id" id="tugas_id" required class="form-control mb-3">
+                                        <option value="">:: Tugas ::</option>
+                                        @foreach ($tugas as $item)
+                                            <option value="{{ $item->id }}">{{ $item->tugas_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="docs_name" id="docs_name" class="form-control">
+                                </div>
+                                <div class="form-group" style="margin-top: 20px">
+                                    <input type="file"  name="docs_file" id="docs_file" accept=".xlsx,.docs,.doc,.pdf,.csv">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -712,11 +818,8 @@
                     <div class="row">
                         <div class="ratio ratio-16x9">
                             <div class="form-group">
-                                <iframe width="420" height="315" class="embed-responsive-item" src=""
+                                <iframe width="100%" height="100%" class="embed-responsive-item" src=""
                                     id="video" frameborder="0" allowscriptaccess="always" allow="autoplay"></iframe>
-                            </div>
-                            <div class="form-group mb-20">
-                                <a id="detailvids" class="btn btn-sm btn-primary">Detail Video</a>
                             </div>
                         </div>
                     </div>
@@ -968,6 +1071,9 @@
         $('#closemodalnilaisiswa').on('click', function() {
             $('#modalnilaisiswa').modal('hide');
         })
+        $('#closemodaltugassiswa').on('click', function() {
+            $('#modaltugassiswa').modal('hide');
+        })
         $('#closemodalmateri').on('click', function() {
             $('#modaladdmateri').modal('hide');
         })
@@ -992,6 +1098,46 @@
             $("#download").attr("href", '/download-docs/' + id);
             modal.find('.modal-body #docs_name').html(docs_name);
             modal.find('.modal-body #docs_desc').html(docs_desc);
+        })
+
+        $('#modaltugassiswa').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var tugas_id = button.data('tugas_id')
+            var mapelmaster_id = button.data('mapelmaster_id')
+            var kelas_id = button.data('kelas_id')
+            var tugas_name = button.data('tugas_name')
+            var modal = $(this)
+            
+            modal.find('#header_tugas_name').html(tugas_name);
+            var oTable = $('#example2').dataTable();
+            oTable.fnDraw(false);
+            var table = $('#example2').DataTable({
+            destroy: true,
+            processing: true,
+            serverSide: true,
+            ajax: '/cek-tugas-siswa/'+mapelmaster_id+'/'+tugas_id,
+            columns: [{
+                    "width": 10,
+                    "data": null,
+                    "sortable": false,
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {
+                    data: 'siswa',
+                    name: 'siswa'
+                },
+                {
+                    data: 'tanggal',
+                    name: 'tanggal'
+                },
+                {
+                    data: 'unduh',
+                    name: 'unduh'
+                },
+            ]
+        });
         })
 
         var videoSrc;
@@ -1021,6 +1167,10 @@
             $('#modalhapusdocs').modal('hide');
         })
 
+        $('#closehapusdocstugas').on('click', function () {
+            $('#modalhapusdocstugas').modal('hide');
+        })
+
 
         $('#modalhapusvideo').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
@@ -1038,6 +1188,15 @@
             var modal = $(this)
             modal.find('.modal-body #id').val(id);
             modal.find('.modal-body #docs_name').html(docs_name);
+        })
+
+        $('#modalhapusdocstugas').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var docs_name = button.data('docs_name')
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #docstugas_name').html(docs_name);
         })
 
         $('#btnaddujian').on('click', function() {
@@ -1110,10 +1269,6 @@
 
                     }
                 });
-
-
-            
-            
         })
 
         $('#closemodaltugas').on('click', function() {
@@ -1209,6 +1364,106 @@
                     } else {
                         $('#btnhapusdocs').val('Submit');
                         $('#btnhapusdocs').attr('disabled', false);
+                        var values = '';
+                        jQuery.each(response.message, function(key, value) {
+                            values += value + '\n'
+                        });
+                        swal({
+                            title: "Maaf",
+                            text: values,
+                            type: "error",
+                        });
+                        toastr.error(values);
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        $('#formremovedocstugas').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: "/remove-docs-tugas",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btnhapusdocstugas').attr('disabled', 'disabled');
+                    $('#btnhapusdocstugas').val('Process...');
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        $('#modalhapusdocstugas').modal('hide');
+                        $("#formremovedocstugas")[0].reset();
+                        $('#btnhapusdocstugas').val('Submit');
+                        $('#btnhapusdocstugas').attr('disabled', false);
+
+                        toastr.success(response.message);
+                        swal({
+                            title: "SUCCESS!",
+                            text: response.message,
+                            type: "success"
+                        });
+                        reload();
+
+                    } else {
+                        $('#btnhapusdocstugas').val('Submit');
+                        $('#btnhapusdocstugas').attr('disabled', false);
+                        var values = '';
+                        jQuery.each(response.message, function(key, value) {
+                            values += value + '\n'
+                        });
+                        swal({
+                            title: "Maaf",
+                            text: values,
+                            type: "error",
+                        });
+                        toastr.error(values);
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        $('#formadddocstugas').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: "/post-dokumen-tugas-siswa",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btnadddocstugas').attr('disabled', 'disabled');
+                    $('#btnadddocstugas').val('Process...');
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        $('#modaladddocstugas').modal('hide');
+                        $("#formadddocstugas")[0].reset();
+                        $('#btnadddocstugas').val('Submit');
+                        $('#btnadddocstugas').attr('disabled', false);
+
+                        toastr.success(response.message);
+                        swal({
+                            title: "SUCCESS!",
+                            text: response.message,
+                            type: "success"
+                        });
+                        reload();
+
+                    } else {
+                        $('#btnadddocstugas').val('Submit');
+                        $('#btnadddocstugas').attr('disabled', false);
                         var values = '';
                         jQuery.each(response.message, function(key, value) {
                             values += value + '\n'

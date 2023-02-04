@@ -66,12 +66,12 @@ class MateriController extends Controller
         }else {
             # code...
             $source = $request->vids_link;
-            $base = 'https://www.youtube.com/embed/';
-            if (substr($source,0,30) !== $base) {
+            $base = 'https://www.youtube.com/watch?v=';
+            if (substr($source,0,32) !== $base) {
                 # code...
                 return response()->json([
                     'status' => 400,
-                    'message' => ['sumber url salah & tidak dapat diterima'],
+                    'message' => ['Sumber URL dari Link Youtube'],
                 ]);
             }else {
                 # code...
@@ -82,7 +82,7 @@ class MateriController extends Controller
                     [
                         'mapelmaster_id' => $request->mapelmaster_id,
                         'vids_name' => $request->vids_name,
-                        'vids_link' => $source,
+                        'vids_link' => 'https://www.youtube.com/embed/'.substr($source,32),
                         'vids_desc' => $request->vids_desc,
                         'materi_id' => $request->materi_id,
                     ]

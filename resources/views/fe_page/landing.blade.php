@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="col-xxl-12">
                         <div class="page__title-wrapper mt-110">
-                            <h3 class="page__title">{{ $siswa->kelas->jurusan->jurusan_name }}
+                            <h3 class="page__title">{{ $siswa->kelas->kelas_name }} {{ $siswa->kelas->jurusan->jurusan_name }}
                                 {{ $siswa->kelas->angkatan->tingkat->tingkat_name }}
                                 "{{ $siswa->kelas->angkatan->angkatan_name }}"</h3>
                             <nav aria-label="breadcrumb">
@@ -47,6 +47,21 @@
                     <div class="col-xxl-12">
                         <div class="course__tab-conent">
                             <div class="tab-content" id="courseTabContent">
+                                @if ($siswa->kelas->exam->where('exam_status', 'aktif')->count() > 0)
+                                <div class="ujian">
+                                    <div class="alert alert-success alert-block">
+                                        <small>Ada daftar ujian yang harus anda selesaikan sebelum waktu yang ditentukan habis</small>
+                                        <div class="daftar_ujian">
+                                            <ul>
+                                                @foreach ($siswa->kelas->exam->where('exam_status', 'aktif') as $key => $item)
+                                                    <li>* {{ $item->exam_name }} <span> <u><a href="#mulai"
+                                                        onclick="check({{ $item }},{{ $item->mapel_id }},{{ $siswa->kelas->id }},'/do-exam')"><i class="fa fa-pencil" style="font-size: 14px"></i> start </a></u></span></li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
                                 <div class="tab-pane fade show active" id="list" role="tabpanel"
                                     aria-labelledby="list-tab">
                                     <div class="row">
@@ -129,6 +144,28 @@
                 window.location = this.value;
             }
         })
-
+        function check(exam,mapel_id,kelas_id, url) {
+            let now = new Date().getTime();
+            let countDownDate = new Date(exam.exam_datetimeend).getTime();
+            var distance = countDownDate - now;
+            
+            if (distance < 0) {
+                swal({
+                    title: "Waktu habis",
+                    html: 'Ujian berakhir. Redirecting... ',
+                    type: "info",
+                });
+            } else {
+                swal({
+                    title: "Mulai",
+                    text: "MULAI MENGERJAKAN",
+                    type: "info",
+                }, function () {
+                    window.location = url+'/'+exam.id+'/'+mapel_id+'/'+kelas_id;
+                });
+            }
+            // var url = "/do-quiz/" + ujian.id;
+            // window.location.href = url;
+        }
 </script>
 @endsection

@@ -3,7 +3,7 @@
     <ul class="nav navbar-nav">
         <!-- Messages-->
         <!-- Notifications -->
-        <li class="dropdown custom-dropdown notifications-menu">
+        {{-- <li class="dropdown custom-dropdown notifications-menu">
             <a href="#" class=" nav-link" data-toggle="dropdown" aria-expanded="false">
                 <i class="icon-notifications "></i>
                 <span class="badge badge-danger badge-mini rounded-circle">4</span>
@@ -22,7 +22,7 @@
                 </li>
                 <li class="footer p-2 text-center"><a href="#">View all</a></li>
             </ul>
-        </li>
+        </li> --}}
         
         <!-- Right Sidebar Toggle Button -->
         {{-- <li>

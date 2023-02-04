@@ -21,8 +21,9 @@
                                 <div class="events__sidebar-widget white-bg">
                                     <div class="events__sponsor" style="text-align: center">
                                         <h3 class="events__sponsor-title">
-                                            <h4>{{ $quiz->ujian_lamapengerjaan }}:00 MENIT (CD)</h4>
-                                            <h5 id="counter"></h5>
+                                            {{-- <h4>{{ $quiz->ujian_lamapengerjaan }}:00 MENIT (CD)</h4>
+                                            <h5 id="counter"></h5> --}}
+                                            PREVIEW
                                         </h3>
 
                                         <div class="events__sponsor-info">
@@ -67,14 +68,14 @@
                                                 <img src="{{ asset($q->soal_name) }}" alt="">
                                             </div>
                                             <br>
-                                            <span>"2020 X RPL 1 : Sejarah"</span>
+                                            
                                         </div>
                                     @else
                                         <div class="teacher__info" style="padding: 0; margin: 0">
                                             <h5>No. {{ $index }}</h5>
                                             <h5 style="font-size: 28px" class="text-capitalize">{{ $q->soal_name }}
                                             </h5>
-                                            <span>"2020 X RPL 1 : Sejarah"</span>
+                                            
                                         </div>
                                     @endif
                                 </div>
@@ -101,7 +102,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="navigation-soal" style="margin-top: 20px">
+                                {{-- <div class="navigation-soal" style="margin-top: 20px">
                                     @if ($index > 0)
                                         <a href="#" onclick="showQuiz({{ $index - 1 }})"
                                             style="float: left; font-size: 20px"><u> Prev</u></a>
@@ -113,7 +114,7 @@
                                         <button onclick="this.form('formQuiz').submit" type="submit" href="#"
                                             style="float: right; font-size: 20px"><u> Finish</u></button>
                                     @endif
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -131,67 +132,67 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <script>
-        function startQuiz() {
-            var countDownDate = new Date(@json($quiz->ujian_datetimeend)).getTime();
+        // function startQuiz() {
+        //     var countDownDate = new Date(@json($quiz->ujian_datetimeend)).getTime();
 
-            // Update the count down every 1 second
-            var x = setInterval(function() {
+        //     // Update the count down every 1 second
+        //     var x = setInterval(function() {
 
-                // Get todays date and time
-                var now = new Date().getTime();
+        //         // Get todays date and time
+        //         var now = new Date().getTime();
 
-                // Find the distance between now an the count down date
-                var distance = countDownDate - now;
+        //         // Find the distance between now an the count down date
+        //         var distance = countDownDate - now;
 
-                // Time calculations for days, hours, minutes and seconds
-                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                // var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        //         // Time calculations for days, hours, minutes and seconds
+        //         var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        //         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        //         // var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                // Output the result in an element with id="demo"
-                document.getElementById("counter").innerHTML = "Tersisa: " + hours + " Jam " +
-                    minutes + " Menit";
+        //         // Output the result in an element with id="demo"
+        //         document.getElementById("counter").innerHTML = "Tersisa: " + hours + " Jam " +
+        //             minutes + " Menit";
 
-                // If the count down is over, write some text 
-                if (distance < 0) {
-                    clearInterval(x);
-                    document.getElementById("counter").innerHTML = "Tersisa: EXPIRED";
-                    document.getElementById("formQuiz").submit();
-                }
-            }, 1000);
+        //         // If the count down is over, write some text 
+        //         if (distance < 0) {
+        //             clearInterval(x);
+        //             document.getElementById("counter").innerHTML = "Tersisa: EXPIRED";
+        //             document.getElementById("formQuiz").submit();
+        //         }
+        //     }, 1000);
 
-        }
-        // function disable refresh page
-        function disableF5(e) {
-            if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) {
-                e.preventDefault();
-            }
-        };
+        // }
+        // // function disable refresh page
+        // function disableF5(e) {
+        //     if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) {
+        //         e.preventDefault();
+        //     }
+        // };
 
-        $(document).on("keydown", this.disableF5);
-        this.startQuiz();
+        // $(document).on("keydown", this.disableF5);
+        // this.startQuiz();
 
-        function postQuiz(ujianId, soalId, jawabanId) {
-            console.log(soalId + ":" + jawabanId);
-            let data = {
-                _token: "{{ csrf_token() }}",
-                ujianId: ujianId,
-                soalId: soalId,
-                jawabanId: jawabanId,
-            };
-            $.ajax({
-                type: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: '{{ route('postQuiz') }}',
-                data: data, // serializes the form's elements.
-                success: function(data) {
-                    var btn = document.getElementById('btnQuiz-' + soalId);
-                    btn.classList.remove("btn-outline-secondary");
-                    btn.classList.add("btn-success");
-                }
-            });
-        }
+        // function postQuiz(ujianId, soalId, jawabanId) {
+        //     console.log(soalId + ":" + jawabanId);
+        //     let data = {
+        //         _token: "{{ csrf_token() }}",
+        //         ujianId: ujianId,
+        //         soalId: soalId,
+        //         jawabanId: jawabanId,
+        //     };
+        //     $.ajax({
+        //         type: "POST",
+        //         headers: {
+        //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //         },
+        //         url: '{{ route('postQuiz') }}',
+        //         data: data, // serializes the form's elements.
+        //         success: function(data) {
+        //             var btn = document.getElementById('btnQuiz-' + soalId);
+        //             btn.classList.remove("btn-outline-secondary");
+        //             btn.classList.add("btn-success");
+        //         }
+        //     });
+        // }
     </script>
 @endsection

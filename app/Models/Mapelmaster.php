@@ -46,4 +46,19 @@ class Mapelmaster extends Model
     {
         return $this->hasMany(Ujian::class);
     }
+
+    public function tugas()
+    {
+        return $this->hasMany(Tugas::class);
+    }
+
+    public function docstugas()
+    {
+        return $this->hasMany(Docstugas::class);
+    }
+
+    public function jawabtugas()
+    {
+        return $this->hasMany(Jawabtugas::class);
+    }
 }

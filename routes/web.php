@@ -15,6 +15,8 @@ use App\Http\Controllers\MateriController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KomenController;
+use App\Http\Controllers\TugasController;
+use App\Http\Controllers\ExamController;
 use GuzzleHttp\Psr7\Request;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 
@@ -47,6 +49,16 @@ Route::controller(UserController::class)->group(function(){
 });
  
 Route::group(['middleware' => ['auth', 'CheckRole:admin']], function () {
+
+    Route::controller(ExamController::class)->group(function(){
+        Route::get('/admin-manajemen-ujian','manajemen_ujian');
+        Route::get('/admin-exam-kelas','exam_kelas');
+        Route::post('/admin-remove-exam','exam_remove');
+        Route::get('/admin-kelas-keseluruhan/{exam_id}','kelas_keseluruhan');
+        Route::get('/admin-kelas-saatini/{exam_id}','kelas_saatini');
+        Route::post('/admin-add-exam-kelas','tambah_kelas_ke_exam');
+        Route::post('/admin-remove-exam-kelas','remove_kelas_di_exam');
+    });
 
     Route::controller(UserController::class)->group(function () {
         Route::get('admin-daftar-user', 'daftar_user');
@@ -129,7 +141,7 @@ Route::group(['middleware' => ['auth', 'CheckRole:siswa']], function () {
     });
 });
 
-Route::group(['middleware' => ['auth', 'CheckRole:guru']], function () {
+Route::group(['middleware' => ['auth', 'CheckRole:guru,admin']], function () {
     Route::controller(LandingController::class)->group(function () {
         Route::get('/home-lms-guru', 'home_lms_guru');
         Route::get('/home-lms-guru', 'home_lms_guru');
@@ -137,6 +149,7 @@ Route::group(['middleware' => ['auth', 'CheckRole:guru']], function () {
     });
     Route::controller(ImportController::class)->group(function () {
         Route::post('/admin-import-data-quiz', 'import_data_quiz');
+        Route::post('/admin-import-data-exam', 'import_data_exam');
     });
     Route::controller(GuruController::class)->group(function() {
         Route::post('/update-photo-guru','update_photo');
@@ -146,10 +159,21 @@ Route::group(['middleware' => ['auth', 'CheckRole:guru']], function () {
 });
 
 Route::group(['middleware' => ['auth', 'CheckRole:guru,siswa']], function () {
+    Route::controller(TugasController::class)->group(function(){
+        Route::post('/post-tugas-siswa', 'post_tugas');
+        Route::post('/post-dokumen-tugas-siswa','post_docstugas');
+        Route::get('/download-docstugas/{docstugas_id}','download_docstugas');
+        Route::post('/remove-docs-tugas','remove_docstugas');
+        Route::get('/cek-tugas-siswa/{mapelmaster_id}/{tugas_id}','cek_tugas_siswa');
+
+        Route::post('/post-jawaban-tugas-siswa','post_jawab_tugas');
+        Route::post('/post-jawaban-tugas-siswa2','post_jawab_tugas2');
+        Route::get('/download-jawaban-tugas-siswa/{jawabtugas_id}','download_tugasku');
+    });
+
     Route::controller(PelajaranController::class)->group(function () {
         Route::get('/mapel/{mapelmaster_id}', 'mapel_mapelmaster');
         Route::get('/mapel-siswa/{mapelmaster_id}', 'mapel_mapelmaster_siswa');
-        Route::post('/post-tugas-siswa', 'add_tugas_siswa');
         Route::get('/cek-nilai-siswa/{kelas_id}/{mapelmaster_id}/{ujian_id}','cek_nilai_siswa');
     });
     Route::controller(MateriController::class)->group(function () {
@@ -171,8 +195,11 @@ Route::get('/cek-siswa/{kelas_id}',[PelajaranController::class,'cek_siswa']);
 
 Route::get('/do-quiz/{mapelmaster_id}/{materi_id}/{ujian_id}', [QuizController::class, 'doQuiz'])->name('doQuiz');
 Route::post('/post-quiz', [QuizController::class, 'postQuiz'])->name('postQuiz');
-Route::get('/prev-quiz/{ujian_id}', [QuizController::class, 'prevQuiz'])->name('prevQuiz');
+Route::get('/prev-quiz/{mapelmaster_id}/{materi_id}/{ujian_id}', [QuizController::class, 'prevQuiz'])->name('prevQuiz');
 Route::post('/ujianStore', [QuizController::class, 'ujianStore'])->name('ujianStore');
 // Route::post('/post-quiz', [QuizController::class, 'postQuiz'])->name('postQuiz');
+
+Route::get('/do-exam/{exam_id}/{mapel_id}/{kelas_id}',[ExamController::class,'doExam'])->name('doExam');
+Route::post('/post-exam',[ExamController::class,'postExam'])->name('postExam');
 
 

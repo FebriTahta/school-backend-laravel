@@ -52,4 +52,14 @@ class Kelas extends Model
     {
         return $this->hasMany(Materi::class);
     }
+
+    public function exam()
+    {
+        return $this->belongsToMany(Exam::class);
+    }
+
+    public function jawabanexam()
+    {
+        return $this->hasMany(Jawabanexam::class);
+    }
 }

@@ -37,7 +37,7 @@
                                     <button data-bs-toggle="modal" data-user_id="{{ $guru->user_id }}"
                                         data-username="{{ $guru->user->username }}" data-pass="{{ $guru->user->pass }}"
                                         data-bs-target="#modaluser" style="width: 100%"
-                                        class="btn btn-sm btn-outline-info">credential</button>
+                                        class="btn btn-sm btn-outline-info">user / pass</button>
                                 </div>
                                 <div class="col-md-4 col-4">
                                     <button style="width: 100%" data-bs-toggle="modal" data-guru_id="{{ $guru->id }}"

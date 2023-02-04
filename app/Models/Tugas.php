@@ -41,4 +41,9 @@ class Tugas extends Model
     {
         return $this->belongsTo(Mapelmaster::class);
     }
+
+    public function jawabtugas()
+    {
+        return $this->hasMany(Jawabtugas::class);
+    }
 }

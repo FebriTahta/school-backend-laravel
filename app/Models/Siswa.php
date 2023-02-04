@@ -45,4 +45,14 @@ class Siswa extends Model
     {
         return $this->hasMany(Komenvideo::class);
     }
+
+    public function jawabtugas()
+    {
+        return $this->hasMany(Jawabtugas::class);
+    }
+
+    public function jawabanexam()
+    {
+        return $this->hasMany(Jawabanexam::class);
+    }
 }

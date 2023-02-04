@@ -46,4 +46,9 @@ class Guru extends Model
     {
         return $this->hasOne(Detailguru::class);
     }
+
+    public function jawabtugas()
+    {
+        return $this->hasMany(Jawabtugas::class);
+    }
 }

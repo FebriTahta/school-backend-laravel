@@ -13,6 +13,7 @@ use App\Models\Vids;
 use DataTables;
 use Crypt;
 use Validator;
+use App\Models\Jawabtugas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,9 +22,9 @@ class PelajaranController extends Controller
     public function mapel_mapelmaster($mapelmaster_id)
     {
         $mapelmaster_id = Crypt::decrypt($mapelmaster_id);
-        $mapelmaster = Mapelmaster::findOrFail($mapelmaster_id)->with(['materi','mapel'])->withcount('mapel','docs', 'vids', 'ujian', 'materi')->first();
+        $mapelmaster = Mapelmaster::findOrFail($mapelmaster_id)->with(['materi','mapel'])->withcount('mapel','docs', 'vids', 'ujian', 'materi','tugas','docstugas')->first();
         $guru_id = Guru::where('user_id', '=', auth()->user()->id)->first();
-        $tugas = Tugas::where('guru_id', '=', $guru_id->id);
+        $tugas = Tugas::where('mapelmaster_id', $mapelmaster_id)->get();
         return view('fe_page.detail_mapel', [
             'mapelmaster' => $mapelmaster,
             'tugas' => $tugas,
@@ -38,6 +39,7 @@ class PelajaranController extends Controller
         $siswa = Siswa::where('user_id', Auth::id())->first();
         $mapelmaster = Mapelmaster::findOrFail($mapelmaster_id)->with('materi')->withcount('docs', 'vids', 'ujian', 'materi')->first();
         $ujian = Ujian::where('mapelmaster_id', $mapelmaster_id)->get();
+        $tugas = Tugas::where('mapelmaster_id', $mapelmaster_id)->get();
         $nilai = [];
         $nama_ujian = [];
         foreach ($ujian as $key => $value) {
@@ -57,7 +59,10 @@ class PelajaranController extends Controller
             'mapelmaster' => $mapelmaster,
             'siswa_id' => $siswa->id,
             'nilai_quiz' => $nilai,
-            'nama_quiz' => $nama_ujian 
+            'nama_quiz' => $nama_ujian,
+            'tugas' => $tugas,
+            'mapelmaster_id' => $mapelmaster_id,
+            'kelas_id' => $mapelmaster->kelas_id
         ]);
     }
 
@@ -113,7 +118,7 @@ class PelajaranController extends Controller
                                        ->where('ujian_id', $ujian_id)->sum('jawabanku');
                 $nilai   = ($jawaban / Jawabanmulti::where('siswa_id', $data->id)->where('mapelmaster_id',$mapelmaster_id)
                 ->where('ujian_id', $ujian_id)->count())*100;
-                return $nilai;
+                return round($nilai);
             })
             ->rawColumns(['nilai'])
             ->make(true);

@@ -36,16 +36,16 @@
                         </div>
                     </div>
                     <div class="block-navigasi" style="margin-bottom: 20px">
-                        <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modaladd"><i
-                                class="icon icon-plus"></i>Guru</button>
+                        {{-- <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modaladd"><i
+                                class="icon icon-plus"></i>Guru</button> --}}
                         <button class="btn btn-xs btn-outline-success" data-toggle="modal" data-target="#modalimportguru"><i
                                 class="icon icon-upload"></i>Import Guru</button>
                         <a href="/admin-download-template-guru" class="btn btn-xs btn-outline-primary"><i
                                 class="icon icon-download"></i>Template Guru</a>
-                                <button class="btn btn-xs btn-outline-success" data-toggle="modal" data-target="#modalimportquiz"><i
+                                {{-- <button class="btn btn-xs btn-outline-success" data-toggle="modal" data-target="#modalimportquiz"><i
                                     class="icon icon-upload"></i>Import Quiz</button>
                         <a href="/admin-download-template-quiz" class="btn btn-xs btn-outline-primary"><i
-                                class="icon icon-download"></i>Template Quiz</a>
+                                class="icon icon-download"></i>Template Quiz</a> --}}
                     </div>
 
                     <style>

@@ -173,13 +173,13 @@
 
                     {{-- novendra 11/1/2023 --}}
 
-                    <li class="header light mt-3"><strong>QUIZ</strong></li>
+                    <li class="header light mt-3"><strong>UJIAN ONLINE UAS / UTS</strong></li>
 
                     <li class="treeview"><a href="#"><i
-                                class="icon icon-account_box light-red-text s-18"></i>QUIZ<i
+                                class="icon icon-account_box light-red-text s-18"></i>UJIAN<i
                                 class="icon icon-angle-left s-18 pull-right"></i></a>
                         <ul class="treeview-menu">
-                            {{-- <li><a href="/backend-user"><i class="icon icon-circle-o"></i>All Users</a> --}}
+                            <li><a href="/admin-manajemen-ujian"><i class="icon icon-circle-o"></i>Manajemen Ujian</a>
                             </li>
                         </ul>
                     </li>

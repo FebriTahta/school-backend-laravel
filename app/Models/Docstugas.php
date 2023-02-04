@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Docstugas extends Model
 {
     use HasFactory;
+
+    protected $fillable =[
+        'mapelmaster_id','tugas_id','docs_file','docs_name'
+    ];
+
+    public function mapelamster()
+    {
+        return $this->belongsTo(Mapelmaster::class);
+    }
+
+    public function tugas()
+    {
+        return $this->belongsTo(Tugas::class);
+    }
 }
