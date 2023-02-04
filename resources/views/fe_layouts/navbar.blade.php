@@ -35,6 +35,10 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/sweetalert/sweetalert.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/vendor/toastr/toastr.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/vendor/toastr/toastr.min.css') }}"/>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
 </head>
 
 <body>
@@ -61,7 +65,7 @@
                     <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-2 col-sm-4 col-6">
                         <div class="header__left d-flex">
                             <div class="logo">
-                                <a href="index.html">
+                                <a href="/">
                                     <img class="logo-white" src="{{ asset('fe_assets/assets/img/logo/logo-2.png') }}"
                                         alt="logo">
                                     <img class="logo-black" src="{{ asset('fe_assets/assets/img/logo/logo.png') }}"
@@ -72,7 +76,7 @@
                                 <nav>
                                     <ul>
                                         <li>
-                                            <a href="course-grid.html" class="cat-menu d-flex align-items-center">
+                                            <a href="/" class="cat-menu d-flex align-items-center">
                                                 <div class="cat-dot-icon d-inline-block">
                                                     <svg viewBox="0 0 276.2 276.2">
                                                         <g>
@@ -99,15 +103,15 @@
                                                         </g>
                                                     </svg>
                                                 </div>
-                                                <span>Mapel</span>
+                                                <span>Home</span>
                                             </a>
-                                            <ul class="cat-submenu">
+                                            {{-- <ul class="cat-submenu">
                                                 <li><a href="course-details.html">RPL</a></li>
                                                 <li><a href="course-details.html">Biologi</a></li>
                                                 <li><a href="course-details.html">Matematika</a></li>
                                                 <li><a href="course-details.html">Indonesia</a></li>
                                                 <li><a href="course-details.html">Bahasa Jawa</a></li>
-                                            </ul>
+                                            </ul> --}}
                                         </li>
                                     </ul>
                                 </nav>
@@ -158,7 +162,7 @@
                                        <li><a href="error.html">Error</a></li>
                                     </ul>
                                  </li> -->
-                                        <li><a href="contact.html">Home</a></li>
+                                        {{-- <li><a href="/">Home</a></li> --}}
                                         {{-- <li class="has-dropdown">
                                             <a href="blog.html">Daftar Mapel</a>
                                             <ul class="submenu">
@@ -166,8 +170,8 @@
                                                 <li><a href="blog-details.html">Blog Details</a></li>
                                             </ul>
                                         </li> --}}
-                                        <li><a href="contact.html">Daftar Peringkat</a></li>
-                                        <li><a href="contact.html">Rekap Nilai</a></li>
+                                        <li><a href="{{ route('daftarPeringkat') }}">Daftar Peringkat</a></li>
+                                        <li><a href="{{ route('rekapNilai') }}">Rekap Nilai</a></li>
                                         <li>
                                             <a href="{{ route('logout') }}"
                                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
@@ -228,7 +232,7 @@
             </div>
             <div class="sidebar__content">
                 <div class="logo mb-40">
-                    <a href="index.html">
+                    <a href="/">
                         <img src="{{ asset('fe_assets/assets/img/logo/logo.png') }}" alt="logo">
                     </a>
                 </div>

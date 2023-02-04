@@ -293,4 +293,97 @@ class ExamController extends Controller
             throw $th;
         }
     }
+
+    public function rekapNilai(Request $request)
+    {
+        $siswa = auth()->user()->siswa;
+        $siswa_id = auth()->user()->siswa->id;
+        if($request->ajax()){
+            // $data = Exam::with('soalexam','mapel','kelas')->withCount('soalexam','kelas')->get();
+            $data = $siswa->kelas->exam;
+            return DataTables::of($data)
+            ->addColumn('nilai',function($data)use ($siswa_id){
+                $jawab = Jawabanexam::where('siswa_id',$siswa_id)->where('exam_id', $data->id)->get();
+                $total = [];
+                foreach ($jawab as $key => $value) {
+                    # code...
+                    $total[] = $value->jawabanku;
+                }
+                $totalsoal = $jawab->count();
+                if($totalsoal > 0){
+                    $hasil = (100 / $totalsoal) * array_sum($total);
+                }else{
+                    $hasil = '0';
+                }
+                return $hasil;
+            })
+            ->rawColumns(['nilai'])
+            ->make(true);
+        }
+        
+        return view('fe_page.rekap_nilai', ['siswa'=>$siswa]);
+    }
+
+    public function daftarPeringkat(Request $request)
+    {
+        $siswa_ini = auth()->user()->siswa;
+        $kelas_id = $siswa_ini->kelas_id;
+        // $siswa_seluruh = Siswa::where('kelas_id', $kelas_id)->get();
+        // foreach($siswa_seluruh as $key => $item){
+        //     $jawaban = Jawabankelas::where('kelas_id', $kelas_id)->where('siswa_id', $item->id)->get();
+
+        // }
+        
+        // $ujian  = $siswa_ini->kelas->exam;
+        // $nilai = [];
+        // $nama_ujian = [];
+        // foreach ($ujian as $key => $value) {
+        //     # code...
+        //     $jawabanku = Jawabanexam::where('exam_id', $value->id)->where('siswa_id', auth()->user()->siswa->id)->sum('jawabanku');
+        //     if ($jawabanku > 0) {
+        //         # code...
+        //         $nilai[] = round(($jawabanku / Jawabanmulti::where('ujian_id', $value->id)->where('siswa_id', auth()->user()->siswa->id)->count()) * 100);
+        //     }else {
+        //         # code..
+        //         $nilai[] = 0;
+        //     }
+             
+        //     $nama_ujian[] = $value->ujian_name;
+        // }
+
+        // return implode(',',$nama_ujian);
+        $siswa = Siswa::where('kelas_id', $kelas_id)->get();
+        $kelas = Kelas::where('id', $kelas_id)->first();
+
+        $avg = [];
+        foreach($siswa as $key=> $item){
+            $ujian = $kelas->exam;
+                                            
+            $nilai = [];
+            
+            foreach ($ujian as $key => $value) {
+                # code...
+                $jawabanku = Jawabanexam::where('kelas_id', $kelas->id)
+                                                    ->where('exam_id', $value->id)
+                                                    ->where('siswa_id', $item->id)->sum('jawabanku');
+                if ($jawabanku > 0) {
+                    # code...
+                    $nilai[] = ($jawabanku / Jawabanexam::where('exam_id', $value->id)->where('siswa_id', $item->id)->count()) * 100;
+                }else {
+                    # code...
+                    $nilai[] = 0;
+                }
+            }
+            $sum = array_sum($nilai);
+            // $avg = '';
+            if ($sum > 0) {
+                # code...
+                $avg[] = round($sum / $ujian->count());
+            }else {
+                # code...
+                $avg[] = 0;
+            }
+        }
+        return view('fe_page.peringkat', ['siswa'=>$siswa,'kelas'=>$kelas,'siswa_ini'=>$siswa_ini,'avg'=>$avg]);
+    }
 }

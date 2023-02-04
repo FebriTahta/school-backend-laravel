@@ -12,7 +12,7 @@ class LandingController extends Controller
 {
     public function home_lms()
     {
-        $siswa = auth()->user()->siswa->with('kelas.mapelmaster.materi')->first();
+        $siswa = auth()->user()->siswa;
         return view('fe_page.landing',compact('siswa'));
     }
 

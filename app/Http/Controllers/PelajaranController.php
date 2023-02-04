@@ -52,7 +52,7 @@ class PelajaranController extends Controller
                 # code..
                 $nilai[] = 0;
             }
-            
+             
             $nama_ujian[] = $value->ujian_name;
         }
         return view('fe_page.detail_mapel_siswa', [
