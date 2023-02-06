@@ -426,12 +426,37 @@ class ExamController extends Controller
             }else {
                 $avg4[] = 0;
             }
+
+            // Ranking
+            $rank_uts1 = Ranking::where('kelas_id',$kelas_id)
+                        ->where('ranking_jenis','UTS SEMESTER 1')
+                        ->orderBy('ranking_rank','asc')->get();
+            $myrank_uts1 = Ranking::where('kelas_id',$kelas_id)->where('siswa_id',$siswa_ini->id)
+                        ->where('ranking_jenis','UTS SEMESTER 1')
+                        ->orderBy('ranking_rank','asc')->first();
+            $rank_uts2 = Ranking::where('kelas_id',$kelas_id)
+                        ->where('ranking_jenis','UTS SEMESTER 2')
+                        ->orderBy('ranking_rank','asc')->get();
+            $myrank_uts2 = Ranking::where('kelas_id',$kelas_id)->where('siswa_id',$siswa_ini->id)
+                        ->where('ranking_jenis','UTS SEMESTER 2')
+                        ->orderBy('ranking_rank','asc')->first();
+            $rank_uas1 = Ranking::where('kelas_id',$kelas_id)
+                        ->where('ranking_jenis','UAS SEMESTER 1')
+                        ->orderBy('ranking_rank','asc')->get();
+            $myrank_uas1 = Ranking::where('kelas_id',$kelas_id)->where('siswa_id',$siswa_ini->id)
+                        ->where('ranking_jenis','UAS SEMESTER 1')
+                        ->orderBy('ranking_rank','asc')->first();
+            $rank_uas2 = Ranking::where('kelas_id',$kelas_id)
+                        ->where('ranking_jenis','UAS SEMESTER 2')
+                        ->orderBy('ranking_rank','asc')->get();
+            $myrank_uas2 = Ranking::where('kelas_id',$kelas_id)->where('siswa_id',$siswa_ini->id)
+                        ->where('ranking_jenis','UAS SEMESTER 2')
+                        ->orderBy('ranking_rank','asc')->first();
         }
         return view('fe_page.peringkat', ['siswa'=>$siswa,'kelas'=>$kelas,'siswa_ini'=>$siswa_ini
-        ,'avg'=>$avg
-        ,'avg2'=>$avg2
-        ,'avg3'=>$avg3
-        ,'avg4'=>$avg4
+        ,'avg'=>$avg, 'avg2'=>$avg2, 'avg3'=>$avg3, 'avg4'=>$avg4, 'rank_uts1'=>$rank_uts1, 'myrank_uts1'=>$myrank_uts1
+        ,'rank_uts2'=>$rank_uts2,'myrank_uts2'=>$myrank_uts2,'rank_uas1'=>$rank_uas1,'myrank_uas1'=>$myrank_uas1
+        ,'rank_uas2'=>$rank_uas2,'myrank_uas2'=>$myrank_uas2
         ]);
     }
 
@@ -531,27 +556,6 @@ class ExamController extends Controller
                 ]
             );
 
-            $r = Ranking::where('siswa_id',$item->id)->where('kelas_id',$kelas_id)->first();
-
-            $tes = array_unique($avg);
-            $ya = rsort($tes);
-            // $ya = $tes;
-            $ok = [];
-            $rank = [];
-            $ay = array($ya);
-            foreach ($tes as $i => $v) {
-                # code...
-                $ok[]=$v;
-                $rank[]=$i+1;
-                
-                // if ($r->ranking_nilai == $v) {
-                //     # code...
-                //     $r->update([
-                //         'ranking_rank'=>$i+1
-                //     ]);
-                // }
-            }
-
             $lihat = $rr->select('ranking_nilai')->orderBy('ranking_nilai','desc')->get();
             foreach ($lihat as $x => $value) {
                 # code...
@@ -565,8 +569,8 @@ class ExamController extends Controller
 
         return response()->json([
             'status'=>200,
-            'message'=> 'Ranking kelas telah di update'.implode(',',$rank).'-'.implode(',',$tes).'-'.$lihat
-            // 'message'=> 'Ranking kelas telah di update'
+            // 'message'=> 'Ranking kelas telah di update'.implode(',',$rank).'-'.implode(',',$tes).'-'.$lihat
+            'message'=> 'Ranking kelas telah di update'
         ]);
     }
 }

@@ -81,10 +81,66 @@
                                 <div class="events__sponsor">
                                     <div class="events__sponsor-info">
                                         <h3>Overview :</h3>
-                                        <h4><span>Rekap keseluruhan nilai serta rata-rata pada tiap jenis ujian yang telah dikerjakan
-                                            . Seluruhnya direkap menjadi satu laporan pada tiap kelas yang ditempati siswa
-                                        </span>
-                                        
+                                        <h4><span>Rekap keseluruhan nilai serta rata-rata pada tiap jenis ujian yang telah dikerjakan</span></h4>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="events__sponsor">
+                                    <div class="events__sponsor-info" style="margin-bottom: 15px">
+                                        <h3>
+                                            UTS 01 : <br>
+                                            @if ($myrank_uts1 == null)
+                                                -- 
+                                            @else
+                                                @if (strlen($myrank_uts1->ranking_rank) == 1)
+                                                <span class="text-primary"> ranking - 0{{ $myrank_uts1->ranking_rank }}</span>
+                                                @else
+                                                <span class="text-primary">ranking - {{ $myrank_uts1->ranking_rank }}</span>
+                                                @endif
+                                            @endif
+                                        </h3>
+                                    </div>
+                                    
+                                    <div class="events__sponsor-info" style="margin-bottom: 15px">
+                                        <h3>UAS 01 : <br>
+                                            @if ($myrank_uas1 == null)
+                                                --
+                                            @else
+                                                @if (strlen($myrank_uas1->ranking_rank) == 1)
+                                                <span class="text-primary">ranking - 0{{ $myrank_uas1->ranking_rank }}</span>
+                                                @else
+                                                <span class="text-primary">ranking - {{ $myrank_uas1->ranking_rank }}</span>
+                                                @endif
+                                            @endif
+                                        </h3>
+                                    </div>
+                                    
+                                    <div class="events__sponsor-info" style="margin-bottom: 15px">
+                                        <h3>UTS 02 : <br>
+                                            @if ($myrank_uts2 == null)
+                                                --
+                                            @else
+                                                @if (strlen($myrank_uts2->ranking_rank) == 1)
+                                                <span class="text-primary">ranking - 0{{ $myrank_uts2->ranking_rank }}</span>
+                                                @else
+                                                <span class="text-primary">ranking - {{ $myrank_uts2->ranking_rank }}</span>
+                                                @endif
+                                            @endif
+                                        </h3>
+                                    </div>
+                                    
+                                    <div class="events__sponsor-info" style="margin-bottom: 15px">
+                                        <h3>UAS 02 : <br>
+                                            @if ($myrank_uas2 == null)
+                                                --
+                                            @else
+                                                @if (strlen($myrank_uas2->ranking_rank) == 1)
+                                                <span class="text-primary">ranking - 0{{ $myrank_uas2->ranking_rank }}</span>
+                                                @else
+                                                <span class="text-primary">ranking - {{ $myrank_uas2->ranking_rank }}</span>
+                                                @endif
+                                            @endif
+                                        </h3>
                                     </div>
                                 </div>
                             </div>
@@ -147,11 +203,11 @@
                                             <div class="accordion" id="course__accordion">
                                                 <div class="accordion-item mb-20">
                                                     <h2 class="accordion-header" id="week-01">
-                                                        <button class="accordion-button text-capitalize"
+                                                        <button class="accordion-button"
                                                             type="button" data-bs-toggle="collapse"
                                                             data-bs-target="#x1"
                                                             aria-expanded="true" aria-controls="week-01-content">
-                                                            Average UAS 2
+                                                            UAS SEMESTER 02
                                                         </button>
                                                     </h2>
 
@@ -175,7 +231,7 @@
                                                                         <div class="d-flex align-items-center">
                                                                             <div class="course__member-name ml-20">
                                                                                 <h5 style="text-transform: capitalize">{{ $item->siswa_name }}</h5>
-                                                                                <span>rata-rata nilai UTS 1</span>
+                                                                                <span>rata-rata nilai UAS SEMESTER 02</span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -193,6 +249,73 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="accordion" id="course__accordion">
+                                                <div class="accordion-item mb-20">
+                                                    <h2 class="accordion-header" id="week-02">
+                                                        <button class="accordion-button text-capitalize"
+                                                            type="button" data-bs-toggle="collapse"
+                                                            data-bs-target="#x2"
+                                                            aria-expanded="true" aria-controls="week-02-content">
+                                                            Peringkat
+                                                        </button>
+                                                    </h2>
+
+                                                    <div id="x2"
+                                                        class="accordion-collapse collapse"
+                                                        aria-labelledby="week-02" data-bs-parent="#course__accordion">
+                                                        <div class="accordion-body">
+                                                            @if ($rank_uas2->count() > 0)
+                                                                @foreach ($rank_uas2 as $key=> $item)
+                                                                    <div
+                                                                        class="course__curriculum-content d-sm-flex justify-content-between align-items-center">
+                                                                        <div class="course__comment-thumb float-start">
+                                                                            @if ($item->siswa->detailsiswa)
+                                                                                <img src="{{ asset('siswa_image/'.$item->siswa->detailsiswa->img_siswa) }}" alt="">    
+                                                                                @else
+                                                                                <img src="{{ asset('fe_assets/assets/img/course/comment/course-comment-1.jpg') }}"
+                                                                                alt="">
+                                                                            @endif
+                                                                        </div>
+                                                                    
+                                                                        <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-9 col-sm-8 col-12">
+                                                                            <div class="d-flex align-items-center">
+                                                                                <div class="course__member-name ml-20">
+                                                                                    <h5 style="text-transform: capitalize">{{ $item->siswa->siswa_name }}</h5>
+                                                                                    <span>rata-rata nilai : {{ $item->ranking_nilai }}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3 col-4">
+                                                                            <div class="course__member-info pl-45">
+                                                                                <h5>
+                                                                                    @if (strlen($item->ranking_rank) == 1)
+                                                                                        : 0{{ $item->ranking_rank }} -
+                                                                                    @else
+                                                                                        : {{ $item->ranking_rank }} -
+                                                                                    @endif 
+                                                                                </h5>
+                                                                                <span>ranking</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                @endforeach
+                                                            @else
+                                                                <div class="course__curriculum-content d-sm-flex justify-content-between align-items-center">
+                                                                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <div class="course__member-name ml-20">
+                                                                                <h5 style="text-transform: capitalize">Data Ranking / Peringkat Belum Diterbitkan</h5>
+                                                                                <span>hubungi admin untuk update data ranking kelas</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="tab-pane fade  show active" id="curriculum" role="tabpanel"
@@ -202,11 +325,11 @@
                                                 <div class="accordion" id="course__accordion">
                                                     <div class="accordion-item mb-20">
                                                         <h2 class="accordion-header" id="week-01">
-                                                            <button class="accordion-button text-capitalize"
+                                                            <button class="accordion-button"
                                                                 type="button" data-bs-toggle="collapse"
                                                                 data-bs-target="#x1"
                                                                 aria-expanded="true" aria-controls="week-01-content">
-                                                                Average UTS 1
+                                                                UTS SEMESTER 01
                                                             </button>
                                                         </h2>
 
@@ -230,7 +353,7 @@
                                                                             <div class="d-flex align-items-center">
                                                                                 <div class="course__member-name ml-20">
                                                                                     <h5 style="text-transform: capitalize">{{ $item->siswa_name }}</h5>
-                                                                                    <span>rata-rata nilai UTS 1</span>
+                                                                                    <span>rata-rata nilai UTS SEMESTER 01</span>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -256,7 +379,7 @@
                                                                 type="button" data-bs-toggle="collapse"
                                                                 data-bs-target="#x2"
                                                                 aria-expanded="true" aria-controls="week-02-content">
-                                                                Peringkat UTS 1
+                                                                Peringkat
                                                             </button>
                                                         </h2>
 
@@ -264,36 +387,53 @@
                                                             class="accordion-collapse collapse"
                                                             aria-labelledby="week-02" data-bs-parent="#course__accordion">
                                                             <div class="accordion-body">
-                                                                @foreach ($kelas->siswa as $key=> $item)
-                                                                    <div
-                                                                        class="course__curriculum-content d-sm-flex justify-content-between align-items-center">
-                                                                        <div class="course__comment-thumb float-start">
-                                                                            @if ($item->detailsiswa)
-                                                                                <img src="{{ asset('siswa_image/'.$item->detailsiswa->img_siswa) }}" alt="">    
-                                                                                @else
-                                                                                <img src="{{ asset('fe_assets/assets/img/course/comment/course-comment-1.jpg') }}"
-                                                                                alt="">
-                                                                            @endif
-                                                                        </div>
-                                                                       
-                                                                        <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-9 col-sm-8 col-12">
-                                                                            <div class="d-flex align-items-center">
-                                                                                <div class="course__member-name ml-20">
-                                                                                    <h5 style="text-transform: capitalize">{{ $item->siswa_name }}</h5>
-                                                                                    <span>rata-rata nilai UTS 1</span>
+                                                                @if ($rank_uts1->count() > 0)
+                                                                    @foreach ($rank_uts1 as $key=> $item)
+                                                                        <div
+                                                                            class="course__curriculum-content d-sm-flex justify-content-between align-items-center">
+                                                                            <div class="course__comment-thumb float-start">
+                                                                                @if ($item->siswa->detailsiswa)
+                                                                                    <img src="{{ asset('siswa_image/'.$item->siswa->detailsiswa->img_siswa) }}" alt="">    
+                                                                                    @else
+                                                                                    <img src="{{ asset('fe_assets/assets/img/course/comment/course-comment-1.jpg') }}"
+                                                                                    alt="">
+                                                                                @endif
+                                                                            </div>
+                                                                        
+                                                                            <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-9 col-sm-8 col-12">
+                                                                                <div class="d-flex align-items-center">
+                                                                                    <div class="course__member-name ml-20">
+                                                                                        <h5 style="text-transform: capitalize">{{ $item->siswa->siswa_name }}</h5>
+                                                                                        <span>rata-rata nilai : {{ $item->ranking_nilai }}</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3 col-4">
+                                                                                <div class="course__member-info pl-45">
+                                                                                    <h5>
+                                                                                        @if (strlen($item->ranking_rank) == 1)
+                                                                                            : 0{{ $item->ranking_rank }} -
+                                                                                        @else
+                                                                                            : {{ $item->ranking_rank }} -
+                                                                                        @endif 
+                                                                                    </h5>
+                                                                                    <span>ranking</span>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3 col-4">
-                                                                            <div class="course__member-info pl-45">
-                                                                                <h5>
-                                                                                    AVG : {{ $avg[$key] }}
-                                                                                </h5>
-                                                                                <span>rata-rata</span>
+                                                                    @endforeach
+                                                                @else
+                                                                    <div class="course__curriculum-content d-sm-flex justify-content-between align-items-center">
+                                                                        <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                                            <div class="d-flex align-items-center">
+                                                                                <div class="course__member-name ml-20">
+                                                                                    <h5 style="text-transform: capitalize">Data Ranking / Peringkat Belum Diterbitkan</h5>
+                                                                                    <span>hubungi admin untuk update data ranking kelas</span>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                @endforeach
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     </div>
@@ -306,11 +446,11 @@
                                             <div class="accordion" id="course__accordion">
                                                 <div class="accordion-item mb-20">
                                                     <h2 class="accordion-header" id="week-01">
-                                                        <button class="accordion-button text-capitalize"
+                                                        <button class="accordion-button"
                                                             type="button" data-bs-toggle="collapse"
                                                             data-bs-target="#x1"
                                                             aria-expanded="true" aria-controls="week-01-content">
-                                                            Average UAS 1
+                                                            UAS SEMESTER 01
                                                         </button>
                                                     </h2>
 
@@ -334,7 +474,7 @@
                                                                         <div class="d-flex align-items-center">
                                                                             <div class="course__member-name ml-20">
                                                                                 <h5 style="text-transform: capitalize">{{ $item->siswa_name }}</h5>
-                                                                                <span>rata-rata nilai UTS 1</span>
+                                                                                <span>rata-rata nilai UAS SEMESTER 01</span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -352,6 +492,72 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="accordion" id="course__accordion">
+                                                <div class="accordion-item mb-20">
+                                                    <h2 class="accordion-header" id="week-02">
+                                                        <button class="accordion-button text-capitalize"
+                                                            type="button" data-bs-toggle="collapse"
+                                                            data-bs-target="#x2"
+                                                            aria-expanded="true" aria-controls="week-02-content">
+                                                            Peringkat
+                                                        </button>
+                                                    </h2>
+
+                                                    <div id="x2"
+                                                        class="accordion-collapse collapse"
+                                                        aria-labelledby="week-02" data-bs-parent="#course__accordion">
+                                                        <div class="accordion-body">
+                                                            @if ($rank_uas1->count() > 0)
+                                                                @foreach ($rank_uas1 as $key=> $item)
+                                                                    <div
+                                                                        class="course__curriculum-content d-sm-flex justify-content-between align-items-center">
+                                                                        <div class="course__comment-thumb float-start">
+                                                                            @if ($item->siswa->detailsiswa)
+                                                                                <img src="{{ asset('siswa_image/'.$item->siswa->detailsiswa->img_siswa) }}" alt="">    
+                                                                                @else
+                                                                                <img src="{{ asset('fe_assets/assets/img/course/comment/course-comment-1.jpg') }}"
+                                                                                alt="">
+                                                                            @endif
+                                                                        </div>
+                                                                    
+                                                                        <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-9 col-sm-8 col-12">
+                                                                            <div class="d-flex align-items-center">
+                                                                                <div class="course__member-name ml-20">
+                                                                                    <h5 style="text-transform: capitalize">{{ $item->siswa->siswa_name }}</h5>
+                                                                                    <span>rata-rata nilai : {{ $item->ranking_nilai }}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3 col-4">
+                                                                            <div class="course__member-info pl-45">
+                                                                                <h5>
+                                                                                    @if (strlen($item->ranking_rank) == 1)
+                                                                                        : 0{{ $item->ranking_rank }} -
+                                                                                    @else
+                                                                                        : {{ $item->ranking_rank }} -
+                                                                                    @endif 
+                                                                                </h5>
+                                                                                <span>ranking</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                @endforeach
+                                                            @else
+                                                                <div class="course__curriculum-content d-sm-flex justify-content-between align-items-center">
+                                                                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <div class="course__member-name ml-20">
+                                                                                <h5 style="text-transform: capitalize">Data Ranking / Peringkat Belum Diterbitkan</h5>
+                                                                                <span>hubungi admin untuk update data ranking kelas</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="member" role="tabpanel"
@@ -360,11 +566,11 @@
                                             <div class="accordion" id="course__accordion">
                                                 <div class="accordion-item mb-20">
                                                     <h2 class="accordion-header" id="week-01">
-                                                        <button class="accordion-button text-capitalize"
+                                                        <button class="accordion-button"
                                                             type="button" data-bs-toggle="collapse"
                                                             data-bs-target="#x1"
                                                             aria-expanded="true" aria-controls="week-01-content">
-                                                            Average UTS 2
+                                                            UTS SEMESTER 02
                                                         </button>
                                                     </h2>
 
@@ -388,7 +594,7 @@
                                                                         <div class="d-flex align-items-center">
                                                                             <div class="course__member-name ml-20">
                                                                                 <h5 style="text-transform: capitalize">{{ $item->siswa_name }}</h5>
-                                                                                <span>rata-rata nilai UTS 1</span>
+                                                                                <span>rata-rata nilai UTS SEMESTER 02</span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -402,6 +608,72 @@
                                                                     </div>
                                                                 </div>
                                                             @endforeach
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="accordion" id="course__accordion">
+                                                <div class="accordion-item mb-20">
+                                                    <h2 class="accordion-header" id="week-02">
+                                                        <button class="accordion-button text-capitalize"
+                                                            type="button" data-bs-toggle="collapse"
+                                                            data-bs-target="#x2"
+                                                            aria-expanded="true" aria-controls="week-02-content">
+                                                            Peringkat
+                                                        </button>
+                                                    </h2>
+
+                                                    <div id="x2"
+                                                        class="accordion-collapse collapse"
+                                                        aria-labelledby="week-02" data-bs-parent="#course__accordion">
+                                                        <div class="accordion-body">
+                                                            @if ($rank_uts2->count() > 0)
+                                                                @foreach ($rank_uts2 as $key=> $item)
+                                                                    <div
+                                                                        class="course__curriculum-content d-sm-flex justify-content-between align-items-center">
+                                                                        <div class="course__comment-thumb float-start">
+                                                                            @if ($item->siswa->detailsiswa)
+                                                                                <img src="{{ asset('siswa_image/'.$item->siswa->detailsiswa->img_siswa) }}" alt="">    
+                                                                                @else
+                                                                                <img src="{{ asset('fe_assets/assets/img/course/comment/course-comment-1.jpg') }}"
+                                                                                alt="">
+                                                                            @endif
+                                                                        </div>
+                                                                    
+                                                                        <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-9 col-sm-8 col-12">
+                                                                            <div class="d-flex align-items-center">
+                                                                                <div class="course__member-name ml-20">
+                                                                                    <h5 style="text-transform: capitalize">{{ $item->siswa->siswa_name }}</h5>
+                                                                                    <span>rata-rata nilai : {{ $item->ranking_nilai }}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3 col-4">
+                                                                            <div class="course__member-info pl-45">
+                                                                                <h5>
+                                                                                    @if (strlen($item->ranking_rank) == 1)
+                                                                                        : 0{{ $item->ranking_rank }} -
+                                                                                    @else
+                                                                                        : {{ $item->ranking_rank }} -
+                                                                                    @endif 
+                                                                                </h5>
+                                                                                <span>ranking</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                @endforeach
+                                                            @else
+                                                                <div class="course__curriculum-content d-sm-flex justify-content-between align-items-center">
+                                                                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <div class="course__member-name ml-20">
+                                                                                <h5 style="text-transform: capitalize">Data Ranking / Peringkat Belum Diterbitkan</h5>
+                                                                                <span>hubungi admin untuk update data ranking kelas</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>

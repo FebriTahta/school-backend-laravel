@@ -66,9 +66,9 @@
                         <div class="header__left d-flex">
                             <div class="logo">
                                 <a href="/">
-                                    <img class="logo-white" src="{{ asset('fe_assets/assets/img/logo/logo-2.png') }}"
+                                    <img class="logo-white" src="{{ asset('lms-02.png') }}" style="max-width: 100px"
                                         alt="logo">
-                                    <img class="logo-black" src="{{ asset('fe_assets/assets/img/logo/logo.png') }}"
+                                    <img class="logo-black" src="{{ asset('lms-02.png') }}" style="max-width: 100px"
                                         alt="logo">
                                 </a>
                             </div>
@@ -76,7 +76,7 @@
                                 <nav>
                                     <ul>
                                         <li>
-                                            <a href="/" class="cat-menu d-flex align-items-center">
+                                            <a href="/" class="cat-menu d-flex align-items-center" style="margin-top: 10px">
                                                 <div class="cat-dot-icon d-inline-block">
                                                     <svg viewBox="0 0 276.2 276.2">
                                                         <g>
@@ -233,7 +233,7 @@
             <div class="sidebar__content">
                 <div class="logo mb-40">
                     <a href="/">
-                        <img src="{{ asset('fe_assets/assets/img/logo/logo.png') }}" alt="logo">
+                        <img src="{{ asset('lms-02.png') }}" alt="logo" style="max-width: 100px">
                     </a>
                 </div>
                 <div class="mobile-menu fix"></div>
