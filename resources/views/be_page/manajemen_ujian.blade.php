@@ -487,7 +487,7 @@
                 $('#idexam').val(id);
                 $('#idkelas').val(join_selected_values);
             }
-        });
+        }); 
 
         $('#btnupkelasexam').on('click', function(e) {
             var allVals2 = [];

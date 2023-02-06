@@ -8,6 +8,7 @@ use App\Models\Guru;
 use App\Models\Mapel;
 use App\Models\Mapelmaster;
 use App\Models\Angkatan;
+use App\Models\Siswa;
 use Validator;
 use DataTables;
 use Illuminate\Support\Str;
@@ -155,6 +156,27 @@ class JurusanController extends Controller
         $mapel   = Mapel::get();
         $guru    = Guru::get();
         return view('be_page.kelas',['jurusan' => $jurusan, 'tingkat' => $tingkat, 'angkatan'=> $angkatan, 'mapel' => $mapel,'guru'=> $guru]);
+    }
+
+    public function siswa_belum_masuk_kelas()
+    {
+        $data = Siswa::where('kelas_id',null)->get();
+        return DataTables::of($data)
+        ->addColumn('check', function ($data) {
+            return '<input type="checkbox" class="sub_chk" data-id="'.$data->id.'">';
+        })         
+        ->rawColumns(['check'])
+        ->make(true);
+    }
+
+    public function tambah_siswa_baru(Request $request)
+    {
+        $siswa_id = explode(',',$request->siswa_id);
+        $siswa = Siswa::whereIn('id',$siswa_id)->update(['kelas_id'=>$request->kelas_id]);
+        return response()->json([
+            'status'=>200,
+            'message'=> 'Siswa baru telah ditambahkan ke kelas terkait'
+        ]);
     }
 
     public function total_jurusan_kelas(Request $request)

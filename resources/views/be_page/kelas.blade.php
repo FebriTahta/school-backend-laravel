@@ -115,7 +115,7 @@
                         <div class="card-body">
                             <span>Daftar kelas yang tersedia</span><br>
                             <small>Kelola daftar kelas yang tersedia pada tabel berikut ini</small><br><br>
-                            <table id="example"
+                            <table id="example" style="width: 100%"
                                 class="display responsive nowrap table table-collapse table-bordered table-hover table-striped data-tables">
                                 <thead>
                                     <tr>
@@ -278,7 +278,7 @@
                         </div>
                         <div class="col-md-3 col-12">
                             <a href="#" style="width: 100%" class="btn btn-sm btn-outline-success"
-                                data-toggle="modal" data-target="#" id="">Tambahkan Siswa</a>
+                                data-toggle="modal" data-target="#modaltambahsiswa">Tambahkan Siswa</a>
                         </div>
                         <div class="col-md-3 col-12">
                             <a href="#" style="width: 100%" data-toggle="modal" data-target="#modaldatasiswa"
@@ -315,7 +315,7 @@
     </div>
 
     <div class="modal fade" id="modaldatasiswa" role="dialog">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-md">
             <div class="modal-content">
                 <div class="modal-header" style="background-color: rgb(93, 154, 233);">
                     <h4 class="modal-title" style="font-size: 16px; color:white">DATA SISWA</h4>
@@ -336,6 +336,57 @@
                         </table>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modaltambahsiswa" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: rgb(93, 154, 233);">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">SISWA BELUM MASUK KELAS</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <table id="example4"
+                            class="display responsive nowrap table table-collapse table-bordered table-hover table-striped data-tables">
+                            <thead>
+                                <tr>
+                                    <th style="10%"><input type="checkbox" id="master"></th>
+                                    <th style="width: 10%;font-weight: bold">NIK</th>
+                                    <th style="font-weight: bold">SISWA</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: 12px"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-primary" id="btntambahsiswaok">Tambah Siswa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalkonfirmadd" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: rgb(122, 200, 236);">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">KONFIRMASI ADD SISWA</h4>
+                </div>
+                <form method="POST" id="formkonfirmadd" enctype="multipart/form-data">@csrf
+                    <div class="modal-body">
+                        <input type="hidden" class="form-control" id="siswa_id" name="siswa_id">
+                        <input type="hidden" class="form-control" id="kelas_id" name="kelas_id">
+                        <p>Anda yakin akan menambahkan siswa ke kelas tersebut</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnclosemodalquiz" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
+                        <input type="submit" id="btnkonfirmadd" class="btn btn-sm btn-primary" value="Submit">
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -846,6 +897,8 @@
             });
         });
 
+        
+
         $('#formaddguru').submit(function(e) {
             e.preventDefault();
             var formData = new FormData(this);
@@ -1074,6 +1127,107 @@
             kelas_id = button.data('id')
             var modal = $(this)
             $("#download_template").attr("href", "/admin-download-template-siswa/" + kelas_id)
+        })
+
+        $('#master').on('click', function(e) {
+            if ($(this).is(':checked', true)) {
+                $(".sub_chk").prop('checked', true);
+            } else {
+                $(".sub_chk").prop('checked', false);
+            }
+        });
+
+        $('#btntambahsiswaok').on('click', function(e) {
+            var allVals = [];
+            $(".sub_chk:checked").each(function() {
+                allVals.push($(this).attr('data-id'));
+            });
+            if (allVals.length <= 0) {
+                alert("PILIH DATA SISWA TERLEBIH DAHULU");
+            } else {
+                var join_selected_values = allVals.join(',');
+                $('#modalkonfirmadd').modal('show');
+                $('#modaltambahsiswa').modal('hide');
+                $('#siswa_id').val(join_selected_values);
+                $('#kelas_id').val(kelas_id);
+            }
+        });
+
+        $('#formkonfirmadd').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: "/admin-tambah-siswa-baru",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btnkonfirmadd').attr('disabled', 'disabled');
+                    $('#btnkonfirmadd').val('Process...');
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        var oTable = $('#example').dataTable();
+                        oTable.fnDraw(false);
+                        var oTable2 = $('#example4').dataTable();
+                        oTable2.fnDraw(false);
+                        $('#modalkonfirmadd').modal('hide');
+                        $("#formkonfirmadd")[0].reset();
+                        $('#btnkonfirmadd').val('Submit');
+                        $('#btnkonfirmadd').attr('disabled', false);
+                        total();
+                        toastr.success(response.message);
+                        swal({
+                            title: "SUCCESS!",
+                            text: response.message,
+                            type: "success"
+                        });
+                    } else {
+                        $('#btnkonfirmadd').val('Submit');
+                        $('#btnkonfirmadd').attr('disabled', false);
+                        var values = '';
+                        jQuery.each(response.message, function(key, value) {
+                            values += value + '\n'
+                        });
+                        swal({
+                            title: "Maaf",
+                            text: values,
+                            type: "error",
+                        });
+                        toastr.error(values);
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        $('#modaltambahsiswa').on('show.bs.modal', function(event) {
+            $('#modalsiswa').modal('hide');
+            var table = $('#example4').DataTable({
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                ajax: '/admin-data-siswa-belum-masuk-kelas',
+                columns: [
+                    {
+                        data: 'check',
+                        name: 'check',
+                        orderable: false,
+                    },
+                    {
+                        data: 'siswa_nik',
+                        name: 'siswa_nik'
+                    },
+                    {
+                        data: 'siswa_name',
+                        name: 'siswa_name'
+                    },
+                ]
+            });
         })
 
         $('#modalstatus').on('show.bs.modal', function(event) {

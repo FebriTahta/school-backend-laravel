@@ -86,6 +86,9 @@ Route::group(['middleware' => ['auth', 'CheckRole:admin']], function () {
         Route::post('/admin-remove-jurusan', 'remove_jurusan');
         Route::post('/admin-update-kelas', 'update_kelas');
         Route::post('/admin-update-jurusan', 'update_jurusan');
+
+        Route::get('/admin-data-siswa-belum-masuk-kelas','siswa_belum_masuk_kelas');
+        Route::post('/admin-tambah-siswa-baru','tambah_siswa_baru');
     });
 
     Route::controller(AngkatanController::class)->group(function () {
@@ -204,5 +207,7 @@ Route::post('/post-exam',[ExamController::class,'postExam'])->name('postExam');
 
 Route::get('/rekap-nilai',[ExamController::class,'rekapNilai'])->name('rekapNilai');
 Route::get('/daftar-peringkat',[ExamController::class,'daftarPeringkat'])->name('daftarPeringkat');
+Route::get('/daftar-ranking-kelas',[ExamController::class,'data_ranking_kelas'])->name('data_ranking_kelas');
+Route::post('/update-ranking-kelas',[ExamController::class,'update_rank']);
 
 

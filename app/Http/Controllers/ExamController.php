@@ -6,7 +6,9 @@ use DataTables;
 use App\Models\Exam;
 use App\Models\Kelas;
 use App\Models\Jawabanexam;
+use App\Models\Mapelmaster;
 use App\Models\Soalexam;
+use App\Models\Ranking;
 use App\Models\Optionexam;
 use App\Models\Siswa;
 use Auth;
@@ -328,44 +330,28 @@ class ExamController extends Controller
     {
         $siswa_ini = auth()->user()->siswa;
         $kelas_id = $siswa_ini->kelas_id;
-        // $siswa_seluruh = Siswa::where('kelas_id', $kelas_id)->get();
-        // foreach($siswa_seluruh as $key => $item){
-        //     $jawaban = Jawabankelas::where('kelas_id', $kelas_id)->where('siswa_id', $item->id)->get();
-
-        // }
-        
-        // $ujian  = $siswa_ini->kelas->exam;
-        // $nilai = [];
-        // $nama_ujian = [];
-        // foreach ($ujian as $key => $value) {
-        //     # code...
-        //     $jawabanku = Jawabanexam::where('exam_id', $value->id)->where('siswa_id', auth()->user()->siswa->id)->sum('jawabanku');
-        //     if ($jawabanku > 0) {
-        //         # code...
-        //         $nilai[] = round(($jawabanku / Jawabanmulti::where('ujian_id', $value->id)->where('siswa_id', auth()->user()->siswa->id)->count()) * 100);
-        //     }else {
-        //         # code..
-        //         $nilai[] = 0;
-        //     }
-             
-        //     $nama_ujian[] = $value->ujian_name;
-        // }
-
         // return implode(',',$nama_ujian);
         $siswa = Siswa::where('kelas_id', $kelas_id)->get();
         $kelas = Kelas::where('id', $kelas_id)->first();
-
+        //UTS1 UTS2 UAS1 UAS2
         $avg = [];
+        $avg2 = [];
+        $avg3 = [];
+        $avg4 = [];
         foreach($siswa as $key=> $item){
-            $ujian = $kelas->exam;
-                                            
+            $ujian = $kelas->exam->where('exam_jenis', 'UTS SEMESTER 1');   
+            $ujian2 = $kelas->exam->where('exam_jenis', 'UTS SEMESTER 2');   
+            $ujian3 = $kelas->exam->where('exam_jenis', 'UAS SEMESTER 1');   
+            $ujian4 = $kelas->exam->where('exam_jenis', 'UAS SEMESTER 2');   
             $nilai = [];
-            
+            $nilai2 = [];
+            $nilai3 = [];
+            $nilai4 = [];
             foreach ($ujian as $key => $value) {
                 # code...
                 $jawabanku = Jawabanexam::where('kelas_id', $kelas->id)
-                                                    ->where('exam_id', $value->id)
-                                                    ->where('siswa_id', $item->id)->sum('jawabanku');
+                                        ->where('exam_id', $value->id)
+                                        ->where('siswa_id', $item->id)->sum('jawabanku');
                 if ($jawabanku > 0) {
                     # code...
                     $nilai[] = ($jawabanku / Jawabanexam::where('exam_id', $value->id)->where('siswa_id', $item->id)->count()) * 100;
@@ -375,15 +361,212 @@ class ExamController extends Controller
                 }
             }
             $sum = array_sum($nilai);
-            // $avg = '';
             if ($sum > 0) {
-                # code...
                 $avg[] = round($sum / $ujian->count());
             }else {
-                # code...
                 $avg[] = 0;
             }
+
+            foreach ($ujian2 as $key => $value) {
+                # code...
+                $jawabanku = Jawabanexam::where('kelas_id', $kelas->id)
+                                        ->where('exam_id', $value->id)
+                                        ->where('siswa_id', $item->id)->sum('jawabanku');
+                if ($jawabanku > 0) {
+                    # code...
+                    $nilai2[] = ($jawabanku / Jawabanexam::where('exam_id', $value->id)->where('siswa_id', $item->id)->count()) * 100;
+                }else {
+                    # code...
+                    $nilai2[] = 0;
+                }
+            }
+            $sum2 = array_sum($nilai2);
+            if ($sum2 > 0) {
+                $avg2[] = round($sum2 / $ujian2->count());
+            }else {
+                $avg2[] = 0;
+            }
+
+            foreach ($ujian3 as $key => $value) {
+                # code...
+                $jawabanku = Jawabanexam::where('kelas_id', $kelas->id)
+                                        ->where('exam_id', $value->id)
+                                        ->where('siswa_id', $item->id)->sum('jawabanku');
+                if ($jawabanku > 0) {
+                    # code...
+                    $nilai3[] = ($jawabanku / Jawabanexam::where('exam_id', $value->id)->where('siswa_id', $item->id)->count()) * 100;
+                }else {
+                    # code...
+                    $nilai3[] = 0;
+                }
+            }
+            $sum3 = array_sum($nilai3);
+            if ($sum3 > 0) {
+                $avg3[] = round($sum3 / $ujian3->count());
+            }else {
+                $avg3[] = 0;
+            }
+
+            foreach ($ujian4 as $key => $value) {
+                # code...
+                $jawabanku = Jawabanexam::where('kelas_id', $kelas->id)
+                                        ->where('exam_id', $value->id)
+                                        ->where('siswa_id', $item->id)->sum('jawabanku');
+                if ($jawabanku > 0) {
+                    # code...
+                    $nilai4[] = ($jawabanku / Jawabanexam::where('exam_id', $value->id)->where('siswa_id', $item->id)->count()) * 100;
+                }else {
+                    # code...
+                    $nilai4[] = 0;
+                }
+            }
+            $sum4 = array_sum($nilai4);
+            if ($sum4 > 0) {
+                $avg4[] = round($sum4 / $ujian4->count());
+            }else {
+                $avg4[] = 0;
+            }
         }
-        return view('fe_page.peringkat', ['siswa'=>$siswa,'kelas'=>$kelas,'siswa_ini'=>$siswa_ini,'avg'=>$avg]);
+        return view('fe_page.peringkat', ['siswa'=>$siswa,'kelas'=>$kelas,'siswa_ini'=>$siswa_ini
+        ,'avg'=>$avg
+        ,'avg2'=>$avg2
+        ,'avg3'=>$avg3
+        ,'avg4'=>$avg4
+        ]);
+    }
+
+
+    public function data_ranking_kelas(Request $request)
+    {
+        if ($request->ajax()) {
+            # code...
+            $data = Kelas::with(['jurusan','angkatan'])->orderBy('jurusan_id')->get();
+            return DataTables::of($data)
+            ->addColumn('angkatan_kelas', function($data) {
+                return $data->angkatan->angkatan_name. ' - '.$data->angkatan->tingkat->tingkat_name;
+            })
+            ->addColumn('kelas_jurusan', function($data) {
+                return $data->jurusan->jurusan_name.' '.$data->kelas_name;
+            })
+            ->addColumn('uts1', function($data) {
+                if ($data->ranking->where('ranking_jenis','UTS SEMESTER 1')->count() > 0) {
+                    # code...
+                    return '<a href="uts1" data-kelas="'.$data->id.'" data-jenis="UTS SEMESTER 1"
+                    data-toggle="modal" data-target="#modalrank" class="text-success">Update Peringkat UTS 1</a>';
+                }else {
+                    # code...
+                    return '<a href="uts1" data-kelas="'.$data->id.'" data-jenis="UTS SEMESTER 1"
+                    data-toggle="modal" data-target="#modalrank">Update Peringkat UTS 1</a>';
+                }
+            })
+            ->addColumn('uts2', function($data) {
+                if ($data->ranking->where('ranking_jenis','UTS SEMESTER 2')->count() > 0) {
+                    return '<a href="uts2" data-kelas="'.$data->id.'" data-jenis="UTS SEMESTER 2"
+                    data-toggle="modal" data-target="#modalrank" class="text-success">Update Peringkat UTS 2</a>';
+                }else {
+                    return '<a href="uts2" data-kelas="'.$data->id.'"
+                    data-toggle="modal" data-target="#modalrank" data-jenis="UTS SEMESTER 2">Update Peringkat UTS 2</a>';
+                }
+            })
+            ->addColumn('uas1', function($data) {
+                if ($data->ranking->where('ranking_jenis','UAS SEMESTER 1')->count() > 0) {
+                    return '<a href="uas1" data-kelas="'.$data->id.'" data-jenis="UAS SEMESTER 1"
+                    data-toggle="modal" data-target="#modalrank" class="text-success">Update Peringkat UAS 1</a>';
+                }else {
+                    return '<a href="uas1" data-kelas="'.$data->id.'"
+                    data-toggle="modal" data-target="#modalrank" data-jenis="UAS SEMESTER 1">Update Peringkat UAS 1</a>';
+                }
+            })
+            ->addColumn('uas2', function($data) {
+                if ($data->ranking->where('ranking_jenis','UAS SEMESTER 2')->count() > 0) {
+                    return '<a href="uas2" data-kelas="'.$data->id.'" class="text-success"
+                    data-toggle="modal" data-target="#modalrank" data-jenis="UAS SEMESTER 2">Update Peringkat UTS 2</a>';
+                }else {
+                    return '<a href="uas2" data-kelas="'.$data->id.'" 
+                    data-toggle="modal" data-target="#modalrank" data-jenis="UAS SEMESTER 2">Update Peringkat UTS 2</a>';
+                }
+            })
+            ->rawColumns(['kelas_jurusan','angkatan_kelas','uts1','uts2','uas1','uas2'])
+            ->make(true);
+        }
+
+        return view('be_page.ranking_kelas');
+    }
+
+    public function update_rank(Request $request)
+    {
+        $kelas_id = $request->kelas_id;
+        $kelas = Kelas::where('id', $kelas_id)->first();
+        $siswa = Siswa::where('kelas_id', $kelas_id)->get();
+        $avg = [];
+        $jenis_exam = $request->jenis_exam;
+
+        foreach($siswa as $key=> $item){
+            $ujian = $kelas->exam->where('exam_jenis', $jenis_exam);
+            $nilai = [];
+            foreach ($ujian as $keys => $value) {
+                # code...
+                $jawabanku = Jawabanexam::where('kelas_id', $kelas->id)
+                                        ->where('exam_id', $value->id)
+                                        ->where('siswa_id', $item->id)->sum('jawabanku');
+                if ($jawabanku > 0) {
+                    # code...
+                    $nilai[$keys] = ($jawabanku / Jawabanexam::where('exam_id', $value->id)->where('siswa_id', $item->id)->count()) * 100;
+                }else {
+                    # code...
+                    $nilai[$keys] = 0;
+                }
+            }
+            $sum = array_sum($nilai);
+            if ($sum > 0) {
+                $avg[$key] = round($sum / $ujian->count());
+            }else {
+                $avg[$key] = 0;
+            }
+
+            $rr = Ranking::updateOrCreate(['siswa_id'=>$item->id,'kelas_id'=>$kelas_id],
+                [
+                    'ranking_jenis'=> $jenis_exam,
+                    'ranking_nilai'=> $avg[$key]
+                ]
+            );
+
+            $r = Ranking::where('siswa_id',$item->id)->where('kelas_id',$kelas_id)->first();
+
+            $tes = array_unique($avg);
+            $ya = rsort($tes);
+            // $ya = $tes;
+            $ok = [];
+            $rank = [];
+            $ay = array($ya);
+            foreach ($tes as $i => $v) {
+                # code...
+                $ok[]=$v;
+                $rank[]=$i+1;
+                
+                // if ($r->ranking_nilai == $v) {
+                //     # code...
+                //     $r->update([
+                //         'ranking_rank'=>$i+1
+                //     ]);
+                // }
+            }
+
+            $lihat = $rr->select('ranking_nilai')->orderBy('ranking_nilai','desc')->get();
+            foreach ($lihat as $x => $value) {
+                # code...
+                if (Ranking::where('siswa_id',$item->id)->where('kelas_id',$kelas_id)->select('ranking_nilai')->first() == $value) {
+                    # code...
+                    Ranking::where('siswa_id',$item->id)->where('kelas_id',$kelas_id)->update(['ranking_rank'=>$x+1]);
+                }
+            }
+            
+        }
+
+        return response()->json([
+            'status'=>200,
+            'message'=> 'Ranking kelas telah di update'.implode(',',$rank).'-'.implode(',',$tes).'-'.$lihat
+            // 'message'=> 'Ranking kelas telah di update'
+        ]);
     }
 }
