@@ -29,7 +29,8 @@ class PelajaranController extends Controller
             'mapelmaster' => $mapelmaster,
             'tugas' => $tugas,
             'mapelmaster_id' => $mapelmaster_id,
-            'kelas_id' => $mapelmaster->kelas_id
+            'kelas_id' => $mapelmaster->kelas_id,
+            'mapel' => $mapelmaster->mapel,
         ]);
     }
 

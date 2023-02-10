@@ -56,7 +56,7 @@
                         <div class="teacher__wrapper">
                             <div class="teacher__top d-md-flex align-items-end justify-content-between">
                                 <div class="teacher__info">
-                                    <h4 class="text-capitalize">{{ $mapelmaster->mapel->mapel_name }}</h4>
+                                    <h4 class="text-capitalize">{{ $mapelmaster->mapel->mapel_name }} {{ $mapelmaster->id }}</h4>
                                     <span>" {{ $mapelmaster->kelas->angkatan->angkatan_name }} "
                                         {{ $mapelmaster->kelas->angkatan->tingkat->tingkat_name }}
                                         {{ $mapelmaster->kelas->jurusan->jurusan_name }}
@@ -745,6 +745,7 @@
                                         @php
                                             $tugass = App\Models\Tugas::where('mapelmaster_id', $mapelmaster_id)->get();
                                         @endphp
+                                        
                                         <option value="">:: Tugas ::</option>
                                         @foreach ($tugass as $item)
                                             <option value="{{ $item->id }}">{{ $item->tugas_name }}</option>
