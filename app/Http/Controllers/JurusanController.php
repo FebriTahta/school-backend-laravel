@@ -353,6 +353,7 @@ class JurusanController extends Controller
             # code...
             Siswa::where('kelas_id', $request->id)->delete();
             $kelas->mapel->detach();
+            $kelas->delete();
             return response()->json([
                 'status' => 200,
                 'message' => 'Siswa & Mapel yang ada pada kelas telah dihapus',
@@ -361,6 +362,7 @@ class JurusanController extends Controller
         }elseif ($kelas->siswa_count > 0 && $kelas->mapel_count < 1) {
             # code...
             Siswa::where('kelas_id', $request->id)->delete();
+            $kelas->delete();
             return response()->json([
                 'status' => 200,
                 'message' => 'Siswa yang ada pada kelas telah dihapus',
@@ -369,6 +371,7 @@ class JurusanController extends Controller
         }elseif ($kelas->siswa_count < 1 && $kelas->mapel_count > 0) {
             # code...
             $kelas->mapel->detach();
+            $kelas->delete();
             return response()->json([
                 'status' => 200,
                 'message' => 'Mapel yang ada pada kelas telah dihapus',
@@ -381,23 +384,6 @@ class JurusanController extends Controller
                 'message' => 'Tidak dapat menghapus kelas yang terdapat guru didalamnya',
             ]);
 
-        }else {
-            # code...
-            $kelas->delete();
-            return response()->json([
-                'status' => 200,
-                'message' => 'data has been deleted',
-            ]);
-        }
-
-        
-        if ($kelas->siswa_count > 0 || $kelas->mapel_count > 0) {
-            # code...
-            return response()->json([
-                'status' => 400,
-                'message' => 'tidak dapat menghapus kelas / jurusan yang memiliki siswa & mapel',
-            ]);
-            
         }else {
             # code...
             $kelas->delete();
