@@ -107,7 +107,31 @@ class JurusanController extends Controller
 
 
 
+    public function daftar_copas(Request $request)
+    {
+        // $datax = Kelas::where('id',$id)->first();
+        // $data  = $datax->mapel;
+        // return DataTables::of($data)
+        // ->addColumn('check', function ($data) {
+        //     return '<input type="checkbox" class="sub_chk3" data-id="'.$data->id.'">';
+        // })
+        // ->rawColumns(['check'])
+        // ->make(true);
 
+        $data = Kelas::with(['jurusan','angkatan','mapel'])->withCount('siswa','mapel','guru')->orderBy('jurusan_id')->get();
+            return DataTables::of($data)
+            ->addColumn('check', function ($data) {
+                return '<input type="checkbox" class="sub_chk4" data-id="'.$data->id.'">';
+            })
+            ->addColumn('angkatan_kelas', function($data) {
+                return $data->angkatan->angkatan_name. ' - '.$data->angkatan->tingkat->tingkat_name;
+            })
+            ->addColumn('kelas_jurusan', function($data) {
+                return $data->jurusan->jurusan_name.' '.$data->kelas_name;
+            })
+            ->rawColumns(['kelas_jurusan','angkatan_kelas','check'])
+            ->make(true);
+    }
 
 
 
@@ -137,10 +161,11 @@ class JurusanController extends Controller
             ->addColumn('mapel', function($data){
                 if ($data->mapel_count > 0) {
                     # code...
-                    return '<a href="#">'.$data->mapel_count.' - mapel</a>';
+                    return '<a href="#" data-toggle="modal" data-target="#manmapel"
+                    data-id="'.$data->id.'">'.$data->mapel_count.' - mapel</a>';
                 }else {
                     # code...
-                    return '<a href="#" data-toggle="modal" data-target="#addmapel"
+                    return '<a href="#" data-toggle="modal" data-target="#manmapel"
                     data-id="'.$data->id.'">'.$data->mapel_count.' - mapel</a>';
                 }
             })
@@ -156,6 +181,21 @@ class JurusanController extends Controller
         $mapel   = Mapel::get();
         $guru    = Guru::get();
         return view('be_page.kelas',['jurusan' => $jurusan, 'tingkat' => $tingkat, 'angkatan'=> $angkatan, 'mapel' => $mapel,'guru'=> $guru]);
+    }
+
+    public function daftar_mapel_kelas(Request $request, $id)
+    {
+        $datax = Kelas::where('id',$id)->first();
+        $data  = $datax->mapel;
+        return DataTables::of($data)
+        ->addColumn('check', function ($data) {
+            return '<input type="checkbox" class="sub_chk3" data-id="'.$data->id.'">';
+        })
+        // ->addColumn('jurusan', function ($data){
+        //     return $data->angkatan->angkatan_name.' '.$data->jurusan->jurusan_name.' '.$data->angkatan->tingkat->tingkatan_name.' '.$data->kelas_name;
+        // })
+        ->rawColumns(['check'])
+        ->make(true);
     }
 
     public function siswa_belum_masuk_kelas()
@@ -478,10 +518,10 @@ class JurusanController extends Controller
             ->addColumn('mapel', function($data){
                 if ($data->mapel_count > 0) {
                     # code...
-                    return '<a href="#">'.$data->mapel_count.' - mapel</a>';
+                    return '<a href="#" data-toggle="modal" data-target="#manmapel">'.$data->mapel_count.' - mapel</a>';
                 }else {
                     # code...
-                    return '<a href="#" data-toggle="modal" data-target="#addmapel"
+                    return '<a href="#" data-toggle="modal" data-target="#manmapel"
                     data-id="'.$data->id.'">'.$data->mapel_count.' - mapel</a>';
                 }
             })
@@ -595,10 +635,36 @@ class JurusanController extends Controller
         }
     }
 
-    public function post_tingkatan_kelas(Request $request)
+    
+
+    public function remove_mapel_kelas(Request $request)
     {
-        $tingkat_name = $request->tingkat_name;
-        
+        $kelas = Kelas::findOrFail($request->kelas_id);
+        $mapel_id = explode(',',$request->mapel_id);
+        $kelas->mapel()->detach($mapel_id);
+
+        return response()->json([
+            'status'=> 200,
+            'message' => 'mapel tersebut telah dihapus dari kelas'
+        ]);
     }
+
+    public function copas_mapel_kelas(Request $request)
+    {
+        $kelas = Kelas::where('id', $request->id)->first();
+        $kelas_id = explode(',',$request->kelas_id);
+        
+        foreach ($kelas->mapel as $key => $value) {
+            # code...
+            $value->kelas()->syncWithoutDetaching($kelas_id);
+        }
+
+        return response()->json([
+            'status'=> 200,
+            'message' => 'Mapel pada kelas berasil disalin ke kelas yang dipilih'
+        ]);        
+    }
+
+    
 
 }

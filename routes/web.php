@@ -98,6 +98,11 @@ Route::group(['middleware' => ['auth', 'CheckRole:admin']], function () {
 
         Route::get('/admin-data-siswa-belum-masuk-kelas','siswa_belum_masuk_kelas');
         Route::post('/admin-tambah-siswa-baru','tambah_siswa_baru');
+
+        Route::get('/daftar-mapel-kelas/{kelas_id}','daftar_mapel_kelas');
+        Route::post('/remove-mapel-kelas','remove_mapel_kelas');
+        Route::get('/daftar-kelas-yang-akan-dicopas','daftar_copas');
+        Route::post('/copas-mapel-kelas','copas_mapel_kelas');
     });
 
     Route::controller(AngkatanController::class)->group(function () {
@@ -184,7 +189,7 @@ Route::group(['middleware' => ['auth', 'CheckRole:guru,siswa']], function () {
         Route::post('/post-jawaban-tugas-siswa2','post_jawab_tugas2');
         Route::get('/download-jawaban-tugas-siswa/{jawabtugas_id}','download_tugasku');
     });
-
+ 
     Route::controller(PelajaranController::class)->group(function () {
         Route::get('/mapel/{mapelmaster_id}', 'mapel_mapelmaster');
         Route::get('/mapel-siswa/{mapelmaster_id}', 'mapel_mapelmaster_siswa');

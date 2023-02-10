@@ -194,6 +194,32 @@
         </div>
     </div>
 
+    <div class="modal fade" id="manmapel" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: rgb(93, 154, 233);">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">MANAGEMENT MAPEL</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4 col-4">
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#addmapel" style="width: 100%">Add Mapel</button>
+                        </div>
+                        <div class="col-md-4 col-4">
+                            <button class="btn btn-info" data-toggle="modal" data-target="#upmapel" style="width: 100%">Update Mapel</button>
+                        </div>
+                        <div class="col-md-4 col-4">
+                            <button class="btn btn-success" data-toggle="modal" data-target="#copasmapel" style="width: 100%">Copy Mapel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <div class="modal fade" id="addmapel" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -369,6 +395,63 @@
         </div>
     </div>
 
+    <div class="modal fade" id="upmapel" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: rgb(93, 154, 233);">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">AUDIT DATA MAPEL PADA KELAS</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <table id="examplex"
+                            class="display responsive nowrap table table-collapse table-bordered table-hover table-striped data-tables">
+                            <thead>
+                                <tr>
+                                    <th style="10%"><input type="checkbox" id="master2"></th>
+                                    <th style="width: 10%;font-weight: bold">Mapel</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: 12px"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-danger" id="btnhapusmapel">Hapus Mapel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="copasmapel" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: rgb(93, 154, 233);">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">COPASKAN KE KELAS LAIN</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <table id="example5"
+                            class="display responsive nowrap table table-collapse table-bordered table-hover table-striped data-tables">
+                            <thead>
+                                <tr>
+                                    <th style="10%"><input type="checkbox" id="master3"></th>
+                                    <th style="width: 10%;font-weight: bold">Angkatan</th>
+                                    <th style="width: 10%;font-weight: bold">Jurusan</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: 12px"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-danger" id="btncopasmapel">Copas Mapel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="modalkonfirmadd" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -385,6 +468,50 @@
                         <button type="button" id="btnclosemodalquiz" class="btn btn-sm btn-default"
                             data-dismiss="modal">Close</button>
                         <input type="submit" id="btnkonfirmadd" class="btn btn-sm btn-primary" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalcopas" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: rgb(122, 200, 236);">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">KONFIRMASI COPAS MAPEL</h4>
+                </div>
+                <form method="POST" id="formkonfirmcopas" enctype="multipart/form-data">@csrf
+                    <div class="modal-body">
+                        <input type="text" class="form-control" id="kelasid" name="kelas_id">
+                        <input type="text" class="form-control" id="idkelasini" name="id">
+                        <p>Anda yakin akan meng copas data mapel ke kelas yang dipilih ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnclosemodalquiz" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
+                        <input type="submit" id="btnkonfirmcopas" class="btn btn-sm btn-primary" value="COPAS">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalkonhapusmapel" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: rgb(122, 200, 236);">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">KONFIRMASI REMOVE MAPEL</h4>
+                </div>
+                <form method="POST" id="remmapel" enctype="multipart/form-data">@csrf
+                    <div class="modal-body">
+                        <input type="hidden" class="form-control" id="mapel_id" name="mapel_id">
+                        <input type="hidden" class="form-control" id="kelasid" name="kelas_id">
+                        <p>Anda yakin akan menghapus mapel tersebut ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnclosemodalquiz" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
+                        <input type="submit" id="btnkonformeremovemapel" class="btn btn-sm btn-danger" value="Remove Mapel">
                     </div>
                 </form>
             </div>
@@ -596,6 +723,56 @@
         })
 
         // end ready function
+
+        var id;
+        $('#manmapel').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            id = button.data('id')
+            var modal = $(this)
+            // modal.find('.modal-body #id').val(id);
+            
+        })
+
+        $('#btnhapusmapel').on('click', function(e) {
+            console.log(id);
+            var allVals = [];
+            $(".sub_chk3:checked").each(function() {
+                allVals.push($(this).attr('data-id'));
+            });
+            if (allVals.length <= 0) {
+                alert("PILIH DATA MAPEL TERLEBIH DAHULU");
+            } else {
+                var join_selected_values = allVals.join(',');
+                $('#modalkonhapusmapel').modal('show');
+                $('#upmapel').modal('hide');
+                $('#mapel_id').val(join_selected_values);
+                $('#kelasid').val(id);
+            }
+        });
+
+        $('#upmapel').on('show.bs.modal', function(event) {
+            
+            if (id) {
+                var table = $('#examplex').DataTable({
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                ajax: '/daftar-mapel-kelas/'+id,
+                columns: [
+                    {
+                        data: 'check',
+                        name: 'check',
+                        orderable: false,
+                    },
+                    {
+                        data: 'mapel_name',
+                        name: 'mapel_name'
+                    },
+                ]
+            });
+            }
+            
+        })
 
         function table_default() {
             var table = $('#example').DataTable({
@@ -1116,9 +1293,10 @@
 
         $('#addmapel').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
-            var id = button.data('id')
+            // var id = button.data('id')
             var modal = $(this)
             modal.find('.modal-body #id').val(id);
+            
         })
 
         var kelas_id;
@@ -1137,6 +1315,22 @@
             }
         });
 
+        $('#master2').on('click', function(e) {
+            if ($(this).is(':checked', true)) {
+                $(".sub_chk3").prop('checked', true);
+            } else {
+                $(".sub_chk3").prop('checked', false);
+            }
+        });
+
+        $('#master3').on('click', function(e) {
+            if ($(this).is(':checked', true)) {
+                $(".sub_chk4").prop('checked', true);
+            } else {
+                $(".sub_chk4").prop('checked', false);
+            }
+        });
+
         $('#btntambahsiswaok').on('click', function(e) {
             var allVals = [];
             $(".sub_chk:checked").each(function() {
@@ -1151,6 +1345,60 @@
                 $('#siswa_id').val(join_selected_values);
                 $('#kelas_id').val(kelas_id);
             }
+        });
+
+        
+        
+        $('#remmapel').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: "/remove-mapel-kelas",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btnkonformeremovemapel').attr('disabled', 'disabled');
+                    $('#btnkonformeremovemapel').val('Process...');
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        var oTable = $('#example').dataTable();
+                        oTable.fnDraw(false);
+                        var oTable2 = $('#examplex').dataTable();
+                        oTable2.fnDraw(false);
+                        $('#modalkonhapusmapel').modal('hide');
+                        $("#formkonfirmadd")[0].reset();
+                        $('#btnkonformeremovemapel').val('Submit');
+                        $('#btnkonformeremovemapel').attr('disabled', false);
+                        total();
+                        toastr.success(response.message);
+                        swal({
+                            title: "SUCCESS!",
+                            text: response.message,
+                            type: "success"
+                        });
+                    } else {
+                        $('#btnkonfirmadd').val('Submit');
+                        $('#btnkonfirmadd').attr('disabled', false);
+                        var values = '';
+                        jQuery.each(response.message, function(key, value) {
+                            values += value + '\n'
+                        });
+                        swal({
+                            title: "Maaf",
+                            text: values,
+                            type: "error",
+                        });
+                        toastr.error(values);
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
         });
 
         $('#formkonfirmadd').submit(function(e) {
@@ -1205,6 +1453,57 @@
             });
         });
 
+        $('#formkonfirmcopas').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: "/copas-mapel-kelas",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btnkonfirmcopas').attr('disabled', 'disabled');
+                    $('#btnkonfirmcopas').val('Process...');
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        var oTable = $('#example').dataTable();
+                        oTable.fnDraw(false);
+                        var oTable2 = $('#example5').dataTable();
+                        oTable2.fnDraw(false);
+                        $('#modalcopas').modal('hide');
+                        $('#btnkonfirmcopas').val('Submit');
+                        $('#btnkonfirmcopas').attr('disabled', false);
+                        total();
+                        toastr.success(response.message);
+                        swal({
+                            title: "SUCCESS!",
+                            text: response.message,
+                            type: "success"
+                        });
+                    } else {
+                        $('#btnkonfirmcopas').val('Submit');
+                        $('#btnkonfirmcopas').attr('disabled', false);
+                        var values = '';
+                        jQuery.each(response.message, function(key, value) {
+                            values += value + '\n'
+                        });
+                        swal({
+                            title: "Maaf",
+                            text: values,
+                            type: "error",
+                        });
+                        toastr.error(values);
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+
         $('#modaltambahsiswa').on('show.bs.modal', function(event) {
             $('#modalsiswa').modal('hide');
             var table = $('#example4').DataTable({
@@ -1229,6 +1528,50 @@
                 ]
             });
         })
+
+        $('#copasmapel').on('show.bs.modal', function(event) {
+            // $('#modalsiswa').modal('hide');
+            var table = $('#example5').DataTable({
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                ajax: '/daftar-kelas-yang-akan-dicopas',
+                columns: [
+                    {
+                        data: 'check',
+                        name: 'check',
+                        orderable: false,
+                    },
+                    {
+                        data: 'angkatan_kelas',
+                        name: 'angkatan_kelas'
+                    },
+                    {
+                        data: 'kelas_jurusan',
+                        name: 'kelas_jurusan'
+                    },
+                ]
+            });
+        })
+
+        $('#btncopasmapel').on('click', function(e) {
+            
+            var allVals = [];
+            $(".sub_chk4:checked").each(function() {
+                allVals.push($(this).attr('data-id'));
+            });
+            if (allVals.length <= 0) {
+                alert("PILIH DATA KELAS TERLEBIH DAHULU");
+            } else {
+                var join_selected_values = allVals.join(',');
+                $('#modalcopas').modal('show');
+                $('#copasmapel').modal('hide');
+                $('#kelasid').val(join_selected_values);
+                $('#idkelasini').val(id);
+                console.log(join_selected_values);
+                console.log(id);
+            }
+        });
 
         $('#modalstatus').on('show.bs.modal', function(event) {
             $('#modaldatasiswa').modal('hide');
