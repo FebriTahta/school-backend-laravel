@@ -347,6 +347,50 @@ class JurusanController extends Controller
     public function remove_kelas(Request $request)
     {   
         $kelas = Kelas::where('id',$request->id)->withCount('siswa','mapel')->first();
+        // $siswa = Siswa::where('kelas_id', $request->id)->count();
+        
+        if ($kelas->siswa_count > 0 && $kelas->mapel_count > 0) {
+            # code...
+            Siswa::where('kelas_id', $request->id)->delete();
+            $kelas->mapel->detach();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Siswa & Mapel yang ada pada kelas telah dihapus',
+            ]);
+
+        }elseif ($kelas->siswa_count > 0 && $kelas->mapel_count < 1) {
+            # code...
+            Siswa::where('kelas_id', $request->id)->delete();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Siswa yang ada pada kelas telah dihapus',
+            ]);
+            
+        }elseif ($kelas->siswa_count < 1 && $kelas->mapel_count > 0) {
+            # code...
+            $kelas->mapel->detach();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Mapel yang ada pada kelas telah dihapus',
+            ]);
+
+        }elseif ($kelas->guru->count() > 0) {
+            # code...
+            return response()->json([
+                'status' => 400,
+                'message' => 'Tidak dapat menghapus kelas yang terdapat guru didalamnya',
+            ]);
+
+        }else {
+            # code...
+            $kelas->delete();
+            return response()->json([
+                'status' => 200,
+                'message' => 'data has been deleted',
+            ]);
+        }
+
+        
         if ($kelas->siswa_count > 0 || $kelas->mapel_count > 0) {
             # code...
             return response()->json([
