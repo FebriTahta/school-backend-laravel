@@ -742,8 +742,11 @@
                                 <div class="form-group">
                                     <input type="hidden" name="mapelmaster_id" value="{{ $mapelmaster_id }}">
                                     <select name="tugas_id" id="tugas_id" required class="form-control mb-3">
+                                        @php
+                                            $tugass = App\Models\Tugas::where('mapelmaster_id', $mapelmaster_id)->get();
+                                        @endphp
                                         <option value="">:: Tugas ::</option>
-                                        @foreach ($tugas as $item)
+                                        @foreach ($tugass as $item)
                                             <option value="{{ $item->id }}">{{ $item->tugas_name }}</option>
                                         @endforeach
                                     </select>
