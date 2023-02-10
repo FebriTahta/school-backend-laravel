@@ -35,4 +35,9 @@ class Mapel extends Model
         return $this->hasMany(Jawabanexam::class);
     }
 
+    public function examurai()
+    {
+        return $this->hasMany(Examurai::class);
+    }
+
 }

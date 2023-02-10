@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 use App\Models\Mapel;
 use DataTables;
 use App\Models\Exam;
+use App\Models\Examurai;
 use App\Models\Kelas;
 use App\Models\Jawabanexam;
 use App\Models\Mapelmaster;
 use App\Models\Soalexam;
+use App\Models\Soalexamurai;
 use App\Models\Ranking;
 use App\Models\Optionexam;
 use App\Models\Siswa;
 use Auth;
+use Crypt;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -45,6 +48,53 @@ class ExamController extends Controller
 
         $mapel = Mapel::get();
         return view('be_page.manajemen_ujian',['mapel'=>$mapel]);
+    }
+
+    public function manajemen_ujian_urai(Request $request)
+    {
+        if ($request->ajax()) {
+            # code...
+            $data = Examurai::with('soalexamurai','mapel','kelas')->withCount('kelas')->get();
+            return DataTables::of($data)
+            ->addColumn('mapel',function($data){
+                return strtoupper($data->mapel->mapel_name);
+            })
+            ->addColumn('kelas',function($data){
+                return '<a href="#" data-toggle="modal" data-target="#modalkelas"
+                    data-id='.$data->id.'>'.$data->kelas->count().' - KELAS'.'</a>';
+            })
+            ->addColumn('opsi', function($data){
+                $btn  = ' <button class="btn btn-xs btn-danger" data-id="'.$data->id.'"
+                data-toggle="modal" data-target="#modalhapusexam"><i style="margin-left: 15px" class="icon icon-trash"></i></button>';
+                $btn .= ' <button class="btn btn-xs btn-info" data-id="'.$data->id.'" data-mapel_id="'.$data->mapel_id.'"
+                data-exam_jenis="'.$data->examurai_jenis.'" data-exam_lamapengerjaan="'.$data->examurai_lamapengerjaan.'" data-exam_datetimestart="'.$data->examurai_datetimestart.'"
+                data-exam_datetimeend="'.$data->examurai_datetimeend.'" data-exam_status="'.$data->examurai_status.'"
+                data-toggle="modal" data-target="#modaleditexam"><i style="margin-left: 15px" class="icon icon-pencil"></i></button>';
+                return $btn;
+            })
+            ->rawColumns(['mapel','opsi','kelas'])
+            ->make(true);
+        }
+
+        $mapel = Mapel::get();
+        return view('be_page.manajemen_ujian2',['mapel'=>$mapel]);
+    }
+
+    public function total_exam(){
+        $data = Exam::count();
+        return response()->json([
+            'status'=>200,
+            'data'=>$data
+        ]);
+    }
+
+    public function total_exam_urai()
+    {
+        $data = Examurai::count();
+        return response()->json([
+            'status'=>200,
+            'data'=>$data
+        ]);
     }
 
     public function exam_kelas(Request $request)
@@ -87,9 +137,51 @@ class ExamController extends Controller
         ]);
     }
 
+    public function examurai_remove(Request $request)
+    {
+        $exam = Examurai::where('id', $request->id)->withCount('soalexamurai','jawabanexamurai')->first();
+        if ($exam->soalexamurai_count > 0) {
+            # code...
+            $soal = Soalexamurai::where('examurai_id', $request->id)->delete();
+        }
+        if ($exam->jawabanexamurai_count > 0) {
+            # code...
+            Jawabanexamurai::where('examurai_id', $request->id)->delete();
+        }
+        $exam->delete();
+        return response()->json([
+            'status'=>200,
+            'message'=>'Exam / Ujian berhasil dihapus'
+        ]);
+    }
+
     public function kelas_keseluruhan(Request $request, $exam_id)
     {
         $exam = Exam::where('id', $exam_id)->first();
+        $kelas_id = [];
+        foreach ($exam->kelas as $key => $value) {
+            # code...
+            $kelas_id[] = $value->id;
+        }
+        
+        $data = Kelas::whereNotIn('id', $kelas_id)->with(['jurusan','angkatan','mapel'])->withCount('siswa','mapel','guru')->orderBy('jurusan_id')->get();
+            return DataTables::of($data)
+            ->addColumn('check', function ($data) {
+                return '<input type="checkbox" class="sub_chk" data-id="'.$data->id.'">';
+            })
+            ->addColumn('angkatan_kelas', function($data) {
+                return $data->angkatan->angkatan_name. ' - '.$data->angkatan->tingkat->tingkat_name;
+            })
+            ->addColumn('kelas_jurusan', function($data) {
+                return $data->jurusan->jurusan_name.' '.$data->kelas_name;
+            })
+            ->rawColumns(['kelas_jurusan','angkatan_kelas','check'])
+            ->make(true);
+    }
+
+    public function kelas_keseluruhan2(Request $request, $exam_id)
+    {
+        $exam = Examurai::where('id', $exam_id)->first();
         $kelas_id = [];
         foreach ($exam->kelas as $key => $value) {
             # code...
@@ -135,6 +227,30 @@ class ExamController extends Controller
             ->make(true);
     }
 
+    public function kelas_saatini2(Request $request, $exam_id)
+    {
+        $exam = Examurai::where('id', $exam_id)->first();
+        $kelas_id = [];
+        foreach ($exam->kelas as $key => $value) {
+            # code...
+            $kelas_id[] = $value->id;
+        }
+        
+        $data = Kelas::whereIn('id', $kelas_id)->with(['jurusan','angkatan','mapel'])->withCount('siswa','mapel','guru')->orderBy('jurusan_id')->get();
+            return DataTables::of($data)
+            ->addColumn('angkatan_kelas', function($data) {
+                return $data->angkatan->angkatan_name. ' - '.$data->angkatan->tingkat->tingkat_name;
+            })
+            ->addColumn('kelas_jurusan', function($data) {
+                return $data->jurusan->jurusan_name.' '.$data->kelas_name;
+            })
+            ->addColumn('check', function ($data) {
+                return '<input type="checkbox" class="sub_chk2" data-id="'.$data->id.'">';
+            })
+            ->rawColumns(['kelas_jurusan','angkatan_kelas','check'])
+            ->make(true);
+    }
+
     public function tambah_kelas_ke_exam(Request $request)
     {
         $exam = Exam::where('id',$request->idexam)->first();
@@ -151,9 +267,41 @@ class ExamController extends Controller
         ]);   
     }
 
+    public function tambah_kelas_ke_exam2(Request $request)
+    {
+        $exam = Examurai::where('id',$request->idexam)->first();
+        $kelas_id = $request->kelas_id;
+        $kelas = Kelas::whereIn('id', explode(",",$kelas_id))->get();
+        foreach ($kelas as $key => $value) {
+            # code...
+            $exam->kelas()->attach($value->id);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Ujian berhasil ditambahkan ke kelas terkait '
+        ]);   
+    }
+
     public function remove_kelas_di_exam(Request $request)
     {
         $exam = Exam::where('id',$request->idexam2)->first();
+        $kelas_id = $request->kelas_id2;
+        $kelas = Kelas::whereIn('id', explode(",",$kelas_id))->get();
+        foreach ($kelas as $key => $value) {
+            # code...
+            $exam->kelas()->detach($value->id);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Ujian berhasil dihapus ke kelas terkait '
+        ]);   
+    }
+
+    public function remove_kelas_di_exam2(Request $request)
+    {
+        $exam = Examurai::where('id',$request->idexam2)->first();
         $kelas_id = $request->kelas_id2;
         $kelas = Kelas::whereIn('id', explode(",",$kelas_id))->get();
         foreach ($kelas as $key => $value) {
@@ -239,7 +387,7 @@ class ExamController extends Controller
                 ->where('exam_id', $request->ujian_id)
                 ->where('soalexam_id', $request->byPanel)->first();
             $soal = Soalexam::where('id', $request->byPanel)->with(['optionexam'])->first();
-            $soal->jawabanSiswa = $jawaban->optionmulti_id;
+            $soal->jawabanSiswa = $jawaban->optionexam_id;
             // foreach ($arx as $key => $value) {
             //     if ($value == $soal->id) $indx = $key + 1;
             // }
@@ -572,5 +720,36 @@ class ExamController extends Controller
             // 'message'=> 'Ranking kelas telah di update'.implode(',',$rank).'-'.implode(',',$tes).'-'.$lihat
             'message'=> 'Ranking kelas telah di update'
         ]);
+    }
+
+    public function daftar_pilihan_ganda(Request $request, $kelas_id)
+    {
+        $kelas_id = Crypt::decrypt($kelas_id);
+        $kelas = Kelas::findOrFail($kelas_id);
+        $pilihan_ganda_aktif = $kelas->exam->where('exam_status','aktif');
+        $uraian_aktif = $kelas->examurai->where('examurai_status','aktif');
+        $siswa = auth()->user()->siswa;
+        return view('fe_page.daftar_pilihan_ganda',compact('kelas','siswa','pilihan_ganda_aktif','uraian_aktif'));
+    }
+
+    public function do_exam_urai(Request $request, $examurai_id, $mapel_id, $kelas_id)
+    {
+        $kelas = Kelas::where('id', $kelas_id)->first();
+        $q = Soalexamurai::where('examurai_id', $examurai_id)->limit(1)->get();
+        $mapel = Mapel::where('id', $mapel_id)->first();
+        $soal = Soalexamurai::where('examurai_id', $examurai_id)->get();
+        $next = null;
+        return view('fe_page.do_examurai',compact('q','kelas','mapel','soal','next'));
+    }
+
+    public function do_exam_urai_next(Request $request, $examurai_id, $mapel_id, $kelas_id, $next)
+    {
+        // next = id soal
+        $kelas = Kelas::where('id', $kelas_id)->first();
+        $q = Soalexamurai::where('id', $next)->limit(1)->get();
+        $mapel = Mapel::where('id', $mapel_id)->first();
+        $soal = Soalexamurai::where('examurai_id', $examurai_id)->get();
+        $next = $next;
+        return view('fe_page.do_examurai',compact('q','kelas','mapel','soal','next'));
     }
 }

@@ -67,4 +67,14 @@ class Kelas extends Model
     {
         return $this->hasMany(Ranking::class);
     }
+
+    public function jawabanexamurai()
+    {
+        return $this->hasMany(Jawabanexamurai::class);
+    }
+
+    public function examurai()
+    {
+        return $this->belongsToMany(Examurai::class);
+    }
 }

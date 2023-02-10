@@ -24,8 +24,18 @@
             </div>
         </section>
 
-        <section class="course__area pt-120 pb-120">
+        <section class="course__area pt-50 pb-50">
             <div class="container"> 
+                @if ($siswa->kelas->exam->where('exam_status', 'aktif')->count() > 0 || 
+                $siswa->kelas->examurai->where('examurai_status', 'aktif')->count() > 0 )
+                    <div class="ujian">
+                        <div class="alert alert-success alert-block">
+                            <small>Ada daftar ujian yang harus diselesaikan 
+                                <br><u><a href="/daftar-ujian-pilihan-ganda/{{ Crypt::encrypt($siswa->kelas->id) }}">klik disini <i class="fa fa-pencil"></i></a></u>
+                            </small>
+                        </div>
+                    </div>
+                @endif
                 <div class="course__tab-inner grey-bg-2 mb-50">
                     <div class="course__sort d-flex justify-content-sm-end">
                         <div class="course__sort-inner">
@@ -47,21 +57,6 @@
                     <div class="col-xxl-12">
                         <div class="course__tab-conent">
                             <div class="tab-content" id="courseTabContent">
-                                @if ($siswa->kelas->exam->where('exam_status', 'aktif')->count() > 0)
-                                <div class="ujian">
-                                    <div class="alert alert-success alert-block">
-                                        <small>Ada daftar ujian yang harus anda selesaikan sebelum waktu yang ditentukan habis</small>
-                                        <div class="daftar_ujian">
-                                            <ul>
-                                                @foreach ($siswa->kelas->exam->where('exam_status', 'aktif') as $key => $item)
-                                                    <li>* {{ $item->exam_name }} <span> <u><a href="#mulai"
-                                                        onclick="check({{ $item }},{{ $item->mapel_id }},{{ $siswa->kelas->id }},'/do-exam')"><i class="fa fa-pencil" style="font-size: 14px"></i> start </a></u></span></li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                @endif
                                 <div class="tab-pane fade show active" id="list" role="tabpanel"
                                     aria-labelledby="list-tab">
                                     <div class="row">

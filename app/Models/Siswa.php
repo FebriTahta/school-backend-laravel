@@ -60,4 +60,9 @@ class Siswa extends Model
     {
         return $this->hasMany(Ranking::class);
     }
+
+    public function jawabanexamurai()
+    {
+        return $this->hasMany(Jawabanexamurai::class);
+    }
 }

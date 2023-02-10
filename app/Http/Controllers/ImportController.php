@@ -8,6 +8,8 @@ use App\Imports\SiswaImport;
 use App\Imports\GuruImport;
 use App\Imports\QuizImport;
 use App\Imports\ExamImport;
+use App\Imports\ExamuraiImport;
+use App\Models\Examurai;
 use App\Imports\MapelImport;
 use App\Models\Kelas;
 use App\Models\Mapel;
@@ -32,6 +34,100 @@ class ImportController extends Controller
     {
         Excel::import(new GuruImport(), request()->file('file'));
         return redirect()->back()->with('success', 'data guru berhasil diimport');
+    }
+
+    public function import_data_examurai(Request $request)
+    {
+        if ($request->id) {
+            # code...
+            $exam_mapel = Mapel::where('id', $request->mapel_id)->first();
+            $ujian = Examurai::where('id', $request->id)->update([
+                'mapel_id' => $request->mapel_id,
+                'examurai_jenis' => $request->examurai_jenis,
+                'examurai_status' => $request->examurai_status,
+                'examurai_name' => $exam_mapel->mapel_name.' : '.$request->examurai_jenis,
+                'examurai_lamapengerjaan' => $request->examurai_lamapengerjaan,
+                'examurai_datetimestart' => $request->examurai_datetimestart,
+                'examurai_datetimeend' => $request->examurai_datetimeend,
+            ]);
+
+            return response()->json([
+                'status'=>200,
+                'message'=>'Data Exam / Ujian berhasil diperbarui'
+            ]);
+
+        }else {
+            # code...
+            try {
+                $objphpexcel = IOFactory::load(request()->file('file'));
+                foreach ($objphpexcel->getActiveSheet()->getDrawingCollection() as $key => $drawing) {
+                    $uid = Str::uuid();
+                    if ($drawing instanceof MemoryDrawing) {
+                        ob_start();
+                        call_user_func(
+                            $drawing->getRenderingFunction(),
+                            $drawing->getImageResource()
+                        );
+                        $imageContents = ob_get_contents();
+                        ob_end_clean();
+                        switch ($drawing->getMimeType()) {
+                            case MemoryDrawing::MIMETYPE_PNG:
+                                $extension = 'png';
+                                break;
+                            case MemoryDrawing::MIMETYPE_JPEG:
+                                $extension = 'jpeg';
+                                break;
+                            case MemoryDrawing::MIMETYPE_JPEG:
+                                $extension = 'jpg';
+                                break;
+                        }
+                    } else {
+                        if ($drawing->getPath()) {
+                            // Check if the source is a URL or a file path
+                            if ($drawing->getIsURL()) {
+                                $imageContents = file_get_contents($drawing->getPath());
+                                $filePath = tempnam(sys_get_temp_dir(), 'Drawing');
+                                file_put_contents($filePath, $imageContents);
+                                $mimeType = mime_content_type($filePath);
+                                // You could use the below to find the extension from mime type.
+                                // https://gist.github.com/alexcorvi/df8faecb59e86bee93411f6a7967df2c#gistcomment-2722664
+                                $extension = File::mime2ext($mimeType);
+                                unlink($filePath);
+                            } else {
+                                $zipReader = fopen($drawing->getPath(), 'r');
+                                $imageContents = '';
+                                while (!feof($zipReader)) {
+                                    $imageContents .= fread($zipReader, 1024);
+                                }
+                                fclose($zipReader);
+                                $extension = $drawing->getExtension();
+                            }
+                        }
+                    }
+                    $myFileName = 'be_assets\exam\exam_' . $uid . '.' . $extension;
+                    file_put_contents($myFileName, $imageContents);
+                    $objphpexcel->getActiveSheet()->setCellValue($drawing->getCoordinates(), $myFileName);
+                }
+                $writer = new Xlsx($objphpexcel);
+                $temp = 'be_assets\exam\tempImportExam.xlsx';
+                $writer->save($temp);
+                $exam_mapel = Mapel::where('id', $request->mapel_id)->first();
+                $ujian = Examurai::create([
+                    'mapel_id' => $request->mapel_id,
+                    'examurai_jenis' => $request->examurai_jenis,
+                    'examurai_status' => $request->examurai_status,
+                    'examurai_name' => $exam_mapel->mapel_name.' : '.$request->examurai_jenis,
+                    'examurai_lamapengerjaan' => $request->examurai_lamapengerjaan,
+                    'examurai_datetimestart' => $request->examurai_datetimestart,
+                    'examurai_datetimeend' => $request->examurai_datetimeend,
+                ]);
+                Excel::import(new ExamuraiImport($ujian->id), $temp);
+                return redirect()->back()->with('success', 'data quiz berhasil diimport');
+            } catch (\Throwable $th) {
+                // return 'prob';
+                throw $th;
+            }
+        }
     }
 
 

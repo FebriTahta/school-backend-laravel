@@ -21,7 +21,7 @@
                                 <div class="events__sidebar-widget white-bg">
                                     <div class="events__sponsor" style="text-align: center">
                                         <h3 class="events__sponsor-title">
-                                            <h4>{{$quiz->ujian_datetimeend }} ({{ $quiz->ujian_lamapengerjaan }}:00 MENIT)</h4>
+                                            {{-- <h4>{{$quiz->ujian_datetimeend }} ({{ $quiz->ujian_lamapengerjaan }}:00 MENIT)</h4> --}}
                                             <h5 id="counter"></h5>
                                         </h3>
 
@@ -31,7 +31,7 @@
                                                     habis</span></h4>
                                         </div>
                                         <div class="events__sponsor-info button-nav">
-                                            @foreach ($quizPanel as $i => $panel)
+                                            {{-- @foreach ($quizPanel as $i => $panel)
                                                 @if ($panel->optionexam_id == null)
                                                     <a href="{{ route('doExam', [
                                                         'exam_id' => $quiz->id,
@@ -51,6 +51,14 @@
                                                     ]) }}"type="button"
                                                         style="margin: 7px" class="btn btn-sm btn-success">
                                                         <span style="font-size: 12px">{{ $i + 1 }}</span> </a>
+                                                @endif
+                                            @endforeach --}}
+                                            
+                                            @foreach ($soal as $i=> $s)
+                                                @if ($next == null)
+                                                        <a href="/do-exam-uraian-next/{{ $s->examurai_id }}/{{ $mapel->id }}/{{ $kelas->id }}/{{ $s->id }}" type="button"style="margin: 7px" class="btn btn-sm btn-outline-secondary"><span style="font-size: 12px">{{ $i + 1 }}</span> </a>
+                                                    @else
+                                                        <a href="/do-exam-uraian-next/{{ $s->examurai_id }}/{{ $mapel->id }}/{{ $kelas->id }}/{{ $s->id }}" type="button"style="margin: 7px" class="btn btn-sm btn-outline-secondary"><span style="font-size: 12px">{{ $i + 1 }}</span> </a>
                                                 @endif
                                             @endforeach
                                             <hr>
@@ -72,75 +80,42 @@
                         <div class="col-xxl-8 col-xl-8 col-lg-8">
                             <div class="teacher__wrapper">
                                 {{-- @if (count($q) > 0) --}}
-                                <div class="teacher__top d-md-flex align-items-end justify-content-between mb-20">
-                                    <input type="text" hidden id="soalId" name="soalId" value="{{ $q->id }}">
-                                    @if (Str::limit($q->soal_name, 3) == 'be_...')
-                                        <div class="teacher__info" style="padding: 0; margin: 0">
-                                            <h5>No. {{ $indx }}</h5>
-                                            <div class="blog__thumb w-img fix">
-                                                <img src="{{ asset($q->soal_name) }}" alt="">
-                                            </div>
-                                            <br>
-                                            <span>"2020 X RPL 1 : Sejarah"</span>
-                                        </div>
-                                    @else
-                                        <div class="teacher__info" style="padding: 0; margin: 0">
-                                            <h5>No. {{ $index }}</h5>
-                                            <h5 style="font-size: 28px" class="text-capitalize">{{ $q->soalexam_name }}
-                                            </h5>
-                                            <span>"2020 X RPL 1 : Sejarah"</span>
-                                        </div>
-                                    @endif
-                                </div>
-                                <h4 style="font-size: 18px">Pilihan Jawaban : {{ $kelas_id }}</h4>
-                                <div class="soal_multi">
-                                    <h4 style="font-weight: 400"></h4>
-                                    <div class="option">
-                                        <ul>
-                                            <li style="line-height: 30px">
-                                                <div class="row">
-                                                    @foreach ($q->optionexam as $key => $opt)
-                                                        <div class="form-group col-md-1 col-2">
-                                                            <input id="jawabanId" name="jawabanId" type="radio"
-                                                                onclick="postExam({{ $quiz->id }},{{ $q->id }},{{ $opt->id }},{{ $opt->optionexam_true }},{{ $mapel_id }},{{ $kelas_id }})"
-                                                                value="{{ $opt->id }}"
-                                                                {{ $q->jawabanSiswa == $opt->id ? 'checked' : '' }}><span>
-                                                                {{ $opts[$key] }}</span>
-                                                        </div>
-                                                        <div class="form-group col-md-11 col-10">
-                                                            <span>{{ $opt->optionexam_name }}</span>
-                                                        </div>
-                                                    @endforeach
+                                @if (count($q) > 0)
+                                    @foreach ($q as $key=> $q)
+                                    <div class="teacher__top d-md-flex align-items-end justify-content-between mb-20">
+                                        <input type="text" hidden id="soalId" name="soalId" value="{{ $q->id }}">
+                                        @if (Str::limit($q->soal_name, 3) == 'be_...')
+                                            <div class="teacher__info" style="padding: 0; margin: 0">
+                                                @if ($next == null)
+                                                <h5>No. {{ $next }}</h5>                                                    
+                                                    @else
+                                                <h5>No. {{ $key+1 }}</h5>                                                    
+                                                @endif
+
+                                                <div class="blog__thumb w-img fix">
+                                                    <img src="{{ asset($q->soal_name) }}" alt="">
                                                 </div>
-                                            </li>
-                                        </ul>
+                                                <br>
+                                                <span>"{{ $kelas->angkatan->angkatan_name }} {{ $kelas->angkatan->tingkat->tingkat_name }} {{ $kelas->jurusan->jurusan_name }} {{ $kelas->kelas_name }} : {{ $mapel->mapel_name }}"</span>
+                                            </div>
+                                        @else
+                                            <div class="teacher__info" style="padding: 0; margin: 0">
+                                                <h5>No. {{ $key+1 }}</h5>
+                                                <h5 style="font-size: 28px" class="text-capitalize">{{ $q->soalexam_name }}
+                                                </h5>
+                                                <span>"{{ $kelas->angkatan->angkatan_name }} {{ $kelas->angkatan->tingkat->tingkat_name }} {{ $kelas->jurusan->jurusan_name }} {{ $kelas->kelas_name }} : {{ $mapel->mapel_name }}"</span>
+                                            </div>
+                                        @endif
                                     </div>
-                                </div>
-                                {{-- <div class="navigation-soal" style="margin-top: 20px">
-                                    @if ($index > 0)
-                                        <a href="#" onclick="showQuiz({{ $index - 1 }})"
-                                            style="float: left; font-size: 20px"><u> Prev</u></a>
-                                    @endif
-                                    @if ($index + 1 < $quizCount)
-                                        <button href="#" type="submit2" style="float: right; font-size: 20px"><u>
-                                                Next</u></button>
-                                    @else
-                                        <button onclick="this.form('formQuiz').submit" type="submit" href="#"
-                                            style="float: right; font-size: 20px"><u> Finish</u></button>
-                                    @endif
-                                </div> --}}
-
-                                {{-- @else
-
-                                <div class="teacher__info" style="padding: 0; margin: 0">
-                                    <h5> - </h5>
-                                    <div class="blog__thumb w-img fix">
-                                        <h5 class="text-uppercase text-danger"> Belum ada soal untuk quiz / ujian ini </h5>
+                                    <div class="soal_multi">
+                                        <label for="jawabanku">jawaban :</label>
+                                        <textarea name="jawabanku" class="form-control" id="jawabanku" cols="30" rows="5"></textarea>
                                     </div>
-                                    <br>
-                                </div>
-
-                                @endif --}}
+                                    <div class="submit-btn" style="margin-top: 10px">
+                                        <input type="submit" class="btn btn-sm btn-primary" style="float: right" value="submit jawaban">
+                                    </div>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -157,7 +132,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
-    <script>
+    {{-- <script>
         function startQuiz() {
             var countDownDate = new Date(@json($quiz->exam_datetimeend)).getTime();
 
@@ -236,5 +211,5 @@
                 }
             });
         }
-    </script>
+    </script> --}}
 @endsection

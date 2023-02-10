@@ -225,8 +225,10 @@
                 data: data, // serializes the form's elements.
                 success: function(data) {
                     var btn = document.getElementById('btnQuiz-' + soalId);
-                    btn.classList.remove("btn-outline-secondary");
-                    btn.classList.add("btn-success");
+                    if (btn !== null) {
+                        btn.classList.remove("btn-outline-secondary");   
+                        btn.classList.add("btn-success");
+                    }
                 }
             });
         }

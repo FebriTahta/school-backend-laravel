@@ -7,7 +7,7 @@
                 <div class="row">
                     <div class="col">
                         <h3 class="my-3" style="font-size: 16px">
-                            <i class="icon icon-class"></i> UJIAN MULTIPLE CHOICE
+                            <i class="icon icon-class"></i> UJIAN URAIAN
                         </h3>
                     </div>
                 </div>
@@ -18,13 +18,13 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">
-                        <div class="col-md-4 mb-2">
+                        <div class="col-md-4 mb-2"> 
                             <div class="counter-box white r-5 p-3">
                                 <div class="p-4">
                                     <div class="float-right">
                                         <span class="icon icon-note-list text-light-blue s-48"></span>
                                     </div>
-                                    <div class="counter-title"><span class="" id="total_jurusan">0</span> : UJIAN
+                                    <div class="counter-title"><span class="" id="total_jurusan">0</span> : UJIAN URAIAN
                                     </div>
                                 </div>
                                 <div class="progress progress-xs r-0">
@@ -46,8 +46,8 @@
                     }
                 </style>
                 <div class="col-md-12" style="margin-top: 20px">
-                    <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modaltemplateujian"><i
-                            class="icon icon-download"></i>Download Template Ujian</button>
+                    <a href="/admin-download-template-examurai" class="btn btn-xs btn-primary" ><i
+                            class="icon icon-download"></i>Download Template Ujian</a>
 
                     <a href="#" class="btn btn-xs btn-success" data-toggle="modal" data-target="#modalimportquiz"><i
                             class="icon icon-upload"></i>
@@ -169,7 +169,7 @@
                 <div class="modal-header" style="background-color: rgb(93, 154, 233);">
                     <h4 class="modal-title" style="font-size: 16px; color:white">IMPORT DATA UJIAN</h4>
                 </div>
-                <form action="/admin-import-data-exam" method="POST" enctype="multipart/form-data">@csrf
+                <form action="/admin-import-data-examurai" method="POST" enctype="multipart/form-data">@csrf
                     <div class="modal-body">
                         <div class="form-group">
                             <div class="form-group mb-20">
@@ -181,7 +181,7 @@
                                 </select>
                             </div>
                             <div class="form-group mb-20">
-                                <select name="exam_jenis" id="exam_jenis" class="form-control text-uppercase" required>
+                                <select name="examurai_jenis" id="exam_jenis" class="form-control text-uppercase" required>
                                     <option value="">:: JENIS UJIAN ::</option>
                                     <option value="UTS SEMESTER 1">UTS SEMESTER 1</option>
                                     <option value="UTS SEMESTER 2">UTS SEMESTER 2</option>
@@ -190,7 +190,7 @@
                                 </select>
                             </div>
                             <div class="form-group mb-20">
-                                <select name="exam_status" id="exam_status" class="form-control text-uppercase" required>
+                                <select name="examurai_status" id="exam_status" class="form-control text-uppercase" required>
                                     <option value="">:: STATUS UJIAN ::</option>
                                     <option value="aktif">AKTIF (TAMPIL)</option>
                                     <option value="off">NON AKTIF (TIDAK TAMPIL)</option>
@@ -198,21 +198,21 @@
                             </div>
                             <div class="form-group mb-20">
                                 <input type="number" class="form-control" id="exam_lamapengerjaan"
-                                    name="exam_lamapengerjaan" placeholder="Lama Pengerjaan (in minute)" required>
+                                    name="examurai_lamapengerjaan" placeholder="Lama Pengerjaan (in minute)" required>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group mb-20">
                                         <label for="exam_datetimestart">Waktu Dimulai</label>
                                         <input class="form-control" type="datetime-local" id="exam_datetimestart"
-                                            name="exam_datetimestart" placeholder="Waktu mulai" required>
+                                            name="examurai_datetimestart" placeholder="Waktu mulai" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group mb-20">
                                         <label for="exam_datetimeend">Waktu Selesai</label>
                                         <input class="form-control" type="datetime-local" id="exam_datetimeend"
-                                            name="exam_datetimeend" placeholder="Waktu berakhir" required>
+                                            name="examurai_datetimeend" placeholder="Waktu berakhir" required>
                                     </div>
                                 </div>
                             </div>
@@ -250,7 +250,7 @@
                                 </select>
                             </div>
                             <div class="form-group mb-20">
-                                <select name="exam_jenis" id="exam_jenis" class="form-control text-uppercase" required>
+                                <select name="examurai_jenis" id="exam_jenis" class="form-control text-uppercase" required>
                                     <option value="">:: JENIS UJIAN ::</option>
                                     <option value="UTS SEMESTER 1">UTS SEMESTER 1</option>
                                     <option value="UTS SEMESTER 2">UTS SEMESTER 2</option>
@@ -259,7 +259,7 @@
                                 </select>
                             </div>
                             <div class="form-group mb-20">
-                                <select name="exam_status" id="exam_status" class="form-control text-uppercase" required>
+                                <select name="examurai_status" id="exam_status" class="form-control text-uppercase" required>
                                     <option value="">:: STATUS UJIAN ::</option>
                                     <option value="aktif">AKTIF (TAMPIL)</option>
                                     <option value="off">NON AKTIF (TIDAK TAMPIL)</option>
@@ -267,21 +267,21 @@
                             </div>
                             <div class="form-group mb-20">
                                 <input type="number" class="form-control" id="exam_lamapengerjaan"
-                                    name="exam_lamapengerjaan" placeholder="Lama Pengerjaan (in minute)" required>
+                                    name="examurai_lamapengerjaan" placeholder="Lama Pengerjaan (in minute)" required>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group mb-20">
                                         <label for="exam_datetimestart">Waktu Dimulai</label>
                                         <input class="form-control" type="datetime-local" id="exam_datetimestart"
-                                            name="exam_datetimestart" placeholder="Waktu mulai" required>
+                                            name="examurai_datetimestart" placeholder="Waktu mulai" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group mb-20">
                                         <label for="exam_datetimeend">Waktu Selesai</label>
                                         <input class="form-control" type="datetime-local" id="exam_datetimeend"
-                                            name="exam_datetimeend" placeholder="Waktu berakhir" required>
+                                            name="examurai_datetimeend" placeholder="Waktu berakhir" required>
                                     </div>
                                 </div>
                             </div>
@@ -534,7 +534,7 @@
                 destroy: true,
                 processing: true,
                 serverSide: true,
-                ajax: "/admin-manajemen-ujian",
+                ajax: "/admin-manajemen-ujian-urai",
                 columns: [{
                         "data": null,
                         "sortable": false,
@@ -551,12 +551,12 @@
                         name: 'kelas'
                     },
                     {
-                        data: 'exam_jenis',
-                        name: 'exam_jenis'
+                        data: 'examurai_jenis',
+                        name: 'examurai_jenis'
                     },
                     {
-                        data: 'exam_status',
-                        name: 'exam_status'
+                        data: 'examurai_status',
+                        name: 'examurai_status'
                     },
                     {
                         data: 'opsi',
@@ -573,7 +573,7 @@
         function total() {
             $.ajax({
                 type: 'GET',
-                url: '/admin-total-exam',
+                url: '/admin-total-exam-urai',
                 success: function(response) {
                     $('#total_jurusan').html(response.data);
                 }
@@ -585,7 +585,7 @@
             var formData = new FormData(this);
             $.ajax({
                 type: 'POST',
-                url: "/admin-remove-exam-kelas",
+                url: "/admin-remove-exam-kelas2",
                 data: formData,
                 cache: false,
                 contentType: false,
@@ -635,7 +635,7 @@
             var formData = new FormData(this);
             $.ajax({
                 type: 'POST',
-                url: "/admin-add-exam-kelas",
+                url: "/admin-add-exam-kelas2",
                 data: formData,
                 cache: false,
                 contentType: false,
@@ -735,7 +735,7 @@
             var formData = new FormData(this);
             $.ajax({
                 type: 'POST',
-                url: "/admin-remove-exam",
+                url: "/admin-remove-exam-urai",
                 data: formData,
                 cache: false,
                 contentType: false,
@@ -785,7 +785,7 @@
             var formData = new FormData(this);
             $.ajax({
                 type: 'POST',
-                url: "/admin-import-data-exam",
+                url: "/admin-import-data-examurai",
                 data: formData,
                 cache: false,
                 contentType: false,
@@ -845,7 +845,7 @@
                 destroy: true,
                 processing: true,
                 serverSide: true,
-                ajax: '/admin-kelas-keseluruhan/' + id,
+                ajax: '/admin-kelas-keseluruhan2/' + id,
                 columns: [
                     {
                         data: 'check',
@@ -874,7 +874,7 @@
                 destroy: true,
                 processing: true,
                 serverSide: true,
-                ajax: '/admin-kelas-saatini/' + id,
+                ajax: '/admin-kelas-saatini2/' + id,
                 columns: [
                     {
                         data: 'check',

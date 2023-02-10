@@ -55,9 +55,18 @@ Route::group(['middleware' => ['auth', 'CheckRole:admin']], function () {
         Route::get('/admin-exam-kelas','exam_kelas');
         Route::post('/admin-remove-exam','exam_remove');
         Route::get('/admin-kelas-keseluruhan/{exam_id}','kelas_keseluruhan');
+        Route::get('/admin-kelas-keseluruhan2/{exam_id}','kelas_keseluruhan2');
         Route::get('/admin-kelas-saatini/{exam_id}','kelas_saatini');
+        Route::get('/admin-kelas-saatini2/{exam_id}','kelas_saatini2');
         Route::post('/admin-add-exam-kelas','tambah_kelas_ke_exam');
+        Route::post('/admin-add-exam-kelas2','tambah_kelas_ke_exam2');
         Route::post('/admin-remove-exam-kelas','remove_kelas_di_exam');
+        Route::post('/admin-remove-exam-kelas2','remove_kelas_di_exam2');
+        Route::get('/admin-total-exam','total_exam');
+
+        Route::get('/admin-manajemen-ujian-urai','manajemen_ujian_urai');
+        Route::get('/admin-total-exam-urai','total_exam_urai');
+        Route::post('/admin-remove-exam-urai','examurai_remove');
     });
 
     Route::controller(UserController::class)->group(function () {
@@ -120,6 +129,7 @@ Route::group(['middleware' => ['auth', 'CheckRole:admin']], function () {
         Route::get('/admin-download-template-guru', 'download_template_guru');
         Route::get('/admin-download-template-mapel', 'download_template_mapel');
         Route::get('/admin-download-template-quiz', 'download_template_quiz');
+        Route::get('/admin-download-template-examurai','download_template_examurai');
     });
 
     Route::controller(ImportController::class)->group(function () {
@@ -127,6 +137,7 @@ Route::group(['middleware' => ['auth', 'CheckRole:admin']], function () {
         Route::post('/admin-import-data-guru', 'import_data_guru');
         Route::post('/admin-import-data-mapel', 'import_data_mapel');
         Route::post('/admin-import-data-quiz', 'import_data_quiz');
+        Route::post('/admin-import-data-examurai','import_data_examurai');
     });
 
     Route::controller(GuruController::class)->group(function () {
@@ -202,12 +213,18 @@ Route::get('/prev-quiz/{mapelmaster_id}/{materi_id}/{ujian_id}', [QuizController
 Route::post('/ujianStore', [QuizController::class, 'ujianStore'])->name('ujianStore');
 // Route::post('/post-quiz', [QuizController::class, 'postQuiz'])->name('postQuiz');
 
+Route::get('/daftar-ujian-pilihan-ganda/{kelas_id}',[ExamController::class,'daftar_pilihan_ganda']);
+Route::get('/daftar-ujian-uraian/{kelas_id}',[ExamController::class,'daftar_uraian']);
 Route::get('/do-exam/{exam_id}/{mapel_id}/{kelas_id}',[ExamController::class,'doExam'])->name('doExam');
 Route::post('/post-exam',[ExamController::class,'postExam'])->name('postExam');
+
+Route::get('/do-exam-uraian/{examurai_id}/{mapel_id}/{kelas_id}',[ExamController::class,'do_exam_urai']);
+Route::get('/do-exam-uraian-next/{examurai_id}/{mapel_id}/{kelas_id}/{next}',[ExamController::class,'do_exam_urai_next']);
 
 Route::get('/rekap-nilai',[ExamController::class,'rekapNilai'])->name('rekapNilai');
 Route::get('/daftar-peringkat',[ExamController::class,'daftarPeringkat'])->name('daftarPeringkat');
 Route::get('/daftar-ranking-kelas',[ExamController::class,'data_ranking_kelas'])->name('data_ranking_kelas');
 Route::post('/update-ranking-kelas',[ExamController::class,'update_rank']);
+
 
 
