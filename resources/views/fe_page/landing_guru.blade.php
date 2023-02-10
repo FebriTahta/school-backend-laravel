@@ -112,6 +112,7 @@
                                     <div class="course__item white-bg mb-30 fix">
                                         <div class="course__thumb w-img p-relative fix">
                                             @if ($item->image == null || $item->image == '')
+                                            {{ $item->id }} {{ $item->mapel_id }}
                                             <a href="/mapel/{{ Crypt::encrypt($item->id) }}">
                                                 <img src="{{ asset('assets/lms-default.png') }}" alt=""
                                                     style="max-height: 100%; border-radius: 10px; margin-top: 15px">
