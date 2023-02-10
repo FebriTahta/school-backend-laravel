@@ -505,7 +505,7 @@
                 <form method="POST" id="remmapel" enctype="multipart/form-data">@csrf
                     <div class="modal-body">
                         <input type="hidden" class="form-control" id="mapel_id" name="mapel_id">
-                        <input type="hidden" class="form-control" id="kelasid" name="kelas_id">
+                        <input type="hidden" class="form-control" id="kelasids" name="kelas_id">
                         <p>Anda yakin akan menghapus mapel tersebut ?</p>
                     </div>
                     <div class="modal-footer">
@@ -746,7 +746,7 @@
                 $('#modalkonhapusmapel').modal('show');
                 $('#upmapel').modal('hide');
                 $('#mapel_id').val(join_selected_values);
-                $('#kelasid').val(id);
+                $('#kelasids').val(id);
             }
         });
 
