@@ -522,34 +522,41 @@ class JurusanController extends Controller
     {
         $kelas = Kelas::where('id', $request->id)->first();
         $exist = Kelas::where('kelas_name', $request->kelas_name)->where('jurusan_id', $request->jurusan_id)->first();
-        if ($exist) {
-            # code...
-            if ($exist->id == $request->id) {
-                # jika sama maka update code...
-                $kelas->update([
-                    'kelas_name' => $request->kelas_name
-                ]);
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'nama kelas berhasil dirubah'
-                ]);
-            }else {
-                # tidak dapat diupdate karena bertabrakan dengan kelas lain code...
-                return response()->json([
-                    'status' => 400,
-                    'message' => 'terdapat nama kelas yang sama pada jurusan yang sama'
-                ]);
-            }
-        }else {
-            # kelas baru code...
-            $kelas->update([
-                'kelas_name' => $request->kelas_name
-            ]);
-            return response()->json([
-                'status' => 200,
-                'message' => 'nama kelas berhasil dirubah'
-            ]);
-        }
+        // if ($exist) {
+        //     # code...
+        //     if ($exist->id == $request->id) {
+        //         # jika sama maka update code...
+        //         $kelas->update([
+        //             'kelas_name' => $request->kelas_name
+        //         ]);
+        //         return response()->json([
+        //             'status' => 200,
+        //             'message' => 'nama kelas berhasil dirubah'
+        //         ]);
+        //     }else {
+        //         # tidak dapat diupdate karena bertabrakan dengan kelas lain code...
+        //         return response()->json([
+        //             'status' => 400,
+        //             'message' => 'terdapat nama kelas yang sama pada jurusan yang sama'
+        //         ]);
+        //     }
+        // }else {
+        //     # kelas baru code...
+        //     $kelas->update([
+        //         'kelas_name' => $request->kelas_name
+        //     ]);
+        //     return response()->json([
+        //         'status' => 200,
+        //         'message' => 'nama kelas berhasil dirubah'
+        //     ]);
+        // }
+        $kelas->update([
+            'kelas_name' => $request->kelas_name
+        ]);
+        return response()->json([
+            'status' => 200,
+            'message' => 'nama kelas berhasil dirubah'
+        ]);
     }
 
     public function update_jurusan(Request $request) 
