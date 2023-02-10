@@ -739,10 +739,11 @@ class ExamController extends Controller
         $mapel = Mapel::where('id', $mapel_id)->first();
         $soal = Soalexamurai::where('examurai_id', $examurai_id)->get();
         $next = null;
-        return view('fe_page.do_examurai',compact('q','kelas','mapel','soal','next'));
+        $nomorurut = null;
+        return view('fe_page.do_examurai',compact('q','kelas','mapel','soal','next','nomorurut'));
     }
 
-    public function do_exam_urai_next(Request $request, $examurai_id, $mapel_id, $kelas_id, $next)
+    public function do_exam_urai_next(Request $request, $examurai_id, $mapel_id, $kelas_id, $next, $nomorurut)
     {
         // next = id soal
         $kelas = Kelas::where('id', $kelas_id)->first();
@@ -750,6 +751,12 @@ class ExamController extends Controller
         $mapel = Mapel::where('id', $mapel_id)->first();
         $soal = Soalexamurai::where('examurai_id', $examurai_id)->get();
         $next = $next;
-        return view('fe_page.do_examurai',compact('q','kelas','mapel','soal','next'));
+        $nomorurut = $nomorurut;
+        return view('fe_page.do_examurai',compact('q','kelas','mapel','soal','next','nomorurut'));
+    }
+
+    public function menjawab_uraian(Request $request)
+    {
+        
     }
 }

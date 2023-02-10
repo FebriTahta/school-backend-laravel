@@ -219,7 +219,8 @@ Route::get('/do-exam/{exam_id}/{mapel_id}/{kelas_id}',[ExamController::class,'do
 Route::post('/post-exam',[ExamController::class,'postExam'])->name('postExam');
 
 Route::get('/do-exam-uraian/{examurai_id}/{mapel_id}/{kelas_id}',[ExamController::class,'do_exam_urai']);
-Route::get('/do-exam-uraian-next/{examurai_id}/{mapel_id}/{kelas_id}/{next}',[ExamController::class,'do_exam_urai_next']);
+Route::get('/do-exam-uraian-next/{examurai_id}/{mapel_id}/{kelas_id}/{next}/{nomorurut}',[ExamController::class,'do_exam_urai_next']);
+Route::post('/menjawab-uraian',[ExamController::class,'menjawab_uraian']);
 
 Route::get('/rekap-nilai',[ExamController::class,'rekapNilai'])->name('rekapNilai');
 Route::get('/daftar-peringkat',[ExamController::class,'daftarPeringkat'])->name('daftarPeringkat');

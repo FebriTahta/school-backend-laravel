@@ -55,11 +55,7 @@
                                             @endforeach --}}
                                             
                                             @foreach ($soal as $i=> $s)
-                                                @if ($next == null)
-                                                        <a href="/do-exam-uraian-next/{{ $s->examurai_id }}/{{ $mapel->id }}/{{ $kelas->id }}/{{ $s->id }}" type="button"style="margin: 7px" class="btn btn-sm btn-outline-secondary"><span style="font-size: 12px">{{ $i + 1 }}</span> </a>
-                                                    @else
-                                                        <a href="/do-exam-uraian-next/{{ $s->examurai_id }}/{{ $mapel->id }}/{{ $kelas->id }}/{{ $s->id }}" type="button"style="margin: 7px" class="btn btn-sm btn-outline-secondary"><span style="font-size: 12px">{{ $i + 1 }}</span> </a>
-                                                @endif
+                                                <a href="/do-exam-uraian-next/{{ $s->examurai_id }}/{{ $mapel->id }}/{{ $kelas->id }}/{{ $s->id }}/{{ $i }}" type="button"style="margin: 7px" class="btn btn-sm btn-outline-secondary"><span style="font-size: 12px">{{ $i + 1 }}</span> </a>
                                             @endforeach
                                             <hr>
                                             <a href="/" style="margin: 7px"
@@ -86,10 +82,10 @@
                                         <input type="text" hidden id="soalId" name="soalId" value="{{ $q->id }}">
                                         @if (Str::limit($q->soal_name, 3) == 'be_...')
                                             <div class="teacher__info" style="padding: 0; margin: 0">
-                                                @if ($next == null)
-                                                <h5>No. {{ $next }}</h5>                                                    
+                                                @if ($nomorurut !== null)
+                                                <h5>No. {{ $nomorurut+1 }} asd</h5>                                                    
                                                     @else
-                                                <h5>No. {{ $key+1 }}</h5>                                                    
+                                                <h5>No. {{ $key+1 }}</h5>
                                                 @endif
 
                                                 <div class="blog__thumb w-img fix">
@@ -100,7 +96,11 @@
                                             </div>
                                         @else
                                             <div class="teacher__info" style="padding: 0; margin: 0">
+                                                @if ($nomorurut !== null)
+                                                <h5>No. {{ $nomorurut+1 }} </h5>                                                    
+                                                    @else
                                                 <h5>No. {{ $key+1 }}</h5>
+                                                @endif
                                                 <h5 style="font-size: 28px" class="text-capitalize">{{ $q->soalexam_name }}
                                                 </h5>
                                                 <span>"{{ $kelas->angkatan->angkatan_name }} {{ $kelas->angkatan->tingkat->tingkat_name }} {{ $kelas->jurusan->jurusan_name }} {{ $kelas->kelas_name }} : {{ $mapel->mapel_name }}"</span>

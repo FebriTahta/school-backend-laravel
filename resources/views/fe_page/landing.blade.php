@@ -26,7 +26,7 @@
 
         <section class="course__area pt-50 pb-50">
             <div class="container"> 
-                @if ($siswa->kelas->exam->where('exam_status', 'aktif')->count() > 0 || 
+                @if ($siswa->kelas->exam->where('exam_datetime', 'aktif')->count() > 0 || 
                 $siswa->kelas->examurai->where('examurai_status', 'aktif')->count() > 0 )
                     <div class="ujian">
                         <div class="alert alert-success alert-block">
@@ -36,6 +36,7 @@
                         </div>
                     </div>
                 @endif
+                
                 <div class="course__tab-inner grey-bg-2 mb-50">
                     <div class="course__sort d-flex justify-content-sm-end">
                         <div class="course__sort-inner">

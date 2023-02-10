@@ -16,7 +16,7 @@ class TugasController extends Controller
     public function post_tugas(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'materi_name'       => 'required',
+            'tugas_name'       => 'required',
         ]);
 
         if ($validator->fails()) {
