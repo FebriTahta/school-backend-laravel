@@ -56,7 +56,7 @@
                         <div class="teacher__wrapper">
                             <div class="teacher__top d-md-flex align-items-end justify-content-between">
                                 <div class="teacher__info">
-                                    <h4 class="text-capitalize">{{ $mapelmaster->mapel->mapel_name }} {{ $mapelmaster->id }}</h4>
+                                    <h4 class="text-capitalize">{{ $mapelmaster->mapel->mapel_name }} asdasdasd</h4>
                                     <span>" {{ $mapelmaster->kelas->angkatan->angkatan_name }} "
                                         {{ $mapelmaster->kelas->angkatan->tingkat->tingkat_name }}
                                         {{ $mapelmaster->kelas->jurusan->jurusan_name }}
