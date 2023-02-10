@@ -482,8 +482,8 @@
                 </div>
                 <form method="POST" id="formkonfirmcopas" enctype="multipart/form-data">@csrf
                     <div class="modal-body">
-                        <input type="text" class="form-control" id="kelasid" name="kelas_id">
-                        <input type="text" class="form-control" id="idkelasini" name="id">
+                        <input type="hidden" class="form-control" id="kelasid" name="kelas_id">
+                        <input type="hidden" class="form-control" id="idkelasini" name="id">
                         <p>Anda yakin akan meng copas data mapel ke kelas yang dipilih ?</p>
                     </div>
                     <div class="modal-footer">
