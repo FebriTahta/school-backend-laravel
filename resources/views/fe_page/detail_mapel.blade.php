@@ -733,7 +733,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
-                    <h4 class="modal-title" style="font-size: 16px; color:white">DOKUMEN TUGAS BARU</h4>
+                    <h4 class="modal-title" style="font-size: 16px; color:white">DOKUMEN TUGAS BARU.</h4>
                 </div>
                 <form id="formadddocstugas" method="POST"> @csrf
                     <div class="modal-body">
