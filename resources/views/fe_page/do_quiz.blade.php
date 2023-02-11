@@ -54,8 +54,8 @@
                                                 @endif
                                             @endforeach
                                             <hr>
-                                            <button style="margin: 7px"
-                                                class="btn btn-sm btn-block btn-suuccess">FINISH</button>
+                                            <a href="/" style="margin: 7px"
+                                                class="btn btn-sm btn-block btn-suuccess">FINISH</a>
                                         </div>
                                     </div>
                                 </div>

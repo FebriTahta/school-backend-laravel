@@ -38,7 +38,7 @@ class PelajaranController extends Controller
     {
         $mapelmaster_id = Crypt::decrypt($mapelmaster_id);
         $siswa = Siswa::where('user_id', Auth::id())->first();
-        $mapelmaster = Mapelmaster::findOrFail($mapelmaster_id)->with('materi')->withcount('docs', 'vids', 'ujian', 'materi')->first();
+        $mapelmaster = Mapelmaster::where('id',$mapelmaster_id)->with('materi')->withcount('docs', 'vids', 'ujian', 'materi')->first();
         $ujian = Ujian::where('mapelmaster_id', $mapelmaster_id)->get();
         $tugas = Tugas::where('mapelmaster_id', $mapelmaster_id)->get();
         $nilai = [];
