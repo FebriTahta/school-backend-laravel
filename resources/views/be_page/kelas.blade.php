@@ -63,7 +63,7 @@
 
                     td {
                         text-align: left;
-                        }
+                    }
                 </style>
 
                 <div class="col-md-12" style="margin-top: 20px">
@@ -204,13 +204,16 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-4 col-4">
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#addmapel" style="width: 100%">Add Mapel</button>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#addmapel"
+                                style="width: 100%">Add Mapel</button>
                         </div>
                         <div class="col-md-4 col-4">
-                            <button class="btn btn-info" data-toggle="modal" data-target="#upmapel" style="width: 100%">Update Mapel</button>
+                            <button class="btn btn-info" data-toggle="modal" data-target="#upmapel"
+                                style="width: 100%">Update Mapel</button>
                         </div>
                         <div class="col-md-4 col-4">
-                            <button class="btn btn-success" data-toggle="modal" data-target="#copasmapel" style="width: 100%">Copy Mapel</button>
+                            <button class="btn btn-success" data-toggle="modal" data-target="#copasmapel"
+                                style="width: 100%">Copy Mapel</button>
                         </div>
                     </div>
                 </div>
@@ -218,7 +221,54 @@
         </div>
     </div>
 
+    <div class="modal fade" id="manageguru" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: rgb(93, 154, 233);">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">MANAGEMENT GURU</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 col-6">
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#addguru"
+                                style="width: 100%">Add Guru</button>
+                        </div>
+                        <div class="col-md-6 col-6">
+                            <button class="btn btn-info" data-toggle="modal" data-target="#upguru"
+                                style="width: 100%">Update Guru</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="modal fade" id="upguru" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: rgb(93, 154, 233);">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">UPDATE GURU KELAS</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <table id="example6"
+                            class="display responsive nowrap table table-collapse table-bordered table-hover table-striped data-tables">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;font-weight: bold">GURU</th>
+                                    <th style="font-weight: bold">MAPEL</th>
+                                    <th style="font-weight: bold; width: 14%">...</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: 12px"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" id="addmapel" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
@@ -278,6 +328,41 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
                         <input type="submit" id="btnaddguru" class="btn btn-sm btn-primary" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addguru2" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: rgb(93, 154, 233);">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">UPDATE GURU</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <form id="formaddguru2"> @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12 col-12" style="padding-left: 5px; margin-bottom: 20px">
+                                <input type="hidden" class="form-control" name="id" id="id">
+                                <select name="guru_id" class="form-control" required>
+                                    <option value="">:: Pilih Guru ::</option>
+                                    @foreach ($guru as $item)
+                                        <option value="{{ $item->id }}">{{ $item->guru_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-12 col-12" style="padding-left: 5px; margin-bottom: 20px">
+                                <select name="mapel_id[]" id="mapeldropdown2" class="form-control select2"
+                                    multiple="multiple" required>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" id="btnaddguru2" class="btn btn-sm btn-primary" value="Submit">
                     </div>
                 </form>
             </div>
@@ -511,7 +596,8 @@
                     <div class="modal-footer">
                         <button type="button" id="btnclosemodalquiz" class="btn btn-sm btn-default"
                             data-dismiss="modal">Close</button>
-                        <input type="submit" id="btnkonformeremovemapel" class="btn btn-sm btn-danger" value="Remove Mapel">
+                        <input type="submit" id="btnkonformeremovemapel" class="btn btn-sm btn-danger"
+                            value="Remove Mapel">
                     </div>
                 </form>
             </div>
@@ -633,6 +719,35 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modaldelguru" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: rgb(255, 87, 87);">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">REMOVE DATA</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <form id="formdelguru"> @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="hidden" class="form-control" name="id" id="mapelmasterid"
+                                    value="new">
+                                <code>Yakin menghapus guru tersebut ?</code><br>
+                                <code>Guru yang mengampuh mapel yang berada pada kelas tersebut akan dihapus.
+                                    <br>Apabila terdapat materi / tugas maupun quiz maka akan ikut terhapus
+                                </code>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" id="btndelguru" class="btn btn-sm btn-primary" value="Delete">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="modaldel2" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -730,7 +845,7 @@
             id = button.data('id')
             var modal = $(this)
             // modal.find('.modal-body #id').val(id);
-            
+
         })
 
         $('#btnhapusmapel').on('click', function(e) {
@@ -751,27 +866,26 @@
         });
 
         $('#upmapel').on('show.bs.modal', function(event) {
-            
+
             if (id) {
                 var table = $('#examplex').DataTable({
-                destroy: true,
-                processing: true,
-                serverSide: true,
-                ajax: '/daftar-mapel-kelas/'+id,
-                columns: [
-                    {
-                        data: 'check',
-                        name: 'check',
-                        orderable: false,
-                    },
-                    {
-                        data: 'mapel_name',
-                        name: 'mapel_name'
-                    },
-                ]
-            });
+                    destroy: true,
+                    processing: true,
+                    serverSide: true,
+                    ajax: '/daftar-mapel-kelas/' + id,
+                    columns: [{
+                            data: 'check',
+                            name: 'check',
+                            orderable: false,
+                        },
+                        {
+                            data: 'mapel_name',
+                            name: 'mapel_name'
+                        },
+                    ]
+                });
             }
-            
+
         })
 
         function table_default() {
@@ -1017,7 +1131,7 @@
         $('#btnjurusan').on('click', function(e) {
             e.preventDefault();
             table_jurusan();
-        }) 
+        })
 
         $('#formadd').submit(function(e) {
             e.preventDefault();
@@ -1074,7 +1188,7 @@
             });
         });
 
-        
+
 
         $('#formaddguru').submit(function(e) {
             e.preventDefault();
@@ -1097,6 +1211,40 @@
                     $("#formaddguru")[0].reset();
                     $('#btnaddguru').attr('disabled', false);
                     $('#btnaddguru').val('Submit');
+                    toastr.success(response.message);
+                    swal({
+                        title: "SUCCESS!",
+                        text: response.message,
+                        type: "success"
+                    });
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        $('#formaddguru2').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: "/admin-post-mapel-master2",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btnaddguru2').attr('disabled', 'disabled');
+                    $('#btnaddguru2').val('Process...');
+                },
+                success: function(response) {
+                    var oTable = $('#example').dataTable();
+                    oTable.fnDraw(false);
+                    $('#addguru2').modal('hide');
+                    $("#formaddguru2")[0].reset();
+                    $('#btnaddguru2').attr('disabled', false);
+                    $('#btnaddguru2').val('Submit');
                     toastr.success(response.message);
                     swal({
                         title: "SUCCESS!",
@@ -1255,6 +1403,13 @@
             modal.find('.modal-body #id').val(id);
         })
 
+        $('#modaldelguru').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var modal = $(this)
+            modal.find('.modal-body #mapelmasterid').val(id);
+        })
+
         $('#modaldel2').on('show.bs.modal', function(event) {
             $('#modaljurusan').modal('hide');
             var button = $(event.relatedTarget)
@@ -1263,19 +1418,57 @@
             modal.find('.modal-body #id').val(id);
         })
 
+        $('#addguru2').on('hidden.bs.modal', function() {
+            $('#upguru').modal('hide');
+            $('#mapeldropdown2 option').remove();
+        });
+
         $('#addguru').on('hidden.bs.modal', function() {
             $('#mapeldropdown option').remove();
         });
 
+        var kelasId;
+        $('#manageguru').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            kelasId = button.data('id')
+            var modal = $(this)
+        })
+
+        $('#upguru').on('show.bs.modal', function(event) {
+            if (kelasId) {
+                var table = $('#example6').DataTable({
+                    destroy: true,
+                    processing: true,
+                    serverSide: true,
+                    ajax: '/daftar-guru-kelas/'+kelasId,
+                    columns: [
+                        {
+                            data: 'guru',
+                            name: 'guru'
+                        },
+                        {
+                            data: 'mapel',
+                            name: 'mapel'
+                        },
+                        {
+                            data: 'opsi',
+                            name: 'opsi'
+                        },
+                    ]
+                });
+            }
+        })
+
         $('#addguru').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
-            var id = button.data('id')
+            // alert(kelasId)
+            // kelasId = button.data('id')
             var modal = $(this)
-            modal.find('.modal-body #id').val(id);
-            if (id) {
+            modal.find('.modal-body #id').val(kelasId);
+            if (kelasId) {
                 $.ajax({
                     type: 'GET',
-                    url: '/admin-dropdown-mapel-kelas/' + id,
+                    url: '/admin-dropdown-mapel-kelas/' + kelasId,
                     success: function(response) {
                         $.each(response.data, function(key, value) {
                             $('#mapeldropdown').append('<option value="' + value.id + '">' +
@@ -1288,6 +1481,29 @@
 
             }
 
+        })
+
+        $('#addguru2').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            // alert(kelasId)
+            var id = button.data('id')
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            if (kelasId) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/admin-dropdown-mapel-kelas/' + kelasId,
+                    success: function(response) {
+                        $.each(response.data, function(key, value) {
+                            $('#mapeldropdown2').append('<option value="' + value.id + '">' +
+                                value
+                                .mapel_name + '</option>')
+                        });
+
+                    }
+                });
+
+            }
 
         })
 
@@ -1296,7 +1512,7 @@
             // var id = button.data('id')
             var modal = $(this)
             modal.find('.modal-body #id').val(id);
-            
+
         })
 
         var kelas_id;
@@ -1347,8 +1563,8 @@
             }
         });
 
-        
-        
+
+
         $('#remmapel').submit(function(e) {
             e.preventDefault();
             var formData = new FormData(this);
@@ -1511,8 +1727,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: '/admin-data-siswa-belum-masuk-kelas',
-                columns: [
-                    {
+                columns: [{
                         data: 'check',
                         name: 'check',
                         orderable: false,
@@ -1536,8 +1751,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: '/daftar-kelas-yang-akan-dicopas',
-                columns: [
-                    {
+                columns: [{
                         data: 'check',
                         name: 'check',
                         orderable: false,
@@ -1555,7 +1769,7 @@
         })
 
         $('#btncopasmapel').on('click', function(e) {
-            
+
             var allVals = [];
             $(".sub_chk4:checked").each(function() {
                 allVals.push($(this).attr('data-id'));
@@ -1739,6 +1953,55 @@
                         $("#formdel")[0].reset();
                         $('#btndel').val('REMOVE');
                         $('#btndel').attr('disabled', false);
+                        toastr.error(response.message);
+                        swal({
+                            title: "Maaf!",
+                            text: response.message,
+                            type: "error"
+                        });
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        $('#formdelguru').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: "/hapus-mapel-master",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btndelguru').attr('disabled', 'disabled');
+                    $('#btndelguru').val('Process...');
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        var oTable = $('#example6').dataTable();
+                        var oTable2 = $('#example').dataTable();
+                        oTable.fnDraw(false);
+                        oTable2.fnDraw(false);
+                        $('#modaldelguru').modal('hide');
+                        $("#formdelguru")[0].reset();
+                        $('#btndelguru').val('REMOVE');
+                        $('#btndelguru').attr('disabled', false);
+                        total();
+                        toastr.success(response.message);
+                        swal({
+                            title: "SUCCESS!",
+                            text: response.message,
+                            type: "success"
+                        });
+                    } else {
+                        $("#formdelguru")[0].reset();
+                        $('#btndelguru').val('REMOVE');
+                        $('#btndelguru').attr('disabled', false);
                         toastr.error(response.message);
                         swal({
                             title: "Maaf!",

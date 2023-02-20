@@ -18,4 +18,14 @@ class Jawabanmulti extends Model
         'optionmulti_id',
         'jawabanku',
     ];
+
+    public function mapelmaster()
+    {
+        return $this->belongsTo(Mapelmaster::class);
+    }
+
+    public function ujian()
+    {
+        return $this->belongsTo(Ujian::class);
+    }
 }

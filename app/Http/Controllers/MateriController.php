@@ -101,7 +101,7 @@ class MateriController extends Controller
         $validator = Validator::make($request->all(), [
             'mapelmaster_id'  => 'required',
             'materi_id'       => 'required',
-            'docs_file'       => 'required|mimes:pdf,docx,csv,xlsx',
+            'docs_file'       => 'required|mimes:pdf,docx,csv,xlsx,ppt,pptx,rar',
             'docs_name'       => 'required',
             'docs_desc'       => 'required|'
         ]);

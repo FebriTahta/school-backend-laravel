@@ -103,6 +103,9 @@ Route::group(['middleware' => ['auth', 'CheckRole:admin']], function () {
         Route::post('/remove-mapel-kelas','remove_mapel_kelas');
         Route::get('/daftar-kelas-yang-akan-dicopas','daftar_copas');
         Route::post('/copas-mapel-kelas','copas_mapel_kelas');
+
+        Route::get('/daftar-guru-kelas/{kelas_id}','daftar_guru_kelas');
+        Route::post('/hapus-mapel-master','hapus_mapel_master');
     });
 
     Route::controller(AngkatanController::class)->group(function () {
@@ -151,6 +154,7 @@ Route::group(['middleware' => ['auth', 'CheckRole:admin']], function () {
         Route::post('/admin-post-guru', 'post_guru');
 
         Route::post('/admin-post-mapel-master', 'post_mapel_master');
+        Route::post('/admin-post-mapel-master2', 'post_mapel_master2');
     });
 });
 
@@ -216,6 +220,7 @@ Route::get('/do-quiz/{mapelmaster_id}/{materi_id}/{ujian_id}', [QuizController::
 Route::post('/post-quiz', [QuizController::class, 'postQuiz'])->name('postQuiz');
 Route::get('/prev-quiz/{mapelmaster_id}/{materi_id}/{ujian_id}', [QuizController::class, 'prevQuiz'])->name('prevQuiz');
 Route::post('/ujianStore', [QuizController::class, 'ujianStore'])->name('ujianStore');
+Route::post('/remove-quiz',[QuizController::class,'remove_quiz']);
 // Route::post('/post-quiz', [QuizController::class, 'postQuiz'])->name('postQuiz');
 
 Route::get('/daftar-ujian-pilihan-ganda/{kelas_id}',[ExamController::class,'daftar_pilihan_ganda']);

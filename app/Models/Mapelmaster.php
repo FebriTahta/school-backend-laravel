@@ -61,4 +61,14 @@ class Mapelmaster extends Model
     {
         return $this->hasMany(Jawabtugas::class);
     }
+
+    public function komenvideo()
+    {
+        return $this->hasMany(Komenvideo::class);
+    }
+
+    public function jawabanmulti()
+    {
+        return $this->hasMany(Jawabanmulti::class);
+    }
 }

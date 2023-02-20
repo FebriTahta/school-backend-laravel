@@ -9,6 +9,14 @@ use App\Models\Mapel;
 use App\Models\Mapelmaster;
 use App\Models\Angkatan;
 use App\Models\Siswa;
+use App\Models\Tugas;
+use App\Models\Jawabtugas;
+use App\Models\Ujian;
+use App\Models\Materi;
+use App\Models\Komenvideo;
+use App\Models\Jawabanmulti;
+use App\Models\Docstugas;
+use App\Models\Doc;
 use Validator;
 use DataTables;
 use Illuminate\Support\Str;
@@ -156,7 +164,7 @@ class JurusanController extends Controller
             })
             ->addColumn('guru_kelas', function($data){
                 $total_guru = Mapelmaster::where('kelas_id', $data->id)->count();
-                return '<a href="#" data-toggle="modal" data-target="#addguru" data-id="'.$data->id.'">'.$total_guru.' - guru</a>';
+                return '<a href="#" data-toggle="modal" data-target="#manageguru" data-id="'.$data->id.'">'.$total_guru.' - guru</a>';
             })
             ->addColumn('mapel', function($data){
                 if ($data->mapel_count > 0) {
@@ -181,6 +189,84 @@ class JurusanController extends Controller
         $mapel   = Mapel::get();
         $guru    = Guru::get();
         return view('be_page.kelas',['jurusan' => $jurusan, 'tingkat' => $tingkat, 'angkatan'=> $angkatan, 'mapel' => $mapel,'guru'=> $guru]);
+    }
+
+    public function hapus_mapel_master(Request $request)
+    {
+        $mapelmaster = Mapelmaster::where('id', $request->id)
+        ->withCount(['tugas','jawabtugas','ujian','materi','komenvideo','jawabanmulti','docstugas','docs'])->first();
+        if ($mapelmaster) {
+            # code...
+            if ($mapelmaster->tugas_count > 0) {
+                # code...
+                Tugas::where('mapelmaster_id', $request->id)->delete();
+            }
+            if ($mapelmaster->jawabtugas_count > 0) {
+                # code...
+                Jawabtugas::where('mapelmaster_id',$request->id)->delete();
+            }
+            if ($mapelmaster->ujian_count > 0) {
+                # code...
+                Ujian::where('mapelmaster_id',$request->id)->delete();
+            }
+            if ($mapelmaster->materi_count > 0) {
+                # code...
+                Materi::where('mapelmaster_id', $request->id)->delete();
+            }
+            if ($mapelmaster->komenvideo_count > 0) {
+                # code...
+                Komenvideo::where('mapelmaster_id',$request->id)->delete();
+            }
+            if ($mapelmaster->jawabanmulti_cunt > 0) {
+                # code...
+                Jawabanmulti::where('mapelmaster_id',$request->id)->delete();
+            }
+            if ($mapelmaster->docstugas_count > 0) {
+                # code...
+                Docstugas::where('mapelmaster_id',$request->id)->delete();
+            }
+
+            if ($mapelmaster->docs_count) {
+                # code...
+                Docs::where('mapelmaster_id',$request->id)->delete();
+            }
+
+            $mapelmaster->delete();
+            return response()->json([
+                'status'=>200,
+                'message'=>'Guru Kelas Berhasil Dihapus'
+            ]);
+        }else {
+            # code...
+            return response()->json([
+                'status'=>400,
+                'message'=>'Data Tidak Ditemukan'
+            ]);
+        }
+    }
+
+    public function daftar_guru_kelas(Request $request, $kelas_id)
+    {
+        if ($request->ajax()) {
+            # code...
+            $data = Mapelmaster::where('kelas_id',$kelas_id)->with(['guru','mapel','kelas'])->get();
+            return DataTables::of($data)
+            ->addColumn('guru', function($data) {
+                return $data->guru->guru_name;
+            })
+            ->addColumn('mapel', function($data) {
+                return $data->mapel->mapel_name;
+            })
+            ->addColumn('opsi', function($data) {
+                $btn  = ' <button class="btn btn-xs btn-danger" data-id="'.$data->id.'"
+                data-toggle="modal" data-target="#modaldelguru"><i style="margin-left: 15px" class="icon icon-trash"></i></button>';
+                $btn .= ' <button class="btn btn-xs btn-info" data-id="'.$data->id.'"
+                data-toggle="modal" data-target="#addguru2"><i style="margin-left: 15px" class="icon icon-pencil"></i></button>';
+                return $btn;
+            })
+            ->rawColumns(['guru','mapel','opsi'])
+            ->make(true);
+        }   
     }
 
     public function daftar_mapel_kelas(Request $request, $id)

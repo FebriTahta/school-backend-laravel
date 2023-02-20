@@ -36,4 +36,9 @@ class Ujian extends Model
     {
         return $this->hasMany(Soalmulti::class);
     }
+
+    public function jawabanmulti()
+    {
+        return $this->hasMany(Jawabanmulti::class);
+    }
 }

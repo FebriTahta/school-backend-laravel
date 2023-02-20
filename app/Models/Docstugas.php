@@ -13,7 +13,7 @@ class Docstugas extends Model
         'mapelmaster_id','tugas_id','docs_file','docs_name'
     ];
 
-    public function mapelamster()
+    public function mapelmaster()
     {
         return $this->belongsTo(Mapelmaster::class);
     }

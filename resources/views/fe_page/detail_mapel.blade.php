@@ -370,10 +370,10 @@
                                                                             <a href="#"><i
                                                                                     class="fa fa-eye"
                                                                                     style="font-size: 12px"></i>
-                                                                                previw</a>
+                                                                                preview</a>
                                                                             {{-- <a class="text-info">| edit</a> --}}
                                                                             <a href="#_" data-bs-toggle="modal"
-                                                                                data-bs-target="#modalhapusvideo"
+                                                                                data-bs-target="#modalhapusquiz" data-id="{{ $u->id }}" data-ujian_name="{{ $u->ujian_name }}"
                                                                                 class="text-danger">| hapus</a>
                                                                         </div>
                                                                     </div>
@@ -602,6 +602,34 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modalhapusquiz" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">HAPUS QUIZ</h4>
+                </div>
+                <form id="formremovequiz"> @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="hidden" class="form-control" id="id" name="id">
+                            </div>
+                            <div class="col-md-12 col-12" id="block-new-jurusan" style="padding-right: 5px">
+                                <p class="text-danger">Anda yakin akan menghapus Quiz  tersebut ?</p>
+                                <h5 id="ujian_name"></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btncloseremovequiz" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
+                        <input type="submit" id="btnremovequiz" class="btn btn-sm btn-primary" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="modalhapusdocs" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content">
@@ -756,7 +784,10 @@
                                     <input type="text" name="docs_name" id="docs_name" class="form-control">
                                 </div>
                                 <div class="form-group" style="margin-top: 20px">
-                                    <input type="file"  name="docs_file" id="docs_file" accept=".xlsx,.docs,.doc,.pdf,.csv">
+                                    <input type="file"  name="docs_file" id="docs_file" 
+                                    accept=".xlsx,.xls,.doc,.docx,.ppt,.pptx,.txt,.pdf,.rar"
+                                    {{-- accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" --}}
+                                    >
                                 </div>
                             </div>
                         </div>
@@ -861,7 +892,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
-                    <h4 class="modal-title" style="font-size: 16px; color:white">MATERI VIDEO BARU</h4>
+                    <h4 class="modal-title" style="font-size: 16px; color:white">MATERI DOKUMEN BARU</h4>
                 </div>
                 <form id="formadddocs"> @csrf
                     <div class="modal-body">
@@ -882,7 +913,7 @@
                                         placeholder="Nama Dokumen">
                                 </div>
                                 <div class="form-group mb-20">
-                                    <input type="file" class="form-control" accept=".xlsx,.docs,.doc,.pdf,.csv"
+                                    <input type="file" class="form-control" accept=".xlsx,.docs,.doc,.pdf,.csv,.ppt,.pptx,.rar"
                                         name="docs_file" placeholder="Source Dokumen">
                                 </div>
                                 <div class="form-group mb-20">
@@ -1090,6 +1121,20 @@
         $('#btnclosemodalquiz').on('click', function() {
             $('#modalimportquiz').modal('hide');
         })
+
+        $('#btncloseremovequiz').on('click', function() {
+            $('#modalhapusquiz').modal('hide');
+        })
+
+        $('#modalhapusquiz').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var ujian_name = button.data('ujian_name')
+            var modal = $(this)
+            modal.find('.modal-body #ujian_name').html(ujian_name);
+            modal.find('.modal-body #id').val(id);
+        })
+
         $('#closemodaldownloaddocs').on('click', function() {
             $('#modaldownloaddocs').modal('hide');
         })
@@ -1318,6 +1363,55 @@
                     } else {
                         $('#btnremovevids').val('Submit');
                         $('#btnremovevids').attr('disabled', false);
+                        var values = '';
+                        jQuery.each(response.message, function(key, value) {
+                            values += value + '\n'
+                        });
+                        swal({
+                            title: "Maaf",
+                            text: values,
+                            type: "error",
+                        });
+                        toastr.error(values);
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        $('#formremovequiz').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: "/remove-quiz",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btnremovequiz').attr('disabled', 'disabled');
+                    $('#btnremovequiz').val('Process...');
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        $('#modalhapusquiz').modal('hide');
+                        $('#btnremovequiz').val('Remove');
+                        $('#btnremovequiz').attr('disabled', false);
+
+                        toastr.success(response.message);
+                        swal({
+                            title: "SUCCESS!",
+                            text: response.message,
+                            type: "success"
+                        });
+                        reload();
+
+                    } else {
+                        $('#btnremovequiz').val('Submit');
+                        $('#btnremovequiz').attr('disabled', false);
                         var values = '';
                         jQuery.each(response.message, function(key, value) {
                             values += value + '\n'

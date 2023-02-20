@@ -49,6 +49,9 @@
                         <div class="form-group" style="text-align: center">
                             <p>---- Daftar Komentar ----</p>
                         </div>
+                        <div class="form-group" style="text-align: left; margin-bottom: 20px">
+                            <button class="btn btn-outline-primary btn-sm"><i class="fa fa-undo"></i> reload</button>
+                        </div>
                         {{-- <div class="blog__author-3 d-sm-flex grey-bg mb-20 " style="padding: 20px"> --}}
                         {{-- daftar komen disini --}}
                         {{-- </div> --}}
@@ -121,9 +124,12 @@
                     } else {
                         toastr.success(response.message);
                         console.log(response.data);
+                        
+
+                        // refresh all
                         $.each(response.data.data, function(key, value) {
                             $(".daftar_komen").append('<a class="komenan" id="' + value.id + '">' +
-                                '<div class="blog__author-3 d-sm-flex grey-bg mb-20 " style="padding: 20px"><div class="blog__author-thumb-3 mr-20">' +
+                                '<div class="blog__author-3 d-sm-flex grey-bg mb-20 " style="padding: 15px"><div class="blog__author-thumb-3 mr-20">' +
                                 '<img src="{{ asset('fe_assets/assets/img/blog/author/blog-author-1.jpg') }}" alt="">' +
                                 '</div>' +
                                 '<div class="blog__author-content">' +
@@ -132,87 +138,6 @@
                                 '<p style="font-size: 14px">' + value.komen + '</p>' +
                                 '</div></div></a>');
                         })
-
-                        $.each(response.data.links, function(key, value) {
-                            if (value.label == '&laquo; Previous') {
-                                $(".pagination").append(
-                                    '<li class="prev">' +
-                                    '<a href="blog.html" class="link-btn link-prev">' +
-                                    'Prev' +
-                                    '<i class="arrow_left"></i>' +
-                                    '<i class="arrow_left"></i>' +
-                                    '</a>' +
-                                    '</li>' 
-                                );
-                                    
-                            } else if (value.label !== '&laquo; Previous' && value.label !== 'Next &raquo;' && response.data.current_page == value.label) {
-                                $(".pagination").append(
-                                    '<li class="active">' +
-                                    '<a href="#">' +
-                                    '<span>'+value.label+'</span>' +
-                                    '</a>' +
-                                    '</li>'
-                                );
-                            }else if (value.label !== '&laquo; Previous' && value.label !== 'Next &raquo;' && response.data.current_page !== value.label) {
-                                $(".pagination").append(
-                                    '<li>' +
-                                    '<a href="#">' +
-                                    '<span>'+value.label+'</span>' +
-                                    '</a>' +
-                                    '</li>'
-                                );
-                            }else if (value.label == 'Next &raquo;') {
-                                $(".pagination").append(
-                                    '<li class="next">' +
-                                    '<a href="blog.html" class="link-btn">' +
-                                    'Next' +
-                                    '<i class="arrow_right"></i>' +
-                                    '<i class="arrow_right"></i>' +
-                                    '</a>' +
-                                    '</li>'
-                                );
-                            }
-                            
-                           
-                        })
-                        
-                        // $(".daftar_komen").append('<div class="row">' +
-                        //     '<div class="col-xxl-12">' +
-                        //     '<div class="basic-pagination wow fadeInUp mt-30" data-wow-delay=".2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">' +
-                        //     '<ul class="d-flex align-items-center"> ' +
-                        //     '<li class="prev">' +
-                        //     '<a href="blog.html" class="link-btn link-prev">' +
-                        //     'Prev' +
-                        //     '<i class="arrow_left"></i>' +
-                        //     '<i class="arrow_left"></i>' +
-                        //     '</a>' +
-                        //     '</li>' +
-                        //     '<li>' +
-                        //     '<a href="#">' +
-                        //     '<span>1</span>' +
-                        //     '</a>' +
-                        //     '</li>' +
-                        //     '<li class="active">' +
-                        //     '<a href="blog.html">' +
-                        //     '<span>2</span>' +
-                        //     '</a>' +
-                        //     '</li>' +
-                        //     '<li>' +
-                        //     '<a href="blog.html">' +
-                        //     '<span>3</span>' +
-                        //     '</a>' +
-                        //     '</li>' +
-                        //     '<li class="next">' +
-                        //     '<a href="blog.html" class="link-btn">' +
-                        //     'Next' +
-                        //     '<i class="arrow_right"></i>' +
-                        //     '<i class="arrow_right"></i>' +
-                        //     '</a>' +
-                        //     '</li>' +
-                        //     '</ul>' +
-                        //     '</div>' +
-                        //     '</div>' +
-                        // '</div>');
                     }
                 }
             });
@@ -240,19 +165,17 @@
                         $('#btnadd').attr('disabled', false);
 
                         toastr.success(response.message);
-                        bersihkan();
-                        display_komen();
-                        // $(".daftar_komen").append('<a class="komenan" id="' + response.data.id + '">' +
-                        //     '<div class="blog__author-3 d-sm-flex grey-bg mb-20 " style="padding: 20px"><div class="blog__author-thumb-3 mr-20">' +
-                        //     '<img src="{{ asset('fe_assets/assets/img/blog/author/blog-author-1.jpg') }}" alt="">' +
-                        //     '</div>' +
-                        //     '<div class="blog__author-content">' +
-                        //     '<h4 style="font-size: 14px">' + response.data.siswa.siswa_name + '</h4>' +
-                        //     '<span style="font-size: 12px">Siswa</span>' +
-                        //     '<p style="font-size: 14px">' + response.data.komen + '</p>' +
-                        //     '</div></div></a>');
-
-
+                        // bersihkan();
+                        // display_komen();
+                        $(".daftar_komen").append('<a class="komenan" id="' + response.data.id + '">' +
+                            '<div class="blog__author-3 d-sm-flex grey-bg mb-20 " style="padding: 15px"><div class="blog__author-thumb-3 mr-20">' +
+                            '<img src="{{ asset('fe_assets/assets/img/blog/author/blog-author-1.jpg') }}" alt="">' +
+                            '</div>' +
+                            '<div class="blog__author-content">' +
+                            '<h4 style="font-size: 14px">' + response.data.siswa.siswa_name + '</h4>' +
+                            '<span style="font-size: 12px">Siswa</span>' +
+                            '<p style="font-size: 14px">' + response.data.komen + '</p>' +
+                            '</div></div></a>');
                     } else {
                         $('#btnadd').val('Submit');
                         $('#btnadd').attr('disabled', false);

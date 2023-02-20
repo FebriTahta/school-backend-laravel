@@ -242,4 +242,34 @@ class QuizController extends Controller
             throw $th;
         }
     }
+
+    public function remove_quiz(Request $request)
+    {
+        $ujian = Ujian::where('id',$request->id)->withcount(['soal','jawabanmulti'])->first();
+        if ($ujian) {
+            # code...
+            if ($ujian->soal_count > 0) {
+                # code...
+                Soalmulti::where('ujian_id',$request->id)->delete();
+            }
+
+            if ($ujian->jawabanmulti_count > 0) {
+                # code...
+                Jawabanmulti::where('ujian_id',$request->id)->delete();
+            }
+
+            $ujian->delete();
+
+            return response()->json([
+                'status'=>200,
+                'message'=>'Quiz berhasil dihapus'
+            ]);
+        }else {
+            # code...
+            return response()->json([
+                'status'=>400,
+                'message'=>'Data tidak ditemukan'
+            ]);
+        }
+    }
 }

@@ -105,6 +105,38 @@ class GuruController extends Controller
         ]);
     }
 
+    public function post_mapel_master2(Request $request)
+    {
+        // foreach ($request->mapel_id as $key => $value) {
+        //     # code...
+        //     $exist = Mapelmaster::where('guru_id', $request->guru_id)
+        //     ->where('mapel_id',$request->mapel_id[$key])
+        //     ->where('kelas_id', $request->id)
+        //     ->first();
+        //     if (!$exist) {
+        //         # code...
+        //         Mapelmaster::create([
+        //             'guru_id'=> $request->guru_id,
+        //             'mapel_id'=> $request->mapel_id[$key],
+        //             'kelas_id'=> $request->id,
+        //         ]);
+        //     }
+            
+        // }
+
+        foreach ($request->mapel_id as $key => $value) {
+            $data = Mapelmaster::where('id',$request->id)
+            ->update([
+                    'guru_id'=> $request->guru_id,
+                    'mapel_id'=> $request->mapel_id[$key],
+            ]);
+        }
+        return response()->json([
+            'status'=> 200,
+            'message'=> 'Guru pengampuh mapel telah ditambahkan'
+        ]);
+    }
+
     public function update_photo(Request $request)
     {
         $validator = Validator::make($request->all(), [
