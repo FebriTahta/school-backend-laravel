@@ -130,61 +130,34 @@ class QuizController extends Controller
         // $request->siswaId =  Siswa::where('user_id', Auth::id())->first()->id;
         $request->siswaId = auth()->user()->id;
         $request->ujian_id = $id;
-        if ($request->jawabanId) {
-            $data = Jawabanmulti::where('siswa_id', $request->siswaId)
-                ->where('ujian_id', $request->ujian_id)
-                ->where('soalmulti_id', $request->soalId)->first();
-            $data->optionmulti_id = $request->jawabanId;
-            $data->jawabanku = $request->option_true;
-            $data->save();
-        }
+       
         $quiz = Soalmulti::where('ujian_id', $id)->inRandomOrder()->get();
         $ujian = Ujian::find($request->ujian_id);
         $now = Carbon::parse(Carbon::now());
-        if ($now < $ujian->ujian_datetimestart) {
-            // return 'belum dibuka pages here'; //bisa redirect pages
-        }
-        if ($now > $ujian->ujian_datetimeend) {
-            // return 'expired'; //bisa redirect pages
-        }
-
-        $now = Carbon::parse(Carbon::now());
-        if ($now < $ujian->ujian_datetimestart) {
-            // return 'belum dibuka pages here';
-        }
         $quizCount = Soalmulti::where('ujian_id', $ujian->id)->count();
         $jawabanCount = Jawabanmulti::where('siswa_id', $request->siswaId)
             ->where('ujian_id', $id)
             ->where('optionmulti_id', '!=', null)
             ->count();
-        $quizPanel = Jawabanmulti::where('siswa_id', $request->siswaId)
-            ->where('ujian_id', $id)->orderBy('id', 'asc')->get();
+        // $quizPanel = Jawabanmulti::where('siswa_id', $request->siswaId)
+        //     ->where('ujian_id', $id)->orderBy('id', 'asc')->get();
+        $quizPanel = Soalmulti::where('ujian_id', $id)->get();
         $soal = [];
         if ($jawabanCount >= $quizCount) {
             // return 'all soal done pages';
         } else {
-            foreach ($quiz as $key => $value) {
-                Jawabanmulti::firstOrCreate([
-                    'siswa_id' => $request->siswaId,
-                    'mapelmaster_id' => $request->mapelmaster_id,
-                    'materi_id' => $request->materi_id,
-                    'ujian_id' => $request->ujian_id,
-                    'soalmulti_id' => $value->id,
-                    'optionmulti_id' => '0',
-                    'jawabanku' => '0',
-                ]);
-            }
-            $nextQuiz = Jawabanmulti::where('siswa_id', $request->siswaId)
-                ->where('ujian_id', $request->ujian_id)
-                ->where('optionmulti_id', '0')->first();
-            $soal = Soalmulti::where('id', $nextQuiz->soalmulti_id)->with(['OptionMulti'])->first();
+            
+            $soal = Soalmulti::where('ujian_id', $id)->with(['OptionMulti'])->first();
         }
         if ($request->byPanel) {
-            $jawaban = Jawabanmulti::where('siswa_id', $request->siswaId)
-                ->where('ujian_id', $request->ujian_id)
-                ->where('soalmulti_id', $request->byPanel)->first();
+            // $jawaban = Soalmulti::where('ujian_id', $request->ujian_id)
+            //     ->where('soalmulti_id', $request->byPanel)->first();
             $soal = Soalmulti::where('id', $request->byPanel)->with(['OptionMulti'])->first();
-            $soal->jawabanSiswa = $jawaban->optionmulti_id;
+            // $soal = $jawaban->id;
+            $ke = $request->ke;
+        }else {
+            # code...
+            $ke = 1;
         }
 
         $opts = ['A', 'B', 'C', 'D', 'E'];
@@ -197,6 +170,7 @@ class QuizController extends Controller
             'quizPanel' => $quizPanel,
             'mapelmaster_id' => $mapelmaster_id,
             'materi_id'=> $materi_id,
+            'ke' => $ke,
         ]);
     }
 

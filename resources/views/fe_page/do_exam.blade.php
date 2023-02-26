@@ -70,7 +70,7 @@
                             </div>
                         </div>
                         <div class="col-xxl-8 col-xl-8 col-lg-8">
-                            <div class="teacher__wrapper">
+                            <div class="teacher__wrapper events__sidebar-widget white-bg">
                                 {{-- @if (count($q) > 0) --}}
                                 <div class="teacher__top d-md-flex align-items-end justify-content-between mb-20">
                                     <input type="text" hidden id="soalId" name="soalId" value="{{ $q->id }}">

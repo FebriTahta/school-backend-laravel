@@ -70,7 +70,7 @@
                             </div>
                         </div>
                         <div class="col-xxl-8 col-xl-8 col-lg-8">
-                            <div class="teacher__wrapper">
+                            <div class="teacher__wrapper events__sidebar-widget white-bg">
                                 {{-- @if (count($q) > 0) --}}
                                 <div class="teacher__top d-md-flex align-items-end justify-content-between mb-20">
                                     <input type="text" hidden id="soalId" name="soalId" value="{{ $q->id }}">
@@ -81,14 +81,14 @@
                                                 <img src="{{ asset($q->soal_name) }}" alt="">
                                             </div>
                                             <br>
-                                            <span>"2020 X RPL 1 : Sejarah"</span>
+                                            
                                         </div>
                                     @else
                                         <div class="teacher__info" style="padding: 0; margin: 0">
                                             <h5>No. {{ $index }}</h5>
                                             <h5 style="font-size: 28px" class="text-capitalize">{{ $q->soal_name }}
                                             </h5>
-                                            <span>"2020 X RPL 1 : Sejarah"</span>
+                                            
                                         </div>
                                     @endif
                                 </div>

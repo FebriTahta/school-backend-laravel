@@ -5,6 +5,10 @@ use App\Models\Mapelmateri;
 use App\Models\Materi;
 use App\Models\Vids;
 use App\Models\Docs;
+use App\Models\Ujian;
+use App\Models\Soalmulti;
+use App\Models\Optionmulti;
+use App\Models\Tugas;
 use Response;
 use File;
 use Validator;
@@ -195,6 +199,51 @@ class MateriController extends Controller
         return response()->json([
             'status'=>200,
             'message'=> 'materi dokumen telah dihapus'
+        ]);
+    }
+
+    public function hapus_materi(Request $request)
+    {
+        $materi = Materi::where('id', $request->id)->withCount(['docs','vids','ujian'])->first();
+        if ($materi->docs_count > 0) {
+            # code...
+            Docs::where('materi_id',$materi->id)->delete();
+        }
+        if ($materi->vids_count > 0) {
+            # code...
+            Vids::where('materi_id',$materi->id)->delete();
+        }
+        if ($materi->ujian_count > 0) {
+            # code...
+            $ujian = Ujian::where('materi_id',$materi->id)->get();
+            foreach ($ujian as $keyx => $value) {
+                # code...
+                $soal = Soalmulti::where('ujian_id',$value->id)->get();
+                foreach ($soal as $keyz => $val) {
+                    # code...
+                    Optionmulti::where('soalmulti_id',$val->id)->delete();
+                }
+                Soalmulti::where('ujian_id',$value->id)->delete();
+            }
+            Ujian::where('materi_id',$materi->id)->delete();
+        }
+        
+        $materi->delete();
+
+        return response()->json([
+            'status'=>200,
+            'message'=>'Materi berhasil dihapus'
+        ]);
+    }
+
+    public function update_materi(Request $request)
+    {
+        $materi = Materi::where('id',$request->id)->update([
+            'materi_name'=>$request->materi_name
+        ]);
+        return response()->json([
+            'status'=>200,
+            'message'=>'Materi berhasil diperbarui'
         ]);
     }
 }

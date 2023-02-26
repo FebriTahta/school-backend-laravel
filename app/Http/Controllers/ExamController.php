@@ -12,6 +12,7 @@ use App\Models\Soalexam;
 use App\Models\Soalexamurai;
 use App\Models\Ranking;
 use App\Models\Optionexam;
+use App\Models\Jawabanexamurai;
 use App\Models\Siswa;
 use Auth;
 use Crypt;
@@ -757,6 +758,47 @@ class ExamController extends Controller
 
     public function menjawab_uraian(Request $request)
     {
+        if ($request->jawabanku !== null) {
+            # code...
+            $mapelmaster = Mapelmaster::where('kelas_id', $request->kelas_id)
+                        ->where('mapel_id', $request->mapel_id)
+                        ->first();
+            $guru_id     = $mapelmaster->guru_id;
+            
+            $jawab = Jawabanexamurai::updateOrCreate(
+                [
+                    'siswa_id' => auth()->user()->siswa->id,
+                    'kelas_id' => $request->kelas_id,
+                    'guru_id'  => $guru_id,
+                    'examurai_id' => $request->examurai_id,
+                    'soalexamurai_id' => $request->soalexamurai_id,
+                ],
+                [
+                    'siswa_id' => auth()->user()->siswa->id,
+                    'kelas_id' => $request->kelas_id,
+                    'guru_id'  => $guru_id,
+                    'examurai_id' => $request->examurai_id,
+                    'soalexamurai_id' => $request->soalexamurai_id,
+                    'jawabanku' => $request->jawabanku,
+                    'nilaiku' => null,
+                ]
+            );
+            
+
+            return response()->json([
+                'status'=> 200,
+                'soal_id' => $request->urut,
+                'message' => 'jawaban berhasil dikirim',
+            ]);
+
+        }else {
+            # code...
+            return response()->json([
+                'status'=> 400,
+                'soal_id' => $request->urut,
+                'message' => 'tidak dapat mengirim jawaban kosong',
+            ]);
+        }
         
     }
 }

@@ -106,7 +106,7 @@
                                                                 type="button" data-bs-toggle="collapse"
                                                                 data-bs-target="#x" aria-expanded="true"
                                                                 aria-controls="week-01-content">
-                                                                {{ $item->mapel->mapel_name }} xxx
+                                                                {{ $item->mapel->mapel_name }}
                                                             </button>
                                                         </h2>
 
@@ -242,13 +242,13 @@
         
         if (distance < 0) {
             swal({
-                title: "Waktu habis"+distance,
+                title: "Waktu habis",
                 html: 'Ujian berakhir. Redirecting... ',
                 type: "info",
             });
         } else {
             swal({
-                title: "Mulai"+distance,
+                title: "Mulai",
                 text: "MULAI MENGERJAKAN",
                 type: "info",
             }, function () {
@@ -258,19 +258,19 @@
     }
 
     function check2(exam,mapel_id,kelas_id, url) {
-        let now = new Date().getTime();
-        let countDownDate = new Date(exam.exam_datetimeend).getTime();
-        var distance = countDownDate - now;
+        let now2 = new Date().getTime();
+        let countDownDate2 = new Date(exam.examurai_datetimeend).getTime();
+        var distance2 = countDownDate2 - now2;
         
-        if (distance < 0) {
+        if (distance2 < 0) {
             swal({
-                title: "Waktu habis"+distance,
+                title: "Waktu habis",
                 html: 'Ujian berakhir. Redirecting... ',
                 type: "info",
             });
         } else {
             swal({
-                title: "Mulai"+distance,
+                title: "Mulai",
                 text: "MULAI MENGERJAKAN",
                 type: "info",
             }, function () {

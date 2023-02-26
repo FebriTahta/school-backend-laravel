@@ -246,7 +246,7 @@
                                                             class="accordion-collapse collapse show"
                                                             aria-labelledby="week-01" data-bs-parent="#course__accordion">
                                                             <div class="accordion-body">
-                                                                @if ($mapelmaster->vids_count == 0 && $mapelmaster->docs_count == 0 && $mapelmaster->ujian_count == 0)
+                                                                @if ($item->vids->count() == 0 && $item->docs->count() == 0 && $item->ujian->count() == 0)  
                                                                     <div
                                                                         class="course__curriculum-content d-sm-flex justify-content-between align-items-center">
                                                                         <div class="course__curriculum-info">
@@ -293,16 +293,15 @@
                                                                             <h3> <span>{{ $v->vids_name }}</span></h3>
                                                                         </div>
                                                                         <div class="course__curriculum-meta">
-                                                                            <a href="#{{ $v->vids_link }}"
+                                                                            <button
                                                                                 data-bs-toggle="modal"
                                                                                 data-bs-target="#modalplayvids"
                                                                                 data-src="{{ $v->vids_link }}"
-                                                                                class="text-danger"><i class="fa fa-play"
-                                                                                    style="font-size: 12px"></i> tonton</a>
-                                                                            |
+                                                                                class="btn btn-sm btn-danger" style="line-height: 12px"><i class="fa fa-play"
+                                                                                    style="font-size: 12px"></i> tonton</button>
                                                                             <a href="/materi-video-comment/{{ Crypt::encrypt($v->id) }}"
-                                                                                class="text-info"><i class="fa fa-eye"
-                                                                                    style="font-size: 12px"></i> detail</a>
+                                                                                class="btn-info btn-sm text-white" style="line-height: 12px"><i class="fa fa-eye"
+                                                                                    style="font-size: 12px"></i> details</a>
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
@@ -333,7 +332,7 @@
                                                                                 data-id="{{ $d->id }}"
                                                                                 data-docs_name="{{ $d->docs_name }}"
                                                                                 data-docs_desc="{{ $d->docs_desc }}"
-                                                                                class="text-primary"><i
+                                                                                class="btn-primary btn-sm" style="line-height: 12px"><i
                                                                                     class="fa fa-download"
                                                                                     style="font-size: 14px"></i> unduh</a>
                                                                         </div>
@@ -363,9 +362,9 @@
                                                                         <div class="course__curriculum-meta">
                                                                             <a href="#mulai"
                                                                                 onclick="check({{ $mapelmaster->id }},{{ $item->id }},{{ $u }},'/do-quiz')"
-                                                                                class="text-success"><i class="fa fa-eye"
+                                                                                class="btn-success btn-sm" style="line-height: 12px"><i class="fa fa-edit"
                                                                                     style="font-size: 12px"></i>
-                                                                                Kerjakan</a>
+                                                                                mengerjakan</a>
                                                                         </div>
                                                                     </div>
                                                                 @endforeach

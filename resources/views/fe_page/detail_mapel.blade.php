@@ -7,6 +7,20 @@
 @endsection
 
 @section('fe_content')
+    <style>
+        @media only screen and (max-width: 600px) {
+            .buton {
+                margin-top: 10px !important;
+                border-top: solid 1px;
+            }
+        }
+
+        @media only screen and (min-width: 601px) {
+            .buton {
+                
+            }
+        }
+    </style>
     <main>
         <!-- instructor details area start -->
         <section class="teacher__area pt-50 pb-50">
@@ -39,6 +53,9 @@
                                                 dokumen, 
                                                 {{ $mapelmaster->vids_count }} video,
                                                 {{ $mapelmaster->ujian_count }} exam dan {{ $mapelmaster->tugas_count }} tugas</span></h4>
+                                        <hr>
+                                        <i class="fa fa-bell" style="color: red"></i>
+                                        <i class="fa fa-edit"></i><span> nilai uraian</span>
                                     </div>
                                 </div>
                             </div>
@@ -120,19 +137,19 @@
                                                         <div class="accordion-item mb-20">
                                                             <h2 class="accordion-header" id="week-01">
                                                                 <button class="accordion-button text-capitalize" type="button"
-                                                                    data-bs-toggle="collapse" data-bs-target="#x"
+                                                                    data-bs-toggle="collapse" data-bs-target="#x{{ $key }}"
                                                                     aria-expanded="true" aria-controls="week-01-content">
                                                                     Task : {{ $item->tugas_name }}
                                                                 </button>
                                                             </h2>
 
-                                                            <div id="x"
-                                                                @if ($key == '0')
-                                                                class="accordion-collapse collapse show"
-                                                                @else
-                                                                class="accordion-collapse collapse"
-                                                                @endif
-                                                                aria-labelledby="week-01" data-bs-parent="#course__accordion{{ $key }}">
+                                                            <div id="x{{ $key }}"
+                                                            @if ($key == '0')
+                                                            class="accordion-collapse collapse show"    
+                                                            @else
+                                                            class="accordion-collapse collapse"
+                                                            @endif 
+                                                            aria-labelledby="week-01" data-bs-parent="#course__accordion{{ $key }}">
                                                                 <div class="accordion-body">
                                                                     <div
                                                                         class="course__curriculum-content d-sm-flex justify-content-between align-items-center">
@@ -224,10 +241,10 @@
                                                     Ujian</button>
                                             </div>
                                             @if ($mapelmaster->materi_count < 1)
-                                                <div class="accordion" style="margin-top: 20px">
-                                                    <h4 style="color: red">
+                                                <div class="accordion" style="margin-top: 20px; background-color: rgb(187, 187, 187); border-radius: 10px">
+                                                    <h5 style="color: white; padding: 15px">
                                                         Belum ada materi yang tersedia pada pelajaran ini
-                                                    </h4>
+                                                    </h5>
                                                 </div>
                                             @endif
 
@@ -235,21 +252,27 @@
                                                 <div class="accordion" id="course__accordion">
                                                     <div class="accordion-item mb-20">
                                                         <h2 class="accordion-header" id="week-01">
-                                                            <button class="accordion-button text-capitalize"
+                                                            <button class="accordion-button "
                                                                 type="button" data-bs-toggle="collapse"
                                                                 data-bs-target="#x{{ $key }}"
                                                                 aria-expanded="true" aria-controls="week-01-content">
-                                                                {{ $item->materi_name }}
+                                                                <i class="fa fa-book" style="color: rgb(90, 120, 252)"></i> <span class="text-uppercase ml-20" style="font-weight: 500; font-size: 16px"> - {{ $item->materi_name }}</span>
                                                             </button>
                                                         </h2>
-
+                                                        <div class="navigasi" style="margin-bottom:10px; margin-top: 10px">
+                                                            <button class="btn btn-sm btn-danger" style="line-height: 15px" data-bs-toggle="modal"
+                                                            data-bs-target="#modalhapusmateri" data-id="{{ $item->id }}" data-materi_name="{{ $item->materi_name }}"
+                                                            >Hapus</button>
+                                                            <button class="btn btn-sm btn-primary" style="line-height: 15px" data-bs-toggle="modal"
+                                                            data-bs-target="#modalupdatemateri" data-id="{{ $item->id }}" data-materi_name="{{ $item->materi_name }}">Update</button>
+                                                        </div>
                                                         <div id="x{{ $key }}"
                                                             @if ($key == 0) class="accordion-collapse collapse show"
                                                             @else
                                                         class="accordion-collapse collapse" @endif
                                                             aria-labelledby="week-01" data-bs-parent="#course__accordion">
                                                             <div class="accordion-body">
-                                                                @if ($mapelmaster->vids_count == 0 && $mapelmaster->docs_count == 0 && $mapelmaster->ujian_count == 0)
+                                                                @if ($item->vids->count() == 0 && $item->docs->count() == 0 && $item->ujian->count() == 0)
                                                                     <div
                                                                         class="course__curriculum-content d-sm-flex justify-content-between align-items-center">
                                                                         <div class="course__curriculum-info">
@@ -294,18 +317,15 @@
                                                                             </svg>
                                                                             <h3> <span>{{ $v->vids_name }}</span></h3>
                                                                         </div>
-                                                                        <div class="course__curriculum-meta">
-                                                                            <a href="#{{ $v->vids_link }}"
-                                                                                data-bs-toggle="modal"
-                                                                                data-bs-target="#modalplayvids"
-                                                                                data-src="{{ $v->vids_link }}"
-                                                                                data-detail="/materi-video-comment/{{ Crypt::encrypt($v->id) }}"
-                                                                                class="text-danger"><i class="fa fa-play"
-                                                                                    style="font-size: 12px"></i> tonton</a>
-                                                                            {{-- <a class="text-info">| edit</a> --}}
-                                                                            <a href="#_" data-bs-toggle="modal"
-                                                                                data-bs-target="#modalhapusvideo" data-id="{{ $v->id }}" data-vids_name="{{ $v->vids_name }}"
-                                                                                class="text-danger">| hapus</a>
+                                                                        <div class="course__curriculum-meta buton">
+                                                                            <button data-bs-toggle="modal"
+                                                                            data-bs-target="#modalplayvids"
+                                                                            data-src="{{ $v->vids_link }}"
+                                                                            data-detail="/materi-video-comment/{{ Crypt::encrypt($v->id) }}"
+                                                                            class="btn btn-sm btn-info text-white" style="line-height: 12px"><i class="fa fa-play"
+                                                                            style="font-size: 12px"></i> Tonton </button>
+                                                                            <button class="btn btn-sm btn-danger" style="line-height: 12px" data-bs-toggle="modal" data-bs-target="#modalhapusvideo" data-id="{{ $v->id }}" data-vids_name="{{ $v->vids_name }}">
+                                                                            <i class="fa fa-trash"></i> Hapus</button>
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
@@ -330,18 +350,18 @@
                                                                             </svg>
                                                                             <h3> <span>{{ $d->docs_name }} </span></h3>
                                                                         </div>
-                                                                        <div class="course__curriculum-meta">
-                                                                            <a href="#" data-bs-toggle="modal"
+                                                                        <div class="course__curriculum-meta buton" >
+                                                                            <button class="btn btn-sm btn-primary" style="line-height: 12px"
+                                                                            data-bs-toggle="modal"
                                                                                 data-bs-target="#modaldownloaddocs"
                                                                                 data-id="{{ $d->id }}"
                                                                                 data-docs_name="{{ $d->docs_name }}"
                                                                                 data-docs_desc="{{ $d->docs_desc }}"
-                                                                                class="text-primary"><i
-                                                                                    class="fa fa-download"
-                                                                                    style="font-size: 14px"></i> unduh</a>
-                                                                            {{-- <a class="text-info">| edit</a> --}}
-                                                                            <a href="hapus_docs" data-bs-toggle="modal" data-bs-target="#modalhapusdocs"
-                                                                            data-id="{{ $d->id }}" data-docs_name="{{ $d->docs_name }}" class="text-danger">| hapus</a>
+                                                                                class="text-primary"
+                                                                            ><i class="fa fa-download" style="font-size: 14px"></i> Unduh</button>
+                                                                            <button class="btn btn-danger btn-sm" style="line-height: 12px"
+                                                                            data-bs-toggle="modal" data-bs-target="#modalhapusdocs"
+                                                                            data-id="{{ $d->id }}" data-docs_name="{{ $d->docs_name }}"><i class="fa fa-trash"></i> Hapus</button>
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
@@ -366,15 +386,10 @@
                                                                             </svg>
                                                                             <h3> <span>{{ $u->ujian_name }}</span></h3>
                                                                         </div>
-                                                                        <div class="course__curriculum-meta">
-                                                                            <a href="#"><i
-                                                                                    class="fa fa-eye"
-                                                                                    style="font-size: 12px"></i>
-                                                                                preview</a>
-                                                                            {{-- <a class="text-info">| edit</a> --}}
-                                                                            <a href="#_" data-bs-toggle="modal"
-                                                                                data-bs-target="#modalhapusquiz" data-id="{{ $u->id }}" data-ujian_name="{{ $u->ujian_name }}"
-                                                                                class="text-danger">| hapus</a>
+                                                                        <div class="course__curriculum-meta buton">
+                                                                            <a href="/prev-quiz/{{$mapelmaster->id}}/{{ $item->id }}/{{ $u->id }}" class="btn btn-success btn-sm" style="line-height: 12px"><i class="fa fa-eye"></i> Preview Soal</a>
+                                                                            <button data-bs-toggle="modal"
+                                                                            data-bs-target="#modalhapusquiz" data-id="{{ $u->id }}" data-ujian_name="{{ $u->ujian_name }}" class="btn btn-sm btn-danger" style="line-height: 12px"><i class="fa fa-trash"></i> Hapus</button>
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
@@ -515,6 +530,49 @@
         </section>
     </main>
 
+    <div class="modal fade" id="modalhapusmateri" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">HAPUS MATERI <span id="header_ujian_name" class="text-uppercase"></span></h4>
+                </div>
+                <form id="formhapusmateri">@csrf
+                    <div class="modal-body">
+                        <input type="hidden" name="id" value="id" id="id" required>
+                        <code>Materi video, dokumen & quiz / ujian akan dihapus dari sistem.</code><br>
+                        <code style="line-height: 10px">Yakin akan menghapus materi tersebut ?</code>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closemodalhapusmateri" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-sm btn-danger" value="Hapus" id="btnhapusmateri">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalupdatemateri" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">UPDATE MATERI <span id="header_ujian_name" class="text-uppercase"></span></h4>
+                </div>
+                <form id="formupdatemateri">@csrf
+                    <div class="modal-body">
+                        <input type="hidden" name="id" value="id" id="id" required>
+                        <input type="text" class="form-control" name="materi_name" id="materi_name" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closemodalupdatemateri" class="btn btn-sm btn-default"
+                            data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-sm btn-primary" value="Update" id="btnupdatemateri">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="modalnilaisiswa" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -588,14 +646,14 @@
                             </div>
                             <div class="col-md-12 col-12" id="block-new-jurusan" style="padding-right: 5px">
                                 <p class="text-danger">Anda yakin akan menghapus video tersebut ?</p>
-                                <h5 id="vids_name"></h5>
+                                <h5 id="vids_name" class="text-danger"></h5>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="btncloseremovevids" class="btn btn-sm btn-default"
                             data-dismiss="modal">Close</button>
-                        <input type="submit" id="btnremovevids" class="btn btn-sm btn-primary" value="Submit">
+                        <input type="submit" id="btnremovevids" class="btn btn-sm btn-danger" value="Hapus">
                     </div>
                 </form>
             </div>
@@ -1126,12 +1184,36 @@
             $('#modalhapusquiz').modal('hide');
         })
 
+        $('#closemodalhapusmateri').on('click', function() {
+            $('#modalhapusmateri').modal('hide');
+        })
+
+        $('#closemodalupdatemateri').on('click', function() {
+            $('#modalupdatemateri').modal('hide');
+        })
+
+        $('#modalupdatemateri').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var materi_name = button.data('materi_name')
+            var modal = $(this)
+            modal.find('.modal-body #materi_name').val(materi_name);
+            modal.find('.modal-body #id').val(id);
+        })
+
         $('#modalhapusquiz').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
             var id = button.data('id')
             var ujian_name = button.data('ujian_name')
             var modal = $(this)
             modal.find('.modal-body #ujian_name').html(ujian_name);
+            modal.find('.modal-body #id').val(id);
+        })
+
+        $('#modalhapusmateri').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var modal = $(this)
             modal.find('.modal-body #id').val(id);
         })
 
@@ -1363,6 +1445,106 @@
                     } else {
                         $('#btnremovevids').val('Submit');
                         $('#btnremovevids').attr('disabled', false);
+                        var values = '';
+                        jQuery.each(response.message, function(key, value) {
+                            values += value + '\n'
+                        });
+                        swal({
+                            title: "Maaf",
+                            text: values,
+                            type: "error",
+                        });
+                        toastr.error(values);
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        $('#formhapusmateri').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: "/hapus-materi",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btnhapusmateri').attr('disabled', 'disabled');
+                    $('#btnhapusmateri').val('Process...');
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        $('#modalhapusmateri').modal('hide');
+                        $("#formhapusmateri")[0].reset();
+                        $('#btnhapusmateri').val('Submit');
+                        $('#btnhapusmateri').attr('disabled', false);
+
+                        toastr.success(response.message);
+                        swal({
+                            title: "SUCCESS!",
+                            text: response.message,
+                            type: "success"
+                        });
+                        reload();
+
+                    } else {
+                        $('#btnhapusmateri').val('Submit');
+                        $('#btnhapusmateri').attr('disabled', false);
+                        var values = '';
+                        jQuery.each(response.message, function(key, value) {
+                            values += value + '\n'
+                        });
+                        swal({
+                            title: "Maaf",
+                            text: values,
+                            type: "error",
+                        });
+                        toastr.error(values);
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        $('#formupdatemateri').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: "/update-materi",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btnupdatemateri').attr('disabled', 'disabled');
+                    $('#btnupdatemateri').val('Process...');
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        $('#modalupdatemateri').modal('hide');
+                        $("#formupdatemateri")[0].reset();
+                        $('#btnupdatemateri').val('Update');
+                        $('#btnupdatemateri').attr('disabled', false);
+
+                        toastr.success(response.message);
+                        swal({
+                            title: "SUCCESS!",
+                            text: response.message,
+                            type: "success"
+                        });
+                        reload();
+
+                    } else {
+                        $('#btnupdatemateri').val('Submit');
+                        $('#btnupdatemateri').attr('disabled', false);
                         var values = '';
                         jQuery.each(response.message, function(key, value) {
                             values += value + '\n'

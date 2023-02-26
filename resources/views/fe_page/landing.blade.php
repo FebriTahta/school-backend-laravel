@@ -31,7 +31,7 @@
                     <div class="ujian">
                         <div class="alert alert-success alert-block">
                             <small>Ada daftar ujian yang harus diselesaikan 
-                                <br><u><a href="/daftar-ujian-pilihan-ganda/{{ Crypt::encrypt($siswa->kelas->id) }}">klik disini <i class="fa fa-pencil"></i></a></u>
+                                <br><u><a href="/daftar-ujian/{{ Crypt::encrypt($siswa->kelas->id) }}">klik disini <i class="fa fa-pencil"></i></a></u>
                             </small>
                         </div>
                     </div>
