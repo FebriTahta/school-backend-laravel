@@ -54,8 +54,10 @@
                                                 {{ $mapelmaster->vids_count }} video,
                                                 {{ $mapelmaster->ujian_count }} exam dan {{ $mapelmaster->tugas_count }} tugas</span></h4>
                                         <hr>
-                                        <i class="fa fa-bell" style="color: red"></i>
-                                        <i class="fa fa-edit"></i><span> nilai uraian</span>
+                                        <a href="/periksa-jawaban-uraian/{{ Crypt::encrypt($mapelmaster->id) }}">
+                                            <i class="fa fa-bell" style="color: red"></i>
+                                            <i class="fa fa-edit"></i><span> nilai uraian</span>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

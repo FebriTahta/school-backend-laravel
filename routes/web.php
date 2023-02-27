@@ -240,5 +240,10 @@ Route::get('/daftar-peringkat',[ExamController::class,'daftarPeringkat'])->name(
 Route::get('/daftar-ranking-kelas',[ExamController::class,'data_ranking_kelas'])->name('data_ranking_kelas');
 Route::post('/update-ranking-kelas',[ExamController::class,'update_rank']);
 
+Route::get('/periksa-jawaban-uraian/{mapelmaster_id}',[ExamController::class,'periksa_jawaban_uraian']);
+Route::get('/daftar-uraian-siswa/{examurai_id}/{kelas_id}/{guru_id}',[ExamController::class,'daftar_uraian_siswa']);
+Route::get('/periksa-jawaban-uraian-siswa/{siswa_id}/{kelas_id}/{guru_id}/{examurai_id}',[ExamController::class,'periksa_jawaban_uraian_siswa']);
+Route::get('/periksa-jawaban-uraian-siswa-next/{siswa_id}/{kelas_id}/{guru_id}/{examurai_id}/{id}/{nomorurut}',[ExamController::class,'periksa_jawaban_uraian_siswa_next']);
+
 
 

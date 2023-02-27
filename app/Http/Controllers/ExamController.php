@@ -14,6 +14,7 @@ use App\Models\Ranking;
 use App\Models\Optionexam;
 use App\Models\Jawabanexamurai;
 use App\Models\Siswa;
+use App\Models\Guru;
 use Auth;
 use Crypt;
 use Carbon\Carbon;
@@ -800,5 +801,74 @@ class ExamController extends Controller
             ]);
         }
         
+    }
+
+    public function periksa_jawaban_uraian(Request $request,$mapelmaster_id)
+    {
+        $mapelmaster_id = Crypt::decrypt($mapelmaster_id);
+        $guru  = auth()->user()->guru;
+        $mapelmaster = Mapelmaster::findOrFail($mapelmaster_id);
+        $kelas = Kelas::findOrFail($mapelmaster->kelas_id);
+        $mapel = Mapel::findOrFail($mapelmaster->mapel_id);
+
+        $uraian = [];
+        foreach ($kelas->examurai as $key => $value) {
+            # code...
+            $uraian [] = $value;
+        }
+        // return $uraian;
+        return view('fe_page.daftar_uraian',compact('guru','kelas','mapel','uraian'));
+    }
+
+    public function daftar_uraian_siswa($examurai_id,$kelas_id,$guru_id)
+    {
+        $datax = Jawabanexamurai::where('examurai_id',$examurai_id)->where('kelas_id',$kelas_id)
+        ->where('guru_id', $guru_id)->select('siswa_id')->distinct()->get();
+
+        $data  = Siswa::whereIn('id', $datax)->get();
+        return DataTables::of($data)
+        ->addColumn('siswa_name',function($data){
+            return strtoupper($data->siswa_name);
+        })
+        ->addColumn('nilai',function($data) use ($examurai_id,$kelas_id,$guru_id){
+            $nilaiku = Jawabanexamurai::where('examurai_id',$examurai_id)->where('kelas_id',$kelas_id)->where('guru_id',$guru_id)
+            ->where('siswa_id', $data->id)->sum('nilaiku');
+            if ($nilaiku == 0) {
+                # code...
+                return '<button class="btn btn-sm btn-outline-danger" style="line-height:12px" readonly>belum dinilai / 0</button>';
+            }else {
+                # code...
+                return '<button class="btn btn-sm btn-outline-primary" style="line-height:12px" readonly>nilai : '.$nilaiku.'</button>';
+            }
+        })
+        ->addColumn('opsi', function($data) use ($kelas_id,$guru_id,$examurai_id){
+            $btn = '<a href="/periksa-jawaban-uraian-siswa/'.$data->id.'/'.$kelas_id.'/'.$guru_id.'/'.$examurai_id.'" class="btn btn-sm btn-outline-primary" style="line-height:12px">Periksa</a>';
+            return $btn;
+        })
+        ->rawColumns(['nilai','opsi','siswa_name'])
+        ->make(true);
+    }
+
+
+    public function periksa_jawaban_uraian_siswa($siswa_id,$kelas_id,$guru_id,$examurai_id)
+    {
+        $nomorurut = null;
+        $soal = Soalexamurai::where('examurai_id',$examurai_id)->get();
+        $q = Soalexamurai::where('examurai_id', $examurai_id)->limit(1)->get();
+        $kelas = Kelas::where('id',$kelas_id)->first();
+        $siswa = Siswa::where('id',$siswa_id)->first();
+        $guru  = Guru::where('id',$guru_id)->first();
+        return view('fe_page.periksa_jawaban_urai_siswa',compact('soal','kelas','siswa','guru','q','nomorurut'));
+    }
+
+    public function periksa_jawaban_uraian_siswa_next($siswa_id,$kelas_id,$guru_id,$examurai_id,$id,$nomorurut)
+    {
+        $nomorurut = $nomorurut;
+        $soal = Soalexamurai::where('examurai_id',$examurai_id)->get();
+        $q = Soalexamurai::where('id', $id)->limit(1)->get();
+        $kelas = Kelas::where('id',$kelas_id)->first();
+        $siswa = Siswa::where('id',$siswa_id)->first();
+        $guru  = Guru::where('id',$guru_id)->first();
+        return view('fe_page.periksa_jawaban_urai_siswa',compact('soal','kelas','siswa','guru','q','nomorurut'));
     }
 }
