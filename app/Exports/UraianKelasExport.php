@@ -42,9 +42,9 @@ class UraianKelasExport implements FromView
             }            
         }
 
-        // if($image !== null){
+        if($image !== null){
             return $image;
-        // }
+        }
     }
 
     public function view(): View
