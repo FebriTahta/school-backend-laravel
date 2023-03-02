@@ -777,25 +777,25 @@ class ExamController extends Controller
                 ]);
             }else {
                 # code...
-                $guru_id     = $mapelmaster->guru_id;
-                $jawab = Jawabanexamurai::updateOrCreate(
-                    [
-                        'siswa_id' => auth()->user()->siswa->id,
-                        'kelas_id' => $request->kelas_id,
-                        'guru_id'  => $guru_id,
-                        'examurai_id' => $request->examurai_id,
-                        'soalexamurai_id' => $request->soalexamurai_id,
-                    ],
-                    [
-                        'siswa_id' => auth()->user()->siswa->id,
-                        'kelas_id' => $request->kelas_id,
-                        'guru_id'  => $guru_id,
-                        'examurai_id' => $request->examurai_id,
-                        'soalexamurai_id' => $request->soalexamurai_id,
-                        'jawabanku' => $request->jawabanku,
-                        'nilaiku' => null,
-                    ]
-                );
+                // $guru_id     = $mapelmaster->guru_id;
+                // $jawab = Jawabanexamurai::updateOrCreate(
+                //     [
+                //         'siswa_id' => auth()->user()->siswa->id,
+                //         'kelas_id' => $request->kelas_id,
+                //         'guru_id'  => $guru_id,
+                //         'examurai_id' => $request->examurai_id,
+                //         'soalexamurai_id' => $request->soalexamurai_id,
+                //     ],
+                //     [
+                //         'siswa_id' => auth()->user()->siswa->id,
+                //         'kelas_id' => $request->kelas_id,
+                //         'guru_id'  => $guru_id,
+                //         'examurai_id' => $request->examurai_id,
+                //         'soalexamurai_id' => $request->soalexamurai_id,
+                //         'jawabanku' => $request->jawabanku,
+                //         'nilaiku' => null,
+                //     ]
+                // );
                 
     
                 return response()->json([
@@ -809,7 +809,7 @@ class ExamController extends Controller
             # code...
             return response()->json([
                 'status'=> 400,
-                'soal_id' => $request->urut,
+                'soal_id' => $request->urut.' - '.$mapelmaster->guru_id,
                 'message' => 'tidak dapat mengirim jawaban kosong',
             ]);
         }
