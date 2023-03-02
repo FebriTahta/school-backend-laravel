@@ -924,6 +924,6 @@ class ExamController extends Controller
 
         $jawaban  = Jawabanexamurai::whereIn('examurai_id', $examurai_id2)->orderBy('siswa_id','asc')
         ->orderBy('soalexamurai_id','asc')->get();
-        return Excel::download(new UraianKelasExport($jawaban), 'jawaban_uraian_'.$kelas->angkatan->tingkat->tingkat_name.' '.$kelas->jurusan->jurusan_name.' '.$kelas->kelas_name.'.xlsx',ExcelExcel::XLSX);
+        return Excel::download(new UraianKelasExport(collect($jawaban)), 'jawaban_uraian_'.$kelas->angkatan->tingkat->tingkat_name.' '.$kelas->jurusan->jurusan_name.' '.$kelas->kelas_name.'.xlsx',ExcelExcel::XLSX);
     }
 }

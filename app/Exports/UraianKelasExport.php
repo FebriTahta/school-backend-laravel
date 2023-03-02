@@ -43,7 +43,7 @@ class UraianKelasExport implements FromView
         }
 
         if($image !== null){
-            return collect($image);
+            return $image;
         }
     }
 
