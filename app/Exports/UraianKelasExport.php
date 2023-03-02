@@ -25,7 +25,7 @@ class UraianKelasExport implements FromView
 
     public function drawings()
     {
-        $image;
+        $image = null;
         foreach ($this->jawaban as $key => $item) {
         //     # code...
         //     if (Str::limit($item->soalexamurai->soalexam_name, 3) == 'be_...')
