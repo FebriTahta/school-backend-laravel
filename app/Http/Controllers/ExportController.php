@@ -42,7 +42,7 @@ class ExportController extends Controller
 
     public function download_user_kelas(Request $request)
     {
-        $kelas = Kelas::findOrFail($request->id)->first();
+        $kelas = Kelas::findOrFail($request->id);
         
         return Excel::download(new UserExport($kelas), 'data_user_siswa_'.$kelas->angkatan->tingkat->tingkat_name.' '.$kelas->jurusan->jurusan_name.' '.$kelas->kelas_name.'.xlsx',ExcelExcel::XLSX);
     }
