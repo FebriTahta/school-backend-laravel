@@ -25,8 +25,6 @@ class UraianKelasExport implements FromView
 
     public function drawings()
     {
-        $i = 7;
-        $x = 0;
         foreach ($this->jawaban as $key => $item) {
         //     # code...
         //     if (Str::limit($item->soalexamurai->soalexam_name, 3) == 'be_...')
@@ -40,11 +38,12 @@ class UraianKelasExport implements FromView
                 $image[$key]->setPath(public_path($item->soalexamurai->soalexam_name));
                 $image[$key]->setHeight(90);
                 $image[$key]->setCoordinates('D'.$i+$key);
-                $x++;
             }            
         }
 
-        return $image;
+        if($image !== null){
+            return $image;
+        }
     }
 
     public function view(): View
