@@ -767,8 +767,8 @@ class ExamController extends Controller
             $mapelmaster = Mapelmaster::where('kelas_id', $request->kelas_id)
                         ->where('mapel_id', $request->mapel_id)
                         ->first();
-            $guru_id     = $mapelmaster->guru_id;
-            if ($guru_id == null) {
+            
+            if ($mapelmaster->guru_id == null) {
                 # code...
                 return response()->json([
                     'status'=> 400,
@@ -777,6 +777,7 @@ class ExamController extends Controller
                 ]);
             }else {
                 # code...
+                $guru_id     = $mapelmaster->guru_id;
                 $jawab = Jawabanexamurai::updateOrCreate(
                     [
                         'siswa_id' => auth()->user()->siswa->id,
