@@ -200,14 +200,14 @@
         //         height: 200
         // });
 
-        $(document).ready(function() {
-            $('#summernote').summernote({
-                blockquoteBreakingLevel: 0,
-                lineHeights : 0,
-                height: 200,
-            });
+        // $(document).ready(function() {
+        //     $('#summernote').summernote({
+        //         blockquoteBreakingLevel: 0,
+        //         lineHeights : 0,
+        //         height: 200,
+        //     });
             
-        });
+        // });
 
             // Summernote Plugin: Soft breaks only
     // ------------------------------------------------------------------------------------------------------------------ //

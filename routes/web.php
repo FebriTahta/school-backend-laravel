@@ -46,6 +46,9 @@ Route::controller(UserController::class)->group(function(){
     Route::post('/admin-ubah-password','ubah_password');
     Route::post('/admin-ubah-photo','ubah_photo');
     Route::post('/admin-user-baru','user_baru');
+    
+    Route::post('/update-user','update_user');
+    Route::post('/hapus-user','hapus_user');
 });
  
 Route::group(['middleware' => ['auth', 'CheckRole:admin']], function () {
@@ -67,6 +70,10 @@ Route::group(['middleware' => ['auth', 'CheckRole:admin']], function () {
         Route::get('/admin-manajemen-ujian-urai','manajemen_ujian_urai');
         Route::get('/admin-total-exam-urai','total_exam_urai');
         Route::post('/admin-remove-exam-urai','examurai_remove');
+
+        Route::get('/halaman-unduh-hasil-uraian','halaman_unduh_hasil_uraian');
+        Route::get('/proses-data-ujian-uraian/{kelas_id}/{tgl_awal}/{tgl_akhir}','proses_data_ujian_uraian');
+        Route::post('/unduh-hasil-ujian-uraian','unduh_hasil_ujian_uraian');
     });
 
     Route::controller(UserController::class)->group(function () {
@@ -138,6 +145,8 @@ Route::group(['middleware' => ['auth', 'CheckRole:admin']], function () {
         Route::get('/admin-download-template-mapel', 'download_template_mapel');
         Route::get('/admin-download-template-quiz', 'download_template_quiz');
         Route::get('/admin-download-template-examurai','download_template_examurai');
+
+        Route::post('/admin-download-user-kelas','download_user_kelas');
     });
 
     Route::controller(ImportController::class)->group(function () {
@@ -244,6 +253,8 @@ Route::get('/periksa-jawaban-uraian/{mapelmaster_id}',[ExamController::class,'pe
 Route::get('/daftar-uraian-siswa/{examurai_id}/{kelas_id}/{guru_id}',[ExamController::class,'daftar_uraian_siswa']);
 Route::get('/periksa-jawaban-uraian-siswa/{siswa_id}/{kelas_id}/{guru_id}/{examurai_id}',[ExamController::class,'periksa_jawaban_uraian_siswa']);
 Route::get('/periksa-jawaban-uraian-siswa-next/{siswa_id}/{kelas_id}/{guru_id}/{examurai_id}/{id}/{nomorurut}',[ExamController::class,'periksa_jawaban_uraian_siswa_next']);
+
+
 
 
 

@@ -16,8 +16,11 @@ use App\Models\Jawabanexamurai;
 use App\Models\Siswa;
 use App\Models\Guru;
 use Auth;
+use Excel;
 use Crypt;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Excel as ExcelExcel;
+use App\Exports\UraianKelasExport;
 use Illuminate\Http\Request;
 
 class ExamController extends Controller
@@ -870,5 +873,57 @@ class ExamController extends Controller
         $siswa = Siswa::where('id',$siswa_id)->first();
         $guru  = Guru::where('id',$guru_id)->first();
         return view('fe_page.periksa_jawaban_urai_siswa',compact('soal','kelas','siswa','guru','q','nomorurut'));
+    }
+
+    public function halaman_unduh_hasil_uraian()
+    {
+        $kelas = Kelas::with(['angkatan','jurusan'])->get();
+        return view('be_page.unduh_hasil_uraian',compact('kelas'));
+    }
+
+    public function proses_data_ujian_uraian($kelas_id, $tgl_awal, $tgl_akhir)
+    {
+        $kelas = Kelas::findOrFail($kelas_id);
+        $examurai_id = [];
+        foreach ($kelas->examurai as $key => $value) {
+            # code...
+            $examurai_id[] = $value->id;
+        }
+
+        $examurai = Examurai::whereIn('id',$examurai_id)
+        ->whereBetween('examurai_datetimestart',[$tgl_awal,$tgl_akhir])->get();
+        return DataTables::of($examurai)
+        ->addColumn('tanggal',function($examurai){
+            return \Carbon\Carbon::parse($examurai->examurai_datetimestart)->parse('Y');
+        })
+        ->rawColumns(['tanggal'])
+        ->make(true);
+    }
+
+    public function unduh_hasil_ujian_uraian(Request $request)
+    {
+        $kelas_id = $request->kelas_id;
+        $tgl_awal = $request->tgl_awal;
+        $tgl_akhir = $request->tgl_akhir;
+
+        $kelas = Kelas::findOrFail($kelas_id);
+        $examurai_id = [];
+        foreach ($kelas->examurai as $key => $value) {
+            # code...
+            $examurai_id[] = $value->id;
+        }
+
+        $examurai = Examurai::whereIn('id',$examurai_id)
+        ->whereBetween('examurai_datetimestart',[$tgl_awal,$tgl_akhir])->get();
+
+        $examurai_id2= [];
+        foreach ($examurai as $key => $val) {
+            # code...
+            $examurai_id2[] = $val->id;
+        }
+
+        $jawaban  = Jawabanexamurai::whereIn('examurai_id', $examurai_id2)->orderBy('siswa_id','asc')
+        ->orderBy('soalexamurai_id','asc')->get();
+        return Excel::download(new UraianKelasExport($jawaban), 'jawaban_uraian_'.$kelas->angkatan->tingkat->tingkat_name.' '.$kelas->jurusan->jurusan_name.' '.$kelas->kelas_name.'.xlsx',ExcelExcel::XLSX);
     }
 }

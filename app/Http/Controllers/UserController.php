@@ -5,6 +5,7 @@ use DataTables;
 use App\Models\User;
 use App\Models\Guru;
 use App\Models\Siswa;
+use App\Models\Kelas;
 use App\Models\Angkatan;
 use Illuminate\Support\Str;
 use Validator;
@@ -20,11 +21,21 @@ class UserController extends Controller
             # code...
             $data = User::get();
             return DataTables::of($data)
-            ->make(true);
+            ->addColumn('opsi',function($data){
+               $btn =  '<button class="btn btn-xs btn-primary" data-id="'.$data->id.'"
+               data-username="'.$data->username.'" data-pass="'.$data->pass.'" data-role="'.$data->role.'"
+               data-toggle="modal" data-target="#modaledit"><i style="margin-left: 15px" class="icon icon-edit"></i></button>';
+               $btn .= ' <button class="btn btn-xs btn-danger"
+               data-toggle="modal" data-target="#modaldel" data-id="'.$data->id.'"><i style="margin-left: 15px" class="icon icon-trash"></i></button>';
+               return $btn;
+            })
+            ->rawColumns(['opsi'])
+            ->make(true); 
         }
         $total_user = User::count();
         $angkatan = Angkatan::get();
-        return view('be_page.user',compact('total_user','angkatan'));
+        $kelas = Kelas::with(['angkatan','jurusan'])->get();
+        return view('be_page.user',compact('total_user','angkatan','kelas'));
     }
 
     public function user_baru(Request $request)
@@ -134,6 +145,42 @@ class UserController extends Controller
                 }
             }
         }
+    }
+
+    public function update_user(Request $request)
+    {
+        $data = User::updateOrCreate(
+            ['id'=> $request->id],
+            [
+                'username' => $request->username,
+                'pass' => $request->pass,
+                'role' => $request->role,
+                'password' => Hash::make($request->pass),
+            ]
+        );
+
+        return response()->json(['status'=>200,'message'=>'Data user telah diperbarui']);
+    }
+
+    public function hapus_user(Request $request)
+    {
+        $data = User::where('id', $request->id)->first();
+        if ($data->guru) {
+            # code...
+            Guru::where('user_id', $data->id)->delete();
+        }
+
+        if ($data->siswa) {
+            # code...
+            Siswa::where('user_id', $data->id)->delete();
+        }
+
+        if ($data) {
+            # code...
+            $data->delete();
+        }
+
+        return response()->json(['status'=>200,'message'=>'Data user telah dihapus']);
     }
 
     public function ubah_password(Request $request)

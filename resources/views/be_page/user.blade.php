@@ -30,7 +30,7 @@
                 <!--Today Tab Start-->
                 <div class="tab-pane animated fadeInUpShort show active" id="v-pills-1">
                     <div class="row my-3">
-                        <div class="col-md-4">
+                        <div class="col-md-4" style="margin-bottom: 10px">
                             <div class="counter-box white r-5 p-3">
                                 <div class="p-4">
                                     <div class="float-right">
@@ -41,9 +41,31 @@
                                 </div>
                             </div>
                         </div>
-
-
-
+                        <div class="col-md-8" style="margin-bottom: 10px">
+                            <div class="counter-box white r-5 p-3">
+                                <div class="">
+                                    <p>Unduh data user</p>
+                                    <form action="/admin-download-user-kelas" method="POST" enctype="multipart/form-data">@csrf
+                                    <div class="row">
+                                            <div class="col-md-12" style="width: 100%">
+                                                <select name="kelas_id" id="kelas_id" class="form-control" style="width: 100%" required>
+                                                    <option value="" style="width: 100%">:: Pilih Kelas ::</option>
+                                                    @foreach ($kelas as $item)
+                                                        <option value="{{ $item->id }}">{{ $item->angkatan->tingkat->tingkat_name }} {{ $item->jurusan->jurusan_name }} {{ $item->kelas_name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4" style="margin-top:10px">
+                                                <input type="hidden" id="form_kelas_id" name="id" required>
+                                                <button type="submit" class="btn btn-xs btn-primary">Unduh</button>
+                                                
+                                            </div>
+                                        
+                                    </div>
+                                </form>        
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <style>
                         td {
@@ -65,6 +87,7 @@
                                             <th>Username</th>
                                             <th>Password</th>
                                             <th>Role</th>
+                                            <th>Opsi</th>
                                         </tr>
                                     </thead>
                                     <tbody class="text-capitalize">
@@ -171,11 +194,6 @@
                     <div class="modal-body">
                         
                             <div class="card-body" style="margin: auto; ">
-                                <div class="logo" style="text-align: center">
-                                    <img src="{{ asset('logo1.png') }}" style="max-width: 200px;" alt="">
-                                    <p style="padding-right: 10px; padding-left: 10px">Tambahkan anggota user baru untuk
-                                        mempermudah manajemen page info lomba official</p>
-                                </div>
                                 <div class="form" style="margin-top: 30px">
 
                                     <div class="form-group">
@@ -188,7 +206,8 @@
                                         <select name="role" class="form-control" id="role" required>
                                             <option value=""></option>
                                             <option value="admin">Admin</option>
-                                            <option value="super_admin">Super Admin</option>
+                                            <option value="guru">Guru</option>
+                                            <option value="siswa">Siswa</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -222,6 +241,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 
     <script>
+        $('#kelas_id').on('change', function () {
+            var id = this.value;
+            $('#form_kelas_id').val(id);
+        })
         $(document).ready(function() {
 
             $('#modaldel').on('show.bs.modal', function(event) {
@@ -249,7 +272,7 @@
                 var formData = new FormData(this);
                 $.ajax({
                     type: 'POST',
-                    url: "/backend-remove-user",
+                    url: "/hapus-user",
                     data: formData,
                     cache: false,
                     contentType: false,
@@ -341,7 +364,7 @@
                 var formData = new FormData(this);
                 $.ajax({
                     type: 'POST',
-                    url: "/backend-store-user",
+                    url: "/update-user",
                     data: formData,
                     cache: false,
                     contentType: false,
@@ -406,6 +429,10 @@
                     {
                         data: 'role',
                         name: 'role'
+                    },
+                    {
+                        data: 'opsi',
+                        name: 'opsi'
                     },
                 ]
             });

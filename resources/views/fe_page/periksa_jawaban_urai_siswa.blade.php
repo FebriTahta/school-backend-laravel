@@ -84,16 +84,15 @@
                                             ->where('soalexamurai_id',$q->id)->first();
                                         @endphp
 
-                                        @if ($status_diperiksa->nilaiku == null)
-                                            <div class="alert alert-danger alert-block">
-                                                <strong>Belum diperiksa</strong>
+                                        @if ($status_diperiksa?->nilaiku == null)
+                                            <div class="alert alert-danger alert-block" style="line-height: 20px">
+                                                <strong style="font-size: 12px">Belum diperiksa</strong>
                                             </div>
                                         @else
                                             <div class="alert alert-success alert-block">
                                                 <strong>Sudah diperiksa</strong>
                                             </div>
                                         @endif
-
                                         <div class="teacher__top d-md-flex align-items-end justify-content-between mb-20">
                                             <input type="text" hidden id="soalId" name="soalId"
                                                 value="{{ $q->id }}">
@@ -133,7 +132,7 @@
                                                 ->where('examurai_id', $s->examurai_id)->where('soalexamurai_id', $q->id)->first();
                                             @endphp
                                             <br>
-                                            @if ($jawabanku_ada2)
+                                            @if ($jawabanku_ada2 !== null)
                                                 {{-- <textarea name="jawabanku" class="form-control" id="summernote" cols="30" rows="5">{{  $jawabanku_ada2->jawabanku  }}</textarea> --}}
                                                 <h5>{!! $jawabanku_ada2->jawabanku !!}</h5>
                                                 @else

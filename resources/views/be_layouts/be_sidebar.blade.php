@@ -176,12 +176,14 @@
                     <li class="header light mt-3"><strong>UJIAN ONLINE UAS / UTS</strong></li>
 
                     <li class="treeview"><a href="#"><i
-                                class="icon icon-account_box light-red-text s-18"></i>UJIAN<i
+                                class="icon icon-edit light-red-text s-18"></i>UJIAN<i
                                 class="icon icon-angle-left s-18 pull-right"></i></a>
                         <ul class="treeview-menu">
                             <li><a href="/admin-manajemen-ujian"><i class="icon icon-circle-o"></i>Ujian Multiple Choice</a></li>
                             <li><a href="/admin-manajemen-ujian-urai"><i class="icon icon-circle-o"></i>Ujian Uraian</a></li>
                             <li><a href="/daftar-ranking-kelas"><i class="icon icon-circle-o"></i>Ranking Kelas</a></li>
+                            <li><a href="/halaman-unduh-hasil-uraian"><i class="icon icon-circle-o"></i>Unduh Hasil Uraian</a></li>
+                            <li><a href="/admin-download-data-ujian-pilihan"><i class="icon icon-circle-o"></i>Unduh Hasil Pilihan Ganda</a></li>
                         </ul>
                     </li>
                     {{--  --}}
