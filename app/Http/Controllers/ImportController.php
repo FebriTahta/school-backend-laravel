@@ -104,12 +104,14 @@ class ImportController extends Controller
                             }
                         }
                     }
-                    $myFileName = 'be_assets\exam\exam_' . $uid . '.' . $extension;
+                    // $myFileName = 'be_assets\exam\exam_' . $uid . '.' . $extension;
+                    $myFileName = 'be_' . $uid . '.' . $extension;
                     file_put_contents($myFileName, $imageContents);
                     $objphpexcel->getActiveSheet()->setCellValue($drawing->getCoordinates(), $myFileName);
                 }
                 $writer = new Xlsx($objphpexcel);
-                $temp = 'be_assets\exam\tempImportExam.xlsx';
+                // $temp = 'be_assets\exam\tempImportExam.xlsx';
+                $temp = 'be_tempImportExam.xlsx';
                 $writer->save($temp);
                 $exam_mapel = Mapel::where('id', $request->mapel_id)->first();
                 $ujian = Examurai::create([
