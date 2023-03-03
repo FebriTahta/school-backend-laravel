@@ -22,8 +22,12 @@
                     @endphp 
                     <small>
                         PERIODE : 
+                        @if ($jawaban)
                         {{ \Carbon\Carbon::parse($start->examurai_datetimestart)->format('d F') }} - 
                         {{ \Carbon\Carbon::parse($last->examurai_datetimestart)->format('d F Y') }}
+                        @else
+                        -
+                        @endif
                     </small>
                 </th>
             </tr>

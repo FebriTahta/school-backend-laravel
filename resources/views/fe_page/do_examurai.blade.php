@@ -24,7 +24,7 @@
                                             @php
                                                 $soal_first = $soal->first();
                                             @endphp
-                                            <h4>{{$soal_first->examurai->examurai_datetimeend }} ({{ $soal_first->examurai->examurai_lamapengerjaan }}:00 MENIT)</h4>
+                                            <h4>{{ \Carbon\Carbon::parse($soal_first->examurai->examurai_datetimeend)->format('d F Y - h:i') }} ({{ $soal_first->examurai->examurai_lamapengerjaan }}:00 MENIT)</h4>
                                             <input type="hidden" id="waktu_selesai" value="{{ $soal_first->examurai->examurai_datetimeend }}">
                                             <h5 id="counter"></h5>
                                         </h3>
