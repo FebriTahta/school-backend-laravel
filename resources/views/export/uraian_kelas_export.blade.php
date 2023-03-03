@@ -22,7 +22,7 @@
                     @endphp 
                     <small>
                         PERIODE : 
-                        @if ($jawaban)
+                        @if ($jawaban->count() > 0)
                         {{ \Carbon\Carbon::parse($start->examurai_datetimestart)->format('d F') }} - 
                         {{ \Carbon\Carbon::parse($last->examurai_datetimestart)->format('d F Y') }}
                         @else
