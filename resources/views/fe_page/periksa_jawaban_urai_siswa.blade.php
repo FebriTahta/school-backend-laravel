@@ -26,7 +26,13 @@
                                         </h3>
 
                                         <div class="events__sponsor-info">
-                                            <h3>Note : </h3>
+                                            <h3>
+                                                Note : {{ $siswa->siswa_name }}
+                                                <br>
+                                                ( {{ $kelas->angkatan->tingkat->tingkat_name }}
+                                                {{ $kelas->jurusan->jurusan_name }}
+                                                {{ $kelas->kelas_name }} )
+                                            </h3>
                                             <h4><span>Periksa jawaban siswa sebagai berikut</span></h4>
                                         </div>
                                         <div class="events__sponsor-info button-nav">
@@ -142,8 +148,24 @@
                                         </div>
                                         <hr>
                                         <div class="submit-btn" style="margin-top: 10px; text-align: right">
-                                            <input type="submit" class="btn btn-sm btn-success" id="btnadd" value="Jawaban Benar">
-                                            <input type="submit" class="btn btn-sm btn-danger" id="btnadd" value="Jawaban Salah">
+                                            @if ($jawabanku_ada2 !== null)
+                                            <form action="/submit-periksa-uraian" method="POST" style="margin-bottom: 10px">@csrf
+                                                <input type="hidden" class="form-control" name="siswa_id" value="{{ $siswa->id }}">
+                                                <input type="hidden" class="form-control" name="kelas_id" value="{{ $kelas->id }}">
+                                                <input type="hidden" class="form-control" name="examurai_id" value="{{ $examurai_id }}">
+                                                <input type="hidden" class="form-control" name="soalexamurai_id" value="{{ $q->id }}">
+                                                <input type="hidden" class="form-control" name="status" value="benar">
+                                                <input type="submit" style="width: 150px" class="btn btn-sm btn-success" id="btnadd" value="Jawaban Benar">
+                                            </form>
+                                            <form action="/submit-periksa-uraian" method="POST" style="margin-bottom: 10px">@csrf
+                                                <input type="hidden" class="form-control" name="siswa_id" value="{{ $siswa->id }}">
+                                                <input type="hidden" class="form-control" name="kelas_id" value="{{ $kelas->id }}">
+                                                <input type="hidden" class="form-control" name="examurai_id" value="{{ $examurai_id }}">
+                                                <input type="hidden" class="form-control" name="soalexamurai_id" value="{{ $q->id }}">
+                                                <input type="hidden" class="form-control" name="status" value="benar">                                                
+                                                <input type="submit" style="width: 150px" class="btn btn-sm btn-danger" id="btnadd" value="Jawaban Salah">
+                                            </form>
+                                            @endif
                                         </div>
                                     @endforeach
                                 @endif

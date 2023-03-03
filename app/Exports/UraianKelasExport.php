@@ -25,31 +25,29 @@ class UraianKelasExport implements FromView
 
     public function drawings()
     {
-        $image = null;
-        foreach ($this->jawaban as $key => $item) {
-        //     # code...
-        //     if (Str::limit($item->soalexamurai->soalexam_name, 3) == 'be_...')
-            if (!!$item && Str::limit($item->soalexamurai->soalexam_name, 3) == 'be_...') {
-                # code...
-                // $ke = $key;
-                $image[$key] = new Drawing();
-                $image[$key]->setName('soal');
-                $image[$key]->setDescription('soal');
-                // $drawing.$key->setPath(public_path('/be_assets/exam/exam_fffa81df-a25e-473a-8434-7cc0ab07d550.png'));
-                $image[$key]->setPath(public_path($item->soalexamurai->soalexam_name));
-                $image[$key]->setHeight(90);
-                $image[$key]->setCoordinates('D'.$i+$key);
-            }            
-        }
-
-        if($image !== null){
-            return $image;
-        }
+            $image = [];
+            $i = 7;
+            foreach ($this->jawaban as $key => $item) {
+                //     # code...
+                //     if (Str::limit($item->soalexamurai->soalexam_name, 3) == 'be_...')
+                    if (!!$item && Str::limit($item->soalexamurai->soalexam_name, 3) == 'be_...') {
+                        # code...
+                        // $ke = $key;
+                        $image[$key] = new Drawing();
+                        $image[$key]->setName('soal');
+                        $image[$key]->setDescription('soal');
+                        // $drawing.$key->setPath(public_path('/be_assets/exam/exam_fffa81df-a25e-473a-8434-7cc0ab07d550.png'));
+                        $image[$key]->setPath(public_path($item->soalexamurai->soalexam_name));
+                        $image[$key]->setHeight(90);
+                        $image[$key]->setCoordinates('D'.$i+$key);
+                    }            
+                }
+                
+                return $image;
     }
 
     public function view(): View
     {
-
         return view('export.uraian_kelas_export',[
             'jawaban'=> $this->jawaban
         ]);

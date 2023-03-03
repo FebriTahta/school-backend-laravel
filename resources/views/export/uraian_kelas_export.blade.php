@@ -15,7 +15,17 @@
     <table>
         <thead style="font-weight: bold; text-transform: uppercase">
             <tr>
-                <th rowspan="3" colspan="10">DATA URAIAN JAWABAN <br> <small></small></th>
+                <th rowspan="3" colspan="10">DATA URAIAN JAWABAN <br>
+                    @php
+                        $start = $jawaban->first();
+                        $last  = $jawaban->last();
+                    @endphp 
+                    <small>
+                        PERIODE : 
+                        {{ \Carbon\Carbon::parse($start->examurai_datetimestart)->format('d F') }} - 
+                        {{ \Carbon\Carbon::parse($last->examurai_datetimestart)->format('d F Y') }}
+                    </small>
+                </th>
             </tr>
         </thead>
     </table>
@@ -49,12 +59,13 @@
                             <td style="height: 100px;"></td>
                         @else
                             <td>
-                                @php
+                                {{-- @php
                                     echo strip_tags(html_entity_decode($item->soalexamurai->soalexam_name))
-                                @endphp
+                                @endphp --}}
+                                {{ strip_tags($item->soalexamurai->soalexam_name) }}
                             </td>
                         @endif
-                        <td>{{ $item->jawabanku }}</td>
+                        <td>{{ strip_tags($item->jawabanku) }}</td>
                         <td>
                             @if ($item->nilaiku !== null)
                                 {{ $item->nilaiku }}

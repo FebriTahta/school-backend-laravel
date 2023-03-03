@@ -22,6 +22,7 @@ use Carbon\Carbon;
 use Maatwebsite\Excel\Excel as ExcelExcel;
 use App\Exports\UraianKelasExport;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Writer\ExcelWriter;
 
 class ExamController extends Controller
 {
@@ -768,34 +769,36 @@ class ExamController extends Controller
                         ->where('mapel_id', $request->mapel_id)
                         ->first();
             
-            if ($mapelmaster->guru_id == null) {
+            if ($mapelmaster?->guru_id == null) {
                 # code...
+                $mapel = Mapel::where('id',$request->mapel_id)->first();
+                $kelas = Kelas::where('id',$request->kelas_id)->first();
                 return response()->json([
                     'status'=> 400,
-                    'soal_id' => $request->urut,
-                    'message' => 'jawaban berhasil dikirim',
+                    'message' => 'Belum ada guru yang bertugas pada mapel - '.$mapel->mapel_name. 
+                    ' Kelas : '.$kelas->angkatan->tingkat->tingkat_name.' '.$kelas->jurusan->jurusan_name.' '.$kelas->kelas_name,
                 ]);
             }else {
                 # code...
-                // $guru_id     = $mapelmaster->guru_id;
-                // $jawab = Jawabanexamurai::updateOrCreate(
-                //     [
-                //         'siswa_id' => auth()->user()->siswa->id,
-                //         'kelas_id' => $request->kelas_id,
-                //         'guru_id'  => $guru_id,
-                //         'examurai_id' => $request->examurai_id,
-                //         'soalexamurai_id' => $request->soalexamurai_id,
-                //     ],
-                //     [
-                //         'siswa_id' => auth()->user()->siswa->id,
-                //         'kelas_id' => $request->kelas_id,
-                //         'guru_id'  => $guru_id,
-                //         'examurai_id' => $request->examurai_id,
-                //         'soalexamurai_id' => $request->soalexamurai_id,
-                //         'jawabanku' => $request->jawabanku,
-                //         'nilaiku' => null,
-                //     ]
-                // );
+                $guru_id     = $mapelmaster->guru_id;
+                $jawab = Jawabanexamurai::updateOrCreate(
+                    [
+                        'siswa_id' => auth()->user()->siswa->id,
+                        'kelas_id' => $request->kelas_id,
+                        'guru_id'  => $guru_id,
+                        'examurai_id' => $request->examurai_id,
+                        'soalexamurai_id' => $request->soalexamurai_id,
+                    ],
+                    [
+                        'siswa_id' => auth()->user()->siswa->id,
+                        'kelas_id' => $request->kelas_id,
+                        'guru_id'  => $guru_id,
+                        'examurai_id' => $request->examurai_id,
+                        'soalexamurai_id' => $request->soalexamurai_id,
+                        'jawabanku' => $request->jawabanku,
+                        'nilaiku' => null,
+                    ]
+                );
                 
     
                 return response()->json([
@@ -809,7 +812,7 @@ class ExamController extends Controller
             # code...
             return response()->json([
                 'status'=> 400,
-                'soal_id' => $request->urut.' - '.$mapelmaster->guru_id,
+                'soal_id' => $request->urut,
                 'message' => 'tidak dapat mengirim jawaban kosong',
             ]);
         }
@@ -866,23 +869,25 @@ class ExamController extends Controller
     public function periksa_jawaban_uraian_siswa($siswa_id,$kelas_id,$guru_id,$examurai_id)
     {
         $nomorurut = null;
+        $examurai_id = $examurai_id;
         $soal = Soalexamurai::where('examurai_id',$examurai_id)->get();
         $q = Soalexamurai::where('examurai_id', $examurai_id)->limit(1)->get();
         $kelas = Kelas::where('id',$kelas_id)->first();
         $siswa = Siswa::where('id',$siswa_id)->first();
         $guru  = Guru::where('id',$guru_id)->first();
-        return view('fe_page.periksa_jawaban_urai_siswa',compact('soal','kelas','siswa','guru','q','nomorurut'));
+        return view('fe_page.periksa_jawaban_urai_siswa',compact('soal','kelas','siswa','guru','q','nomorurut','examurai_id'));
     }
 
     public function periksa_jawaban_uraian_siswa_next($siswa_id,$kelas_id,$guru_id,$examurai_id,$id,$nomorurut)
     {
         $nomorurut = $nomorurut;
+        $examurai_id = $examurai_id;
         $soal = Soalexamurai::where('examurai_id',$examurai_id)->get();
         $q = Soalexamurai::where('id', $id)->limit(1)->get();
         $kelas = Kelas::where('id',$kelas_id)->first();
         $siswa = Siswa::where('id',$siswa_id)->first();
         $guru  = Guru::where('id',$guru_id)->first();
-        return view('fe_page.periksa_jawaban_urai_siswa',compact('soal','kelas','siswa','guru','q','nomorurut'));
+        return view('fe_page.periksa_jawaban_urai_siswa',compact('soal','kelas','siswa','guru','q','nomorurut','examurai_id'));
     }
 
     public function halaman_unduh_hasil_uraian()
@@ -934,6 +939,34 @@ class ExamController extends Controller
 
         $jawaban  = Jawabanexamurai::whereIn('examurai_id', $examurai_id2)->orderBy('siswa_id','asc')
         ->orderBy('soalexamurai_id','asc')->get();
-        return Excel::download(new UraianKelasExport(collect($jawaban)), 'jawaban_uraian_'.$kelas->angkatan->tingkat->tingkat_name.' '.$kelas->jurusan->jurusan_name.' '.$kelas->kelas_name.'.xlsx',ExcelExcel::XLSX);
+        $export = new UraianKelasExport($jawaban);
+        return Excel::download( $export, 'jawaban_uraian_'.$kelas->angkatan->tingkat->tingkat_name.' '.$kelas->jurusan->jurusan_name.' '.$kelas->kelas_name.'.xlsx',ExcelExcel::XLSX);
+    }
+
+    public function sumbit_periksa_uraian(Request $request)
+    {
+        if ($request->status == 'benar') {
+            # code...
+            $total_soal = Soalexamurai::where('examurai_id', $request->examurai_id)->count();
+            $kalkulasi  = round(100 / $total_soal);
+            $jawaban    = Jawabanexamurai::where('siswa_id', $request->siswa_id)
+                          ->where('kelas_id', $request->kelas_id)
+                          ->where('examurai_id', $request->examurai_id)
+                          ->where('soalexamurai_id', $request->soalexamurai_id)
+                          ->update(
+                            ['nilaiku'=>$kalkulasi]
+                          );
+            return redirect()->back();
+        }else {
+            # code...
+            $jawaban    = Jawabanexamurai::where('siswa_id', $request->siswa_id)
+                          ->where('kelas_id', $request->kelas_id)
+                          ->where('examurai_id', $request->examurai_id)
+                          ->where('soalexamurai_id', $request->soalexamurai_id)
+                          ->update(
+                            ['nilaiku'=>0]
+                          );
+            return redirect()->back();
+        }
     }
 }

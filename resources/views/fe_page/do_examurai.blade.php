@@ -21,7 +21,11 @@
                                 <div class="events__sidebar-widget white-bg">
                                     <div class="events__sponsor" style="text-align: center">
                                         <h3 class="events__sponsor-title">
-                                            {{-- <h4>{{$quiz->ujian_datetimeend }} ({{ $quiz->ujian_lamapengerjaan }}:00 MENIT)</h4> --}}
+                                            @php
+                                                $soal_first = $soal->first();
+                                            @endphp
+                                            <h4>{{$soal_first->examurai->examurai_datetimeend }} ({{ $soal_first->examurai->examurai_lamapengerjaan }}:00 MENIT)</h4>
+                                            <input type="hidden" id="waktu_selesai" value="{{ $soal_first->examurai->examurai_datetimeend }}">
                                             <h5 id="counter"></h5>
                                         </h3>
 
@@ -200,20 +204,20 @@
         //         height: 200
         // });
 
-        // $(document).ready(function() {
-        //     $('#summernote').summernote({
-        //         blockquoteBreakingLevel: 0,
-        //         lineHeights : 0,
-        //         height: 200,
-        //     });
+        $(document).ready(function() {
+            $('#summernote').summernote({
+                blockquoteBreakingLevel: 0,
+                lineHeights : 0,
+                height: 200,
+            });
             
-        // });
+        });
 
             // Summernote Plugin: Soft breaks only
     // ------------------------------------------------------------------------------------------------------------------ //
     
     // Allow Summernote to not auto-generate p tags
-    $.summernote.dom.emptyPara = "<div>" + "\n" + "</div>";
+    // $.summernote.dom.emptyPara = "<div>" + "\n" + "</div>";
     
     // Initiate plugin
     $.extend($.summernote.plugins, {
@@ -293,9 +297,10 @@
             });
         });
     </script>
-    {{-- <script>
+    <script>
         function startQuiz() {
-            var countDownDate = new Date(@json($quiz->exam_datetimeend)).getTime();
+            var waktu_selesai = $('#waktu_selesai').val();
+            var countDownDate = new Date(waktu_selesai).getTime();
 
             // Update the count down every 1 second
             var x = setInterval(function() {
@@ -324,12 +329,19 @@
                         html: 'Ujian berakhir. Redirecting... ',
                         type: "info",
                     });
-                    document.getElementById("formQuiz").submit();
+                    // document.getElementById("formQuiz").submit();
                     window.location.href= '/';
                 }
             }, 1000);
 
         }
+
+        $(document).ready(function() {
+            startQuiz();
+        });
+    </script>
+    {{-- <script>
+    
         // function disable refresh page
         function disableF5(e) {
             if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) {

@@ -253,6 +253,7 @@ Route::get('/periksa-jawaban-uraian/{mapelmaster_id}',[ExamController::class,'pe
 Route::get('/daftar-uraian-siswa/{examurai_id}/{kelas_id}/{guru_id}',[ExamController::class,'daftar_uraian_siswa']);
 Route::get('/periksa-jawaban-uraian-siswa/{siswa_id}/{kelas_id}/{guru_id}/{examurai_id}',[ExamController::class,'periksa_jawaban_uraian_siswa']);
 Route::get('/periksa-jawaban-uraian-siswa-next/{siswa_id}/{kelas_id}/{guru_id}/{examurai_id}/{id}/{nomorurut}',[ExamController::class,'periksa_jawaban_uraian_siswa_next']);
+Route::post('/submit-periksa-uraian',[ExamController::class,'sumbit_periksa_uraian']);
 
 
 
