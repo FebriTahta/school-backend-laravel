@@ -738,9 +738,9 @@ class ExamController extends Controller
         $kelas_id = Crypt::decrypt($kelas_id);
         $kelas = Kelas::findOrFail($kelas_id);
         $pilihan_ganda_aktif = $kelas->exam->where('exam_status','aktif');
-        $uraian_aktif = $kelas->examurai->where('examurai_status','aktif');
+        // $uraian_aktif = $kelas->examurai->where('examurai_status','aktif');
         $siswa = auth()->user()->siswa;
-        $tes = Examurai::whereHas('kelas', function($query) use ($kelas){
+        $uraian_aktif = Examurai::where('examurai_status','aktif')->whereHas('kelas', function($query) use ($kelas){
             $query->where('kelas_id', $kelas->id);
         })->get();
         $examurai_id = [];
@@ -753,15 +753,7 @@ class ExamController extends Controller
                 $q->where('examurai_id', $x);
             })->count();
         }
-        return $siswa_kelas;
-        // return $examurai_id;
-
-        
-        
-
-        
-
-        return view('fe_page.daftar_pilihan_ganda',compact('kelas','siswa','pilihan_ganda_aktif','uraian_aktif','total'));
+        return view('fe_page.daftar_pilihan_ganda',compact('kelas','siswa','pilihan_ganda_aktif','uraian_aktif','siswa_kelas'));
     }
 
     public function do_exam_urai(Request $request, $examurai_id, $mapel_id, $kelas_id)

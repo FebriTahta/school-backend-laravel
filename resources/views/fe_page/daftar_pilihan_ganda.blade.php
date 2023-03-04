@@ -130,7 +130,7 @@
                                                                                     $siswa_yang_mengerjakan = App\Models\Jawabanexamurai::where('kelas_id',$kelas->id)->where('examurai_id',$item->id)->select('siswa_id')->distinct()->get();
                                                                                 @endphp --}}
                                                                                 Dikerjakan 
-                                                                                {{-- {{ $siswa_yang_mengerjakan->count() }} --}} {{ $total[$key]->count() }}
+                                                                                {{-- {{ $siswa_yang_mengerjakan->count() }} --}} {{ $siswa_kelas[$key] }}
                                                                                 siswa
                                                                                 
                                                                             @endif
