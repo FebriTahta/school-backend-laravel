@@ -744,7 +744,7 @@ class ExamController extends Controller
         })->get();
         $pilihan_ganda_aktif = Exam::where('exam_status','aktif')->whereHas('kelas', function($query2) use ($kelas){
             $query2->where('kelas_id',$kelas->id);
-        })
+        })->get();
         $siswa_kelas = [];
         foreach ($uraian_aktif as $key => $value) {
             # code...

@@ -126,13 +126,7 @@
                                                                             @if ($item->jawabanexamurai->count() < 1)
                                                                                 Belum ada yang mengerjakan dikerjakan
                                                                             @else
-                                                                                {{-- @php
-                                                                                    $siswa_yang_mengerjakan = App\Models\Jawabanexamurai::where('kelas_id',$kelas->id)->where('examurai_id',$item->id)->select('siswa_id')->distinct()->get();
-                                                                                @endphp --}}
-                                                                                Dikerjakan 
-                                                                                {{-- {{ $siswa_yang_mengerjakan->count() }} --}} {{ $siswa_kelas[$key] }}
-                                                                                siswa
-                                                                                
+                                                                                Dikerjakan {{ $siswa_kelas[$key] }} siswa
                                                                             @endif
                                                                         </span>
                                                                     </div>
@@ -194,17 +188,12 @@
                                                                             @if ($item->jawabanexam->count() < 1)
                                                                                 Belum ada yang mengerjakan dikerjakan
                                                                             @else
-                                                                                {{-- @php
-                                                                                    $siswa_yang_mengerjakan = App\Models\Jawabanexam::where('kelas_id',$kelas->id)->where('exam_id',$item->id)->select('siswa_id')->distinct()->get();
-                                                                                @endphp
-                                                                                Dikerjakan {{ $siswa_yang_mengerjakan->count() }}
-                                                                                siswa --}}
-                                                                                --
+                                                                            Dikerjakan {{ $siswa_kelas2[$key] }} siswa
                                                                             @endif
                                                                         </span>
                                                                     </div>
                                                                     <div class="course__curriculum-meta">
-                                                                        {{-- @php
+                                                                        @php
                                                                             $jawabanku = App\Models\Jawabanexam::where('kelas_id', $kelas->id)->where('exam_id',$item->id)
                                                                                 ->where('siswa_id', auth()->user()->siswa->id)
                                                                                 ->first();
@@ -216,7 +205,7 @@
                                                                         @else
                                                                             <button onclick="check({{ $item }},{{ $item->mapel_id }},{{ $siswa->kelas->id }},'/do-exam')"
                                                                              class="btn btn-sm btn-info text-white">sudah dikerjakan</button>
-                                                                        @endif --}}
+                                                                        @endif
                                                                     </div>
                                                                 </div>
                                                             </div>
