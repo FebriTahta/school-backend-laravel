@@ -737,15 +737,20 @@ class ExamController extends Controller
         $siswa = auth()->user()->siswa;
         $tes = Examurai::whereHas('kelas', function($query) use ($kelas){
             $query->where('kelas_id', $kelas->id);
-        })->get();
+        })->first();
 
-        $total_siswa = [];
-        foreach ($tes as $key => $uraian) {
+        $siswa = Siswa::where('kelas_id', $kelas->id)->get();
+        $i = [];
+        foreach ($siswa as $key => $value) {
             # code...
-            $total_siswa[] = $uraian->jawabanexamurai->where('siswa_id', $siswa->id)->count();
+            if ($siswa->jawabanexamurai->where('examurai', $tes->id)) {
+                # code...
+                $i[] = 1;
+                $i ++;
+            }
         }
 
-        return $total_siswa;
+        return $i;
 
         return view('fe_page.daftar_pilihan_ganda',compact('kelas','siswa','pilihan_ganda_aktif','uraian_aktif'));
     }
