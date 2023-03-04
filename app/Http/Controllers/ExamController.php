@@ -728,6 +728,11 @@ class ExamController extends Controller
         ]);
     }
 
+    public function __construct(Siswa $siswa)
+    {
+        $this->siswa = $siswa->get();
+    }
+
     public function daftar_pilihan_ganda(Request $request, $kelas_id)
     {
         $kelas_id = Crypt::decrypt($kelas_id);
@@ -739,18 +744,20 @@ class ExamController extends Controller
             $query->where('kelas_id', $kelas->id);
         })->get();
         $examurai_id = [];
+        $siswa_kelas = [];
         foreach ($tes as $key => $value) {
             # code...
             $examurai_id[] =$value->id;
+            $x = $value->id;
+            $this->siswa->where('kelas_id', $kelas_id)->whereHas('jawabanexamurai', function($q)use($x){
+                $q->whereIn('examurai_id', $x);
+            })->count();
         }
-
+        return $siswa_kelas;
         // return $examurai_id;
 
         
-        $siswa_kelas = Siswa::where('kelas_id', $kelas_id)->whereHas('jawabanexamurai', function($q)use($examurai_id){
-            $q->whereIn('examurai_id', $examurai_id);
-        })->count();
-        return $siswa_kelas ;
+        
 
         
 
