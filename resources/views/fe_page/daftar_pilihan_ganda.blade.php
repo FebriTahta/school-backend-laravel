@@ -136,9 +136,9 @@
                                                                         </span>
                                                                     </div>
                                                                     <div class="course__curriculum-meta">
-                                                                        {{-- @php
+                                                                        @php
                                                                             $jawabanku = App\Models\Jawabanexamurai::where('kelas_id', $kelas->id)->where('examurai_id',$item->id)
-                                                                                ->where('siswa_id', auth()->user()->siswa->id)
+                                                                                ->where('siswa_id', auth()->user()->siswa->id)->with(['mapel','kelas'])
                                                                                 ->first();
                                                                         @endphp
                                                                         @if ($jawabanku == null)
@@ -148,7 +148,7 @@
                                                                         @else
                                                                             <button onclick="check2({{ $item }},{{ $item->mapel_id }},{{ $siswa->kelas->id }},'/do-exam-uraian')"
                                                                              class="btn btn-sm btn-info text-white">sudah dikerjakan</button>
-                                                                        @endif --}}
+                                                                        @endif
                                                                     </div>
                                                                 </div>
                                                             </div>
