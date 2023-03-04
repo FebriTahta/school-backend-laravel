@@ -744,7 +744,7 @@ class ExamController extends Controller
             $examurai_id[] =$value->id;
         }
 
-        return $examurai_id;
+        // return $examurai_id;
 
         $total = Jawabanexamurai::whereIn('examurai_id', 13)->select('siswa_id')->distinct()->get();
         return $total->count();
