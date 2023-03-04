@@ -742,7 +742,7 @@ class ExamController extends Controller
         $total_siswa = [];
         foreach ($tes as $key => $uraian) {
             # code...
-            $total_siswa[] = $uraian->jawabanexamurai->where('siswa_id', $siswa_id)->count();
+            $total_siswa[] = $uraian->jawabanexamurai->where('siswa_id', $siswa->id)->count();
         }
 
         return $total_siswa;
