@@ -743,7 +743,7 @@ class ExamController extends Controller
         $i = [];
         foreach ($siswa as $key => $value) {
             # code...
-            if ($siswa->jawabanexamurai->where('examurai', $tes->id)) {
+            if ($value->jawabanexamurai->where('examurai', $tes->id)) {
                 # code...
                 $i[] = 1;
                 $i ++;
