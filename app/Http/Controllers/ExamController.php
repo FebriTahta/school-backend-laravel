@@ -733,7 +733,7 @@ class ExamController extends Controller
         $kelas_id = Crypt::decrypt($kelas_id);
         $kelas = Kelas::findOrFail($kelas_id);
         $pilihan_ganda_aktif = $kelas->exam->where('exam_status','aktif');
-        $uraian_aktif = $kelas->examurai->where('examurai_status','aktif')->with('jawabanexamurai.siswa');
+        $uraian_aktif = $kelas->examurai->where('examurai_status','aktif')->with('jawabanexamurai');
         $siswa = auth()->user()->siswa;
         return $uraian_aktif;
         return view('fe_page.daftar_pilihan_ganda',compact('kelas','siswa','pilihan_ganda_aktif','uraian_aktif'));
