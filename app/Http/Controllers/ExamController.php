@@ -738,7 +738,7 @@ class ExamController extends Controller
         $total_siswa = [];
         foreach ($uraian_aktif as $key => $value) {
             # code...
-            $total_siswa[] = $siswa->jawabanexamurai->where('examurai_id',$value->id)->count();
+            $total_siswa[] = $siswa->jawabanexamurai->where('examurai_id',$value->id);
         }
         return $total_siswa;
         return view('fe_page.daftar_pilihan_ganda',compact('kelas','siswa','pilihan_ganda_aktif','uraian_aktif'));
