@@ -737,9 +737,14 @@ class ExamController extends Controller
         $siswa = auth()->user()->siswa;
         $tes = Examurai::whereHas('kelas', function($query) use ($kelas){
             $query->where('kelas_id', $kelas->id);
-        })->first();
+        })->get();
+        $examurai_id = [];
+        foreach ($tes as $key => $value) {
+            # code...
+            $examurai_id[] =$value->id;
+        }
 
-        $total = Jawabanexamurai::where('examurai_id', $tes)->select('siswa_id')->distinct()->get();
+        $total = Jawabanexamurai::whereIn('examurai_id', $examurai_id)->select('siswa_id')->distinct()->get();
         return $total;
 
         
