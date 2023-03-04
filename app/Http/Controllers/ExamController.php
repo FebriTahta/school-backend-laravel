@@ -735,7 +735,7 @@ class ExamController extends Controller
         $pilihan_ganda_aktif = $kelas->exam->where('exam_status','aktif');
         $uraian_aktif = $kelas->examurai->where('examurai_status','aktif');
         $siswa = auth()->user()->siswa;
-        $tes = Exam::whereHas('kelas', function($query) use ($kelas){
+        $tes = Examurai::whereHas('kelas', function($query) use ($kelas){
             $query->where('kelas_id', $kelas->id);
         })->get();
 
