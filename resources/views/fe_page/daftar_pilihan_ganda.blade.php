@@ -126,10 +126,11 @@
                                                                             @if ($item->jawabanexamurai->count() < 1)
                                                                                 Belum ada yang mengerjakan dikerjakan
                                                                             @else
-                                                                                @php
+                                                                                {{-- @php
                                                                                     $siswa_yang_mengerjakan = App\Models\Jawabanexamurai::where('kelas_id',$kelas->id)->where('examurai_id',$item->id)->select('siswa_id')->distinct()->get();
-                                                                                @endphp
-                                                                                Dikerjakan {{ $siswa_yang_mengerjakan->count() }}
+                                                                                @endphp --}}
+                                                                                Dikerjakan 
+                                                                                {{-- {{ $siswa_yang_mengerjakan->count() }} --}} {{ $total[$key]->count() }}
                                                                                 siswa
                                                                                 
                                                                             @endif

@@ -747,11 +747,11 @@ class ExamController extends Controller
         // return $examurai_id;
 
         $total = Jawabanexamurai::where('kelas_id',$kelas->id)->whereIn('examurai_id',$examurai_id)->select('siswa_id')->distinct()->get();
-        return $total->count();
+        // return $total->count();
 
         
 
-        return view('fe_page.daftar_pilihan_ganda',compact('kelas','siswa','pilihan_ganda_aktif','uraian_aktif'));
+        return view('fe_page.daftar_pilihan_ganda',compact('kelas','siswa','pilihan_ganda_aktif','uraian_aktif','total'));
     }
 
     public function do_exam_urai(Request $request, $examurai_id, $mapel_id, $kelas_id)
