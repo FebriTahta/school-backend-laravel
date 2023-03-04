@@ -749,7 +749,7 @@ class ExamController extends Controller
             # code...
             $examurai_id[] =$value->id;
             $x = $value->id;
-            $siswa_kelas = Siswa::where('kelas_id', $kelas_id)->whereHas('jawabanexamurai', function($q)use($x){
+            $siswa_kelas[] = Siswa::where('kelas_id', $kelas_id)->whereHas('jawabanexamurai', function($q)use($x){
                 $q->where('examurai_id', $x);
             })->count();
         }
