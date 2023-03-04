@@ -740,17 +740,17 @@ class ExamController extends Controller
         })->first();
 
         $siswa = Siswa::where('kelas_id', $kelas->id)->get();
-        $i = [];
+        $i = 1;
+        $x = [];
         foreach ($siswa as $key => $value) {
             # code...
             if ($value->jawabanexamurai->where('examurai', $tes->id)) {
                 # code...
-                $i[] = 1;
-                $i ++;
+                $x[] = $i + $key;
             }
         }
 
-        return $i;
+        return $x;
 
         return view('fe_page.daftar_pilihan_ganda',compact('kelas','siswa','pilihan_ganda_aktif','uraian_aktif'));
     }
