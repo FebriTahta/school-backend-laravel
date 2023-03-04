@@ -739,7 +739,14 @@ class ExamController extends Controller
             $query->where('kelas_id', $kelas->id);
         })->get();
 
-        return $tes;
+        $total_siswa = [];
+        foreach ($tes as $key => $uraian) {
+            # code...
+            $total_siswa[] = $uraian->jawabanexamurai->where('siswa_id', $siswa_id)->count();
+        }
+
+        return $total_siswa;
+
         return view('fe_page.daftar_pilihan_ganda',compact('kelas','siswa','pilihan_ganda_aktif','uraian_aktif'));
     }
 
