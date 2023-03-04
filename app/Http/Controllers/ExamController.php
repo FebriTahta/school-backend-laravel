@@ -750,7 +750,7 @@ class ExamController extends Controller
         $total_siswa = [];
         foreach ($total as $key => $sis) {
             # code...
-            $total_siswa[] = $sis->siswa_id->count();
+            $total_siswa[] = $sis->select('siswa_id')->distinct()->count();
         }
         return $total_siswa;
 
