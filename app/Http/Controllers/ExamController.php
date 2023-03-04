@@ -738,22 +738,31 @@ class ExamController extends Controller
         $kelas_id = Crypt::decrypt($kelas_id);
         $kelas = Kelas::findOrFail($kelas_id);
         $pilihan_ganda_aktif = $kelas->exam->where('exam_status','aktif');
-        // $uraian_aktif = $kelas->examurai->where('examurai_status','aktif');
         $siswa = auth()->user()->siswa;
         $uraian_aktif = Examurai::where('examurai_status','aktif')->whereHas('kelas', function($query) use ($kelas){
             $query->where('kelas_id', $kelas->id);
         })->get();
-        $examurai_id = [];
+        $pilihan_ganda_aktif = Exam::where('exam_status','aktif')->whereHas('kelas', function($query2) use ($kelas){
+            $query2->where('kelas_id',$kelas->id);
+        })
         $siswa_kelas = [];
         foreach ($uraian_aktif as $key => $value) {
             # code...
-            $examurai_id[] =$value->id;
             $x = $value->id;
             $siswa_kelas[] = Siswa::where('kelas_id', $kelas_id)->whereHas('jawabanexamurai', function($q)use($x){
                 $q->where('examurai_id', $x);
             })->count();
         }
-        return view('fe_page.daftar_pilihan_ganda',compact('kelas','siswa','pilihan_ganda_aktif','uraian_aktif','siswa_kelas'));
+
+        $siswa_kelas2 = [];
+        foreach ($pilihan_ganda_aktif as $key2 => $val) {
+            # code...
+            $y = $val->id;
+            $siswa_kelas2[] = Siswa::where('kelas_id', $kelas_id)->whereHas('jawabanexam', function($q2)use($y){
+                $q2->where('examurai_id', $y);
+            })->count();
+        }
+        return view('fe_page.daftar_pilihan_ganda',compact('kelas','siswa','pilihan_ganda_aktif','uraian_aktif','siswa_kelas','siswa_kelas2'));
     }
 
     public function do_exam_urai(Request $request, $examurai_id, $mapel_id, $kelas_id)
