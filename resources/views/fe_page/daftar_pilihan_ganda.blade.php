@@ -138,7 +138,7 @@
                                                                     <div class="course__curriculum-meta">
                                                                         @php
                                                                             $jawabanku = App\Models\Jawabanexamurai::where('kelas_id', $kelas->id)->where('examurai_id',$item->id)
-                                                                                ->where('siswa_id', auth()->user()->siswa->id)->with(['mapel','kelas'])
+                                                                                ->where('siswa_id', auth()->user()->siswa->id)
                                                                                 ->first();
                                                                         @endphp
                                                                         @if ($jawabanku == null)
