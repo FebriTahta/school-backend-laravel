@@ -735,22 +735,22 @@ class ExamController extends Controller
         $pilihan_ganda_aktif = $kelas->exam->where('exam_status','aktif');
         $uraian_aktif = $kelas->examurai->where('examurai_status','aktif');
         $siswa = auth()->user()->siswa;
-        $tes = Examurai::whereHas('kelas', function($query) use ($kelas){
-            $query->where('kelas_id', $kelas->id);
-        })->first();
+        // $tes = Examurai::whereHas('kelas', function($query) use ($kelas){
+        //     $query->where('kelas_id', $kelas->id);
+        // })->first();
 
-        $siswa = Siswa::where('kelas_id', $kelas->id)->get();
-        $i = 1;
-        $x = [];
-        foreach ($siswa as $key => $value) {
-            # code...
-            if ($value->jawabanexamurai->where('examurai', $tes->id)) {
-                # code...
-                $x[] = $i + $key;
-            }
-        }
+        // $siswa = Siswa::where('kelas_id', $kelas->id)->get();
+        // $i = 1;
+        // $x = [];
+        // foreach ($siswa as $key => $value) {
+        //     # code...
+        //     if ($value->jawabanexamurai->where('examurai', $tes->id)) {
+        //         # code...
+        //         $x[] = $i + $key;
+        //     }
+        // }
 
-        return $x;
+        // return $x;
 
         return view('fe_page.daftar_pilihan_ganda',compact('kelas','siswa','pilihan_ganda_aktif','uraian_aktif'));
     }
