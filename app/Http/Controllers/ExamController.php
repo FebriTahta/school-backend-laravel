@@ -746,7 +746,7 @@ class ExamController extends Controller
 
         // return $examurai_id;
 
-        $total = Jawabanexamurai::where('kelas_id',$kelas->id)->whereIn('examurai_id',[13])->select('siswa_id')->distinct()->get();
+        $total = Jawabanexamurai::where('kelas_id',$kelas->id)->whereIn('examurai_id',[13])->select('siswa_id')->distinct()->toArray()->get();
         return $total->count();
 
         
