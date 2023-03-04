@@ -747,7 +747,7 @@ class ExamController extends Controller
         // return $examurai_id;
 
         
-        $siswa_kelas = Siswa::where('kelas_id', $kelas_id)->count();
+        $siswa_kelas = Siswa::where('kelas_id', $kelas_id)->whereHas('jawabanexamurai')->count();
         return $siswa_kelas ;
 
         
