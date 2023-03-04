@@ -735,6 +735,12 @@ class ExamController extends Controller
         $pilihan_ganda_aktif = $kelas->exam->where('exam_status','aktif');
         $uraian_aktif = $kelas->examurai->where('examurai_status','aktif');
         $siswa = auth()->user()->siswa;
+        $total_siswa = [];
+        foreach ($uraian_aktif as $key => $value) {
+            # code...
+            $total_siswa[] = $siswa->jawabanexamurai->where('examurai_id',$value->id)->count();
+        }
+        return $total_siswa;
         return view('fe_page.daftar_pilihan_ganda',compact('kelas','siswa','pilihan_ganda_aktif','uraian_aktif'));
     }
 
