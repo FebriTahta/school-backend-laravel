@@ -745,7 +745,7 @@ class ExamController extends Controller
         })->get();
         $examurai_id = [];
         $siswa_kelas = [];
-        foreach ($tes as $key => $value) {
+        foreach ($uraian_aktif as $key => $value) {
             # code...
             $examurai_id[] =$value->id;
             $x = $value->id;
