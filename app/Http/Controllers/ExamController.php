@@ -955,7 +955,9 @@ class ExamController extends Controller
             $examurai_id[] = $value->id;
         }
 
-        $examurai = Examurai::whereIn('id',$examurai_id)
+        $examurai = Examurai::whereHas('kelas', function($q) use ($kelas){
+            $q->where('kelas_id', $kelas->id);
+        })->whereIn('id',$examurai_id)
         ->whereBetween('examurai_datetimestart',[$tgl_awal,$tgl_akhir])->get();
 
         $examurai_id2= [];
@@ -967,6 +969,9 @@ class ExamController extends Controller
         $jawaban  = Jawabanexamurai::whereIn('examurai_id', $examurai_id2)->orderBy('siswa_id','asc')
         ->orderBy('soalexamurai_id','asc')->get();
         $export = new UraianKelasExport($jawaban);
+
+
+        // $siswa = Siswa::where('kelas_id',$kelas->id)->get();
         return Excel::download( $export, 'jawaban_uraian_'.$kelas->angkatan->tingkat->tingkat_name.' '.$kelas->jurusan->jurusan_name.' '.$kelas->kelas_name.'.xlsx',ExcelExcel::XLSX);
     }
 
