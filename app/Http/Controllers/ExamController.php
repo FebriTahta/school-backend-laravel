@@ -966,7 +966,7 @@ class ExamController extends Controller
             $examurai_id2[] = $val->id;
         }
 
-        $jawaban  = Jawabanexamurai::whereIn('examurai_id', $examurai_id2)->orderBy('siswa_id','asc')
+        $jawaban  = Jawabanexamurai::whereIn('examurai_id', $examurai_id2)->where('kelas_id',$kelas->id)->orderBy('siswa_id','asc')
         ->orderBy('soalexamurai_id','asc')->get();
         $export = new UraianKelasExport($jawaban);
 
