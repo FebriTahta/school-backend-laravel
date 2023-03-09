@@ -26,7 +26,8 @@ class DashboardController extends Controller
                     $online[] = 1;
                 }
             }
-            $offline = $user->count() - array_sum($online);
+            $semua   = User::count();
+            $offline = $semua - array_sum($online);
             return response()->json([
                 'status'=>200,
                 'message'=>'total user online',
