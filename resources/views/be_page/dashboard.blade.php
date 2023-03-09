@@ -256,13 +256,12 @@
                                     +'<img src="{{ asset('avatar.png') }}" alt="">'
                                 +'</td>'
                                 +'<td>'
-                                    +'<h6'+value.username+'</h6>'
+                                    +'<h6>'+value.username+'</h6>'
                                     +'<small class="text-muted">'+value.role+'</small>'
                                 +'</td>'
                                     +'<td>'+response.last_seen[key]+'</td>'
                                 +'<td>online</td>'
                             +'</tr></a>');
-                            console.log(value.username);
                         })
                     }
                 });
