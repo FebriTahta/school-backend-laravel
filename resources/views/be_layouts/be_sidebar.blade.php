@@ -92,7 +92,7 @@
                 </div>
                 <ul class="sidebar-menu">
                     <li class="header light mt-3"><strong>NAVIGATION</strong></li>
-                    <li class="treeview"><a href="/backend-dashboard">
+                    <li class="treeview"><a href="/admin-dashboard">
                             <i class="icon icon icon-package blue-text s-18"></i>
                             <span>Dashboard</span>
                             {{-- <span class="badge r-3 badge-primary pull-right">4</span> --}}

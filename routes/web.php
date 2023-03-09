@@ -50,6 +50,11 @@ Route::controller(UserController::class)->group(function(){
     Route::post('/update-user','update_user');
     Route::post('/hapus-user','hapus_user');
 });
+
+Route::controller(DashboardController::class)->group(function(){
+    Route::get('/total-user-online','total_user_online');
+    Route::get('/last-4-online-user','last_four_online');
+});
  
 Route::group(['middleware' => ['auth', 'CheckRole:admin']], function () {
 
