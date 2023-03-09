@@ -262,6 +262,7 @@
                                     +'<td>'+response.last_seen[key]+'</td>'
                                 +'<td>online</td>'
                             +'</tr></a>');
+                            console.log(value.username);
                         })
                     }
                 });
