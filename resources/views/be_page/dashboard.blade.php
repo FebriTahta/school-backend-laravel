@@ -204,7 +204,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12 col-12" style="margin-bottom: 10px" id="block-new-jurusan">
-                            <table class="table table-hover earning-box" id="tabel-user-akses">
+                            <table class="table table-hover earning-box" id="tabel-user-akses" style="width:100%">
                                 <tr>
                                     <th>No</th>
                                     <th>Username</th>
