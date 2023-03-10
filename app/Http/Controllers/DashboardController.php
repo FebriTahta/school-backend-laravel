@@ -133,4 +133,23 @@ class DashboardController extends Controller
             ->make(true);
         }
     }
+
+    public function data_user_akses(Request $request, $tanggal)
+    {
+        if ($request->ajax()) {
+            # code...
+            $tanggal = \Carbon\Carbon::parse($tanggal)->format('d-m-Y');
+            $data = Userakses::where('tanggal',$tanggal)->get();
+
+            return DataTables::of($data)
+            ->addColumn('username2',function($data){
+                return $data->user->username;
+            })
+            ->addColumn('login_time',function($data){
+                return Carbon\Carbon::parse($data->updated_at)->format('d-m-Y/H:i');
+            })
+            ->rawColumns(['username2','login_time'])
+            ->make(true);
+        }
+    }
 }

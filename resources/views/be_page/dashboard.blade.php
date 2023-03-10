@@ -118,7 +118,7 @@
                                         <span class="icon icon-inbox-document-text s-48"></span>
                                     </div>
                                     <small>Lihat Data User Akses</small>
-                                    <input type="date" class="form-control" style="width:70%; height: 25px;">
+                                    <input type="date" id="tanggal_akses" class="form-control" style="width:70%; height: 25px;">
                                 </div>
                                 <div class="progress progress-xs r-0">
                                     <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="25"
@@ -193,6 +193,30 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modaladd" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: rgb(93, 154, 233);">
+                    <h4 class="modal-title" style="font-size: 16px; color:white">DATA USER AKSES : <span class="text-uppercase" id="tanggal_akses_text"></span></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 col-12" style="margin-bottom: 10px" id="block-new-jurusan">
+                            <table class="table table-hover earning-box" id="tabel-user-akses">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Username</th>
+                                    <th>Waktu Login</th>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')
@@ -211,6 +235,33 @@
 
     <script>
         $(document).ready(function() {
+            $('#tanggal_akses').on('change',function(){
+                $('#tanggal_akses_text').html(this.value);
+                $('#modaladd').modal('show');
+                var table = $('#tabel-user-akses').DataTable({
+                    destroy: true,
+                    processing: true,
+                    serverSide: true,
+                    ajax: "/data-user-akses/"+this.value,
+                    columns: [
+                        {
+                            "data": null,
+                            "sortable": false,
+                            render: function(data, type, row, meta) {
+                                return meta.row + meta.settings._iDisplayStart + 1;
+                            }
+                        },
+                        {
+                            data: 'username2',
+                            name: 'username2'
+                        },
+                        {
+                            data: 'login_time',
+                            name: 'login_time',
+                        }
+                    ]
+                });
+            })
 
             $.ajax({
                 type: 'GET',
