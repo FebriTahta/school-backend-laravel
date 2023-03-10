@@ -131,13 +131,13 @@
                 <div class="row">
                     <div class="col-xl-4">
                         <figure class="highcharts-figure">
-                            <div id="container" style="height: 405px; width:100%"></div>
+                            <div id="container" style="min-height: 405px; width:100%"></div>
                         </figure>
                     </div>
 
                     <div class="col-xl-8">
                         <figure class="highcharts-figure">
-                            <div id="container2" style="height: 405px"></div>
+                            <div id="container2" style="min-height: 405px; width:100%"></div>
                         </figure>
                     </div>
 
