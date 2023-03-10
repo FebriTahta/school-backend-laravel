@@ -56,4 +56,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Guru::class);
     }
+
+    public function userakses()
+    {
+        return $this->hasMany(Userakses::class);
+    }
 }

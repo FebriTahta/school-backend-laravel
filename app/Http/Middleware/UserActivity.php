@@ -6,6 +6,7 @@ use Closure;
 use Auth;
 use Cache;
 use App\Models\User;
+use App\Models\Userakses;
 use Illuminate\Http\Request;
 
 class UserActivity
@@ -24,7 +25,19 @@ class UserActivity
             Cache::put('user-is-online-' . Auth::user()->id, true, $expiresAt);
   
             /* last seen */
-            User::where('id', Auth::user()->id)->update(['last_seen' => now()]);
+            $user = User::where('id', Auth::user()->id)->update(['last_seen' => now()]);
+            $tanggal = date('d-m-Y');
+            $userakses = Userakses::where('user_id', Auth::user()->id)->where('tanggal', $tanggal)->first();
+            
+            if ($userakses == null) {
+                # code...
+                Userakses::create([
+                    'user_id'=>Auth::user()->id,
+                    'role'=>Auth::user()->role,
+                    'tanggal'=>$tanggal
+                ]);
+            }
+
         }
 
         return $next($request);

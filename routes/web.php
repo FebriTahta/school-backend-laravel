@@ -54,6 +54,8 @@ Route::controller(UserController::class)->group(function(){
 Route::controller(DashboardController::class)->group(function(){
     Route::get('/total-user-online','total_user_online');
     Route::get('/last-4-online-user','last_four_online');
+    Route::get('/user-akses','akses_user');
+    Route::get('/data-user-online','data_user_online');
 });
  
 Route::group(['middleware' => ['auth', 'CheckRole:admin']], function () {
