@@ -116,31 +116,6 @@
                                         </ul>
                                     </div>
                                 </div>
-                                {{-- <div class="navigation-soal" style="margin-top: 20px">
-                                    @if ($index > 0)
-                                        <a href="#" onclick="showQuiz({{ $index - 1 }})"
-                                            style="float: left; font-size: 20px"><u> Prev</u></a>
-                                    @endif
-                                    @if ($index + 1 < $quizCount)
-                                        <button href="#" type="submit2" style="float: right; font-size: 20px"><u>
-                                                Next</u></button>
-                                    @else
-                                        <button onclick="this.form('formQuiz').submit" type="submit" href="#"
-                                            style="float: right; font-size: 20px"><u> Finish</u></button>
-                                    @endif
-                                </div> --}}
-
-                                {{-- @else
-
-                                <div class="teacher__info" style="padding: 0; margin: 0">
-                                    <h5> - </h5>
-                                    <div class="blog__thumb w-img fix">
-                                        <h5 class="text-uppercase text-danger"> Belum ada soal untuk quiz / ujian ini </h5>
-                                    </div>
-                                    <br>
-                                </div>
-
-                                @endif --}}
                             </div>
                         </div>
                     </div>
@@ -153,10 +128,10 @@
 
 @section('script')
     <!-- Toast -->
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"> --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <script>
         function startQuiz() {
             var countDownDate = new Date(@json($quiz->ujian_datetimeend)).getTime();
