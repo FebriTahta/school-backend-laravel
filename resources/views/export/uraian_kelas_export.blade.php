@@ -56,7 +56,11 @@
             {{-- <tr  style="border: black"> --}}
                @foreach ($jawaban as $item)
                    <tr>
-                        <td>{{ $item->siswa->siswa_name }}</td>
+                        <td>
+                            @if ($item->siswa !== null)
+                                {{ $item->siswa->siswa_name }}
+                            @endif
+                        </td>
                         <td>{{ $item->examurai->mapel->mapel_name }}</td>
                         <td>{{ $item->examurai->examurai_jenis }}</td>
                         @if (Str::limit($item->soalexamurai->soalexam_name, 3) == 'be_...')

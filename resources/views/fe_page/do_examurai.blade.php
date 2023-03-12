@@ -124,7 +124,7 @@
                                                     @else
                                                         <h5>No. {{ $key + 1 }}</h5>
                                                     @endif
-                                                    <h5 style="font-size: 28px" class="text-capitalize">
+                                                    <h5 style="font-size: 16px" class="text-capitalize">
                                                         {{ $q->soalexam_name }}
                                                     </h5>
                                                     <span>"{{ $kelas->angkatan->angkatan_name }}

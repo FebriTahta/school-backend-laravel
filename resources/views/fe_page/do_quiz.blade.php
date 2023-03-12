@@ -86,7 +86,7 @@
                                     @else
                                         <div class="teacher__info" style="padding: 0; margin: 0">
                                             <h5>No. {{ $index }}</h5>
-                                            <h5 style="font-size: 28px" class="text-capitalize">{{ $q->soal_name }}
+                                            <h5 style="font-size: 16px" class="text-capitalize">{{ $q->soal_name }}
                                             </h5>
                                             
                                         </div>
